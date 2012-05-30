@@ -59,7 +59,7 @@ public class LoginDialog extends javax.swing.JDialog {
         jPanel1.setMinimumSize(new java.awt.Dimension(380, 167));
         jPanel1.setPreferredSize(new java.awt.Dimension(380, 167));
 
-        txtName.setFont(new java.awt.Font("Tahoma", 0, 12));
+        txtName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
@@ -120,7 +120,7 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addGap(58, 58, 58))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtError, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                .addComponent(txtError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
