@@ -173,7 +173,7 @@ public class LoginDialog extends javax.swing.JDialog {
 //            txtError.setText(ex.getMessage());
 //           // System.out.println(ex.getMessage());
 //        }
-
+        setVisible(false);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
