@@ -20,13 +20,12 @@ import java.util.List;
 public class PaySlip {
 
     private int tid = -1;
-    private transient Employee employee;
-    private transient PayrollPeriod payrollPeriod;
-    private int employeeTid;
-    private int payrollPeriodTid;
+    private Employee employee;
+    private PayrollPeriod payrollPeriod;
+    
     private String description;
     private String others;
-    private transient List<PaySlipDetail> payslipDetails = new ArrayList<PaySlipDetail>();
+    private List<PaySlipDetail> payslipDetails = new ArrayList<PaySlipDetail>();
     private String status;
     private String modifiedBy;
     private String preparedBy;
@@ -38,9 +37,8 @@ public class PaySlip {
 
     public PaySlip(Employee emp, PayrollPeriod pp) {
         this.employee = emp;
-        this.payrollPeriod = pp;
-        this.payrollPeriodTid = pp.getTid();
-        this.employeeTid = emp.getTid();
+        this.payrollPeriod = pp;        
+        this.employee = emp;
         payslipDetails = new ArrayList<PaySlipDetail>();
     }
 
@@ -218,37 +216,12 @@ public class PaySlip {
         this.rowCounter = rowCounter;
     }
 
-    /**
-     * @return the payrollPeriodTid
-     */
-    public int getPayrollPeriodTid() {
-        return payrollPeriodTid;
-    }
+   
+    
 
-    /**
-     * @param payrollPeriodTid the payrollPeriodTid to set
-     */
-    public void setPayrollPeriodTid(int payrollPeriodTid) {
-        this.payrollPeriodTid = payrollPeriodTid;
-    }
-
-    /**
-     * @return the employeeTid
-     */
-    public int getEmployeeTid() {
-        return employeeTid;
-    }
-
-    /**
-     * @param employeeTid the employeeTid to set
-     */
-    public void setEmployeeTid(int employeeTid) {
-        this.employeeTid = employeeTid;
-    }
-
-    public static LinkedHashMap<Integer, PaySlip> getPayslipByEmployee(PayrollPeriod pp, Employee eep) throws Exception {
+    public static LinkedHashMap<Long, PaySlip> getPayslipByEmployee(PayrollPeriod pp, Employee eep) throws Exception {
   System.out.println("payslipinformation x.3");
-        LinkedHashMap<Integer, PaySlip> paySlipList = new LinkedHashMap<Integer, PaySlip>();
+        LinkedHashMap<Long, PaySlip> paySlipList = new LinkedHashMap<Long, PaySlip>();
 //        Query query = dbms.getDBInstance().query();
 //        query.constrain(PaySlip.class);
 //

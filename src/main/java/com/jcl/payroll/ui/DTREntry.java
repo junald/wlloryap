@@ -337,7 +337,7 @@ public class DTREntry extends javax.swing.JDialog {
 
     private void initScreen() {
 
-        if (dtr.getTid() == -1 && dtr.getSourceTid() == -1) {
+        if (dtr.getId() == -1 && dtr.getSourceTid() == -1) {
             System.out.println("Regular" + " : " + dtr.getSourceTid());
             comboDTRType.setSelectedItem("Regular");
 

@@ -13,10 +13,22 @@ package com.jcl.hrm;
 public class Department {
 
 
-    private int tid = -1;
+    private Long id;
     private String description;
 
- 
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     /**
      * @return the description
@@ -32,17 +44,5 @@ public class Department {
         this.description = description;
     }
 
-    /**
-     * @return the tid
-     */
-    public int getTid() {
-        return tid;
-    }
-
-    /**
-     * @param tid the tid to set
-     */
-    public void setTid(int tid) {
-        this.tid = tid;
-    }
+  
 }

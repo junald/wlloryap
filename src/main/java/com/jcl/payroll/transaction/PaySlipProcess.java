@@ -8,7 +8,6 @@ package com.jcl.payroll.transaction;
  
 //import com.jcl.dbms.dbms;
 import com.jcl.hrm.Employee;
-import com.jcl.hrm.GlobalDailyRates;
 import com.jcl.hrm.WorkShift;
 //import com.jcl.inventory.InventoryBalance;
 //import com.jcl.inventory.Product;
@@ -254,9 +253,9 @@ public static List<Employee> preparePayslip(int payrollPeriodID, Employee eep) t
      * @param toDate
      * @param ppt
      */
-    public static LinkedHashMap<Integer, Employee> processDTRforPayroll(PayrollPeriod pp, Employee eep) throws Exception {
+    public static LinkedHashMap<Long, Employee> processDTRforPayroll(PayrollPeriod pp, Employee eep) throws Exception {
         System.out.println("payslipinformation x.2");
-        LinkedHashMap<Integer, Employee> empList = new LinkedHashMap<Integer, Employee>();
+        LinkedHashMap<Long, Employee> empList = new LinkedHashMap<Long, Employee>();
 //        LinkedHashMap<Integer, PaySlip> payslipList = PaySlip.getPayslipByEmployee(pp, eep);
 //        List<Employee> listPP = new ArrayList<Employee>();
 //        if (eep == null) {
@@ -362,12 +361,12 @@ public static List<Employee> preparePayslip(int payrollPeriodID, Employee eep) t
         return empList;
     }
 
-    public static LinkedHashMap<Integer, Employee> processPayslip(PayrollPeriod pp, Employee eep) throws TransactionException, Exception {
+    public static LinkedHashMap<Long, Employee> processPayslip(PayrollPeriod pp, Employee eep) throws TransactionException, Exception {
 
 
         //if payroll period status is finalized
 
-        LinkedHashMap<Integer, Employee> empList = processDTRforPayroll(pp, eep);
+        LinkedHashMap<Long, Employee> empList = processDTRforPayroll(pp, eep);
 //        System.out.println("emplist count: " + empList.size());
 //        //payables(DTR, deliveries)
 //        for (Employee emp : empList.values()) {
@@ -556,13 +555,13 @@ public static List<Employee> preparePayslip(int payrollPeriodID, Employee eep) t
     public static int createPayslipForPayrollPeriod(PayrollPeriod pp, Employee eep) throws Exception {
 
         int counter = 0;
-        LinkedHashMap<Integer, PaySlip> empList = PaySlip.getPayslipByEmployee(pp, eep);
+        LinkedHashMap<Long, PaySlip> empList = PaySlip.getPayslipByEmployee(pp, eep);
         System.out.println("PayslipForPayrollPeriod anti: '" + empList.size());
         List<Employee> listPP = Employee.getEmployees(PayrollPeriodType.valueOf(pp.getPayrollPeriodType()));
         System.out.println("PayslipForPayrollPeriod: " + listPP.size());
         for (Employee e : listPP) {
 
-            PaySlip ps = empList.get(e.getTid());
+            PaySlip ps = empList.get(e.getId());
             if (ps == null) {
                 ps = new PaySlip(e, pp);
               //  dbms.save(ps);
@@ -609,17 +608,17 @@ public static List<Employee> preparePayslip(int payrollPeriodID, Employee eep) t
     public static String createPayslipDetailDescription(PaySlipDetail psd){
         String desc ="";
 
-        if(psd.getPaySlipDetailType().equals(DTRType.Loading.name())){
-            desc = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + psd.getNoOfLoader();
-        } else if(psd.getPaySlipDetailType().equals(DTRType.Drive.name())){
-            desc = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
-        } else if(psd.getPaySlipDetailType().equals(DTRType.Helper.name())){
-            desc = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
-        } else if(psd.getPaySlipDetailType().equals(DTRType.Helper.name())){
-            desc = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
-        } else {
-            desc = psd.getDescription();
-        }
+//        if(psd.getPaySlipDetailType().equals(DTRType.Loading.name())){
+//            desc = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + psd.getNoOfLoader();
+//        } else if(psd.getPaySlipDetailType().equals(DTRType.Drive.name())){
+//            desc = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
+//        } else if(psd.getPaySlipDetailType().equals(DTRType.Helper.name())){
+//            desc = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
+//        } else if(psd.getPaySlipDetailType().equals(DTRType.Helper.name())){
+//            desc = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
+//        } else {
+//            desc = psd.getDescription();
+//        }
         return desc;
 
     }
@@ -630,17 +629,17 @@ public static List<Employee> preparePayslip(int payrollPeriodID, Employee eep) t
         //    dbms.login("admin", "password");
 
             PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid(1);
-            LinkedHashMap<Integer, Employee> emplist = PaySlipProcess.processPayslip(pp, null);
+            LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, null);
             for (Employee emp : emplist.values()) {
                 System.out.println("================================");
-                System.out.println(emp.getName());
-                System.out.println(emp.payslip.getPayrollPeriod().getPayrollPeriodCode());
+                System.out.println(emp);
+                System.out.println(emp.getPayslip().getPayrollPeriod().getPayrollPeriodCode());
                 System.out.println("Add: ");
-                for (PaySlipDetail psd : emp.payslip.getPayables()) {
+                for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
                     System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
                 }
                 System.out.println("     Less: ");
-                for (PaySlipDetail psd : emp.payslip.getReceivables()) {
+                for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
                     System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
                 }
 

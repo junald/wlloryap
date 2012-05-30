@@ -17,7 +17,6 @@ import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
 //import com.jcl.dbms.dbms;
 import com.jcl.hrm.Employee;
-import com.jcl.hrm.GlobalDailyRates;
 import com.jcl.hrm.Position;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
@@ -69,17 +68,9 @@ public class DTRInformation extends javax.swing.JPanel {
             stf = MyDateFormatter.getTimeFormatter();
             initTableView();
 
-            GlobalDailyRates gdr = GlobalDailyRates.getGlobalDailyRatesByName("Loading");
-
-            if (gdr == null) {
-                gdr = new GlobalDailyRates(GlobalDailyRates.EMPLOYEE, "Loading", 2.5);
-              //  dbms.save(gdr);
-            }
-
-            txtLoaderRates.setValue(gdr.getRates());
 
             double loadingRates = Double.valueOf(txtLoaderRates.getText());
-            gdr.setRates(loadingRates);
+            
         //    dbms.save(gdr);
 
             disabledComponents(false);
@@ -827,25 +818,7 @@ public class DTRInformation extends javax.swing.JPanel {
         MainApp.messagePanelObservable.callObserver(new PanelMessage("Daily Time Record", "remove"));
     }//GEN-LAST:event_btnCloseActionPerformed
 
-    private void openDependentDialog(com.jcl.hrm.Dependents d) {
-        Dependents dui = new Dependents(null, true, d);
-        dui.setLocationRelativeTo(this);
-        dui.setVisible(true);
-        if (dui.selectedButton == SelectedButton.Save) {
-            try {
-                if (dui.dependent.getId() == 0) {
-                    if (ce.getDependents() == null) {
-                        ce.setDependents(new ArrayList<com.jcl.hrm.Dependents>());
-                    }
-                    System.out.println("dependent: " + dui.dependent);
-                    ce.getDependents().add(dui.dependent);
-                }
-
-            } catch (Exception ex) {
-                Logger.getLogger(DTRInformation.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+    
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         ce = new Employee();
         initScreen();
@@ -880,7 +853,7 @@ public class DTRInformation extends javax.swing.JPanel {
 
                 if (v != null) {
                     try {
-                        ce = Employee.getEmployeeByTid(v.getTid());
+                        ce = Employee.getEmployeeByTid(v.getId());
 //                        dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
                         initScreen();
                     } catch (Exception ex) {
@@ -924,7 +897,7 @@ public class DTRInformation extends javax.swing.JPanel {
 }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnInsertDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertDetailActionPerformed
-        DailyTimeRecord dtr = new DailyTimeRecord(ce.getTid());
+        DailyTimeRecord dtr = new DailyTimeRecord(ce);
         openDTREntryDialog(dtr);
 }//GEN-LAST:event_btnInsertDetailActionPerformed
 
@@ -1080,7 +1053,7 @@ public class DTRInformation extends javax.swing.JPanel {
 
             for (DailyTimeRecord v : list) {
 
-                if (v != null && v.getEmployeeId() == ce.getTid()) {
+                if (v != null && v.getEmployee().getId() == ce.getId()) {
 
                     Object[] o = new Object[]{rowCounter++, v.getDate(), v,
                         stf.format(v.getTimeIn1()), stf.format(v.getTimeOut1()),

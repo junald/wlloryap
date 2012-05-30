@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class PaySlipReportObject {
 
-    private int employeeTid;
+    private Long employeeTid;
     private ArrayList<PaySlipReportRow> list;
     private double netTotal;
 
@@ -37,14 +37,14 @@ public class PaySlipReportObject {
     /**
      * @return the employeeTid
      */
-    public int getEmployeeTid() {
+    public Long getEmployeeTid() {
         return employeeTid;
     }
 
     /**
      * @param employeeTid the employeeTid to set
      */
-    public void setEmployeeTid(int employeeTid) {
+    public void setEmployeeTid(Long employeeTid) {
         this.employeeTid = employeeTid;
     }
 

@@ -502,59 +502,59 @@ public class dbms  implements ServerSetup {
     }
 
     public static void modifyData(Object o) throws IllegalAccessException, InvocationTargetException, Exception {
-        Class c = o.getClass();
-        System.out.println(c.getCanonicalName());
-
-        boolean isTidIsFound = true;
-        int tid = -1;
-        try {
-
-            Method m1 = c.getDeclaredMethod("getTid", null);
-            tid = (Integer) m1.invoke(o, null);
-
-        } catch (IllegalAccessException ex) {
-            throw ex;
-        } catch (IllegalArgumentException ex) {
-            throw ex;
-        } catch (InvocationTargetException ex) {
-            throw ex;
-        } catch (NoSuchMethodException ex) {
-            System.out.println(ex.getMessage());
-            isTidIsFound = false;
-        } catch (SecurityException ex) {
-            throw ex;
-        }
-
-        Method[] m = c.getDeclaredMethods();
-        for (int i = 0; i < m.length; i++) {
-            Method mm = m[i];
-            //    System.out.println(mm.getName());
-            try {
-                if (mm.getName().equals("setModifiedDate")) {
-                    mm.invoke(o, new Date());
-                }
-                if (mm.getName().equals("setModifiedBy")) {
-                    mm.invoke(o, dbms.user.getUsername());
-                }
-                if (mm.getName().equals("setTid") && isTidIsFound && tid == -1) {
-                    int counter = TrackingIdGenerator.generatedNewTrackingId(c.getName());
-                    mm.invoke(o, counter);
-                    if(o instanceof PaySlipDetail){
-                        ((PaySlipDetail)o).setRowNumber(counter);
-                    }
-                }
-
-            } catch (IllegalAccessException ex) {
-                System.out.println(ex.getMessage());
-                throw ex;
-            } catch (IllegalArgumentException ex) {
-                System.out.println(ex.getMessage());
-                throw ex;
-            } catch (InvocationTargetException ex) {
-                System.out.println(ex.getMessage());
-                throw ex;
-            }
-        }
+//        Class c = o.getClass();
+//        System.out.println(c.getCanonicalName());
+//
+//        boolean isTidIsFound = true;
+//        int tid = -1;
+//        try {
+//
+//            Method m1 = c.getDeclaredMethod("getTid", null);
+//            tid = (Integer) m1.invoke(o, null);
+//
+//        } catch (IllegalAccessException ex) {
+//            throw ex;
+//        } catch (IllegalArgumentException ex) {
+//            throw ex;
+//        } catch (InvocationTargetException ex) {
+//            throw ex;
+//        } catch (NoSuchMethodException ex) {
+//            System.out.println(ex.getMessage());
+//            isTidIsFound = false;
+//        } catch (SecurityException ex) {
+//            throw ex;
+//        }
+//
+//        Method[] m = c.getDeclaredMethods();
+//        for (int i = 0; i < m.length; i++) {
+//            Method mm = m[i];
+//            //    System.out.println(mm.getName());
+//            try {
+//                if (mm.getName().equals("setModifiedDate")) {
+//                    mm.invoke(o, new Date());
+//                }
+//                if (mm.getName().equals("setModifiedBy")) {
+//                    mm.invoke(o, dbms.user.getUsername());
+//                }
+//                if (mm.getName().equals("setTid") && isTidIsFound && tid == -1) {
+//                    int counter = TrackingIdGenerator.generatedNewTrackingId(c.getName());
+//                    mm.invoke(o, counter);
+//                    if(o instanceof PaySlipDetail){
+//                        ((PaySlipDetail)o).setRowNumber(counter);
+//                    }
+//                }
+//
+//            } catch (IllegalAccessException ex) {
+//                System.out.println(ex.getMessage());
+//                throw ex;
+//            } catch (IllegalArgumentException ex) {
+//                System.out.println(ex.getMessage());
+//                throw ex;
+//            } catch (InvocationTargetException ex) {
+//                System.out.println(ex.getMessage());
+//                throw ex;
+//            }
+//        }
 
     }
 

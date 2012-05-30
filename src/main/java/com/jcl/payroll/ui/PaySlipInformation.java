@@ -18,7 +18,6 @@ import com.jcl.customizetable.NumberTableCellRenderer;
 import com.jcl.customizetable.TransactionNumberTableCellRenderer;
 import com.jcl.dbms.dbms;
 import com.jcl.hrm.Employee;
-import com.jcl.hrm.GlobalDailyRates;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
 import com.jcl.payroll.dtr.DailyTimeRecord;
@@ -66,18 +65,11 @@ public class PaySlipInformation extends javax.swing.JPanel {
             stf = MyDateFormatter.getTimeFormatter();
 
 
-            GlobalDailyRates gdr = GlobalDailyRates.getGlobalDailyRatesByName("Loading");
-
-            if (gdr == null) {
-                gdr = new GlobalDailyRates(GlobalDailyRates.EMPLOYEE, "Loading", 2.5);
-                dbms.save(gdr);
-            }
-
-            txtLoaderRates.setValue(gdr.getRates());
+           
+        
 
             double loadingRates = Double.valueOf(txtLoaderRates.getText());
-            gdr.setRates(loadingRates);
-            dbms.save(gdr);
+          
 
             disabledComponents(false);
             disabledComponents();
@@ -972,25 +964,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         MainApp.messagePanelObservable.callObserver(new PanelMessage("Payslip", "remove"));
     }//GEN-LAST:event_btnCloseActionPerformed
 
-    private void openDependentDialog(com.jcl.hrm.Dependents d) {
-        Dependents dui = new Dependents(null, true, d);
-        dui.setLocationRelativeTo(this);
-        dui.setVisible(true);
-        if (dui.selectedButton == SelectedButton.Save) {
-            try {
-                if (dui.dependent.getId() == 0) {
-                    if (ce.getDependents() == null) {
-                        ce.setDependents(new ArrayList<com.jcl.hrm.Dependents>());
-                    }
-                    System.out.println("dependent: " + dui.dependent);
-                    ce.getDependents().add(dui.dependent);
-                }
-
-            } catch (Exception ex) {
-                Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+    
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         ce = new Employee();
         initScreen();
@@ -1043,7 +1017,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
             }
             synchronized (this) {
 
-                ce = Employee.getEmployeeByTid(v.getTid());
+                ce = Employee.getEmployeeByTid(v.getId());
             //    dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
                 System.out.println("payslipinformation 1");
                 PayslipReports.processPayslip((Integer) kv.getValue(), ce);
@@ -1085,9 +1059,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
 }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnInsertDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertDetailActionPerformed
-        PaySlipDetail psd = new PaySlipDetail(ce.payslip, PayslipDetailType.Regular.name(), false);
-        psd.setQuantity(1);
-        psd.setNoOfLoader(1);
+        PaySlipDetail psd = new PaySlipDetail(ce.getPayslip(), PayslipDetailType.Regular.name(), false);        
         openPaySlipDialog(psd);
 }//GEN-LAST:event_btnInsertDetailActionPerformed
 
@@ -1100,7 +1072,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
                 PaySlipDetail dtr = (PaySlipDetail) jTable.getValueAt(row, 1);
 
                 if (dtr != null) {
-                    labelPayslipDetailInfo.setToolTipText(dtr.toString2());
+                    labelPayslipDetailInfo.setToolTipText("DDDjunald");
                     try {
                         openPaySlipDialog(dtr);
                     } catch (Exception ex) {
@@ -1131,7 +1103,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
             for (Employee e : employeeList) {
 
                 if (e != null) {
-                    Object[] o = new Object[]{row++,e.getIdNumber(), e.getPosition(), e, e.payslipReport.getNetTotal()};
+                    Object[] o = new Object[]{row++,e.getIdNumber(), e.getPosition(), e, e.getPayslipReport().getNetTotal()};
                     dtm.addRow(o);
                 }
             }
@@ -1253,8 +1225,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
             List list = new ArrayList();
 
             for(Employee eep: employeeList){
-                if(eep.payslipReport != null && eep.payslipReport.getList().size() > 0){
-                    list.add(eep.payslipReport);
+                if(eep.getPayslipReport() != null && eep.getPayslipReport().getList().size() > 0){
+                    list.add(eep.getPayslipReport());
                 }
             }
 
@@ -1401,8 +1373,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
         textMinuteRate.setValue(ce.getMinuteRate());
         textAllowance.setValue(ce.getAllowance());
 
-        if (ce.payslip != null) {
-            labelPayslipHeader.setText(ce.payslip.getDescription());
+        if (ce.getPayslip() != null) {
+            labelPayslipHeader.setText(ce.getPayslip().getDescription());
 
         } else {
             labelPayslipHeader.setText("no description");
@@ -1429,14 +1401,14 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
             int rowCounter = 1;
             double total = 0.0;
-            for (PaySlipDetail v : ce.payslip.getPayslipDetails()) {
+            for (PaySlipDetail v : ce.getPayslip().getPayslipDetails()) {
                 String loadingDesc = v.getDescription();
                 if (v.getPaySlipDetailType().equals(DTRType.Loading.name())) {
-                    loadingDesc = loadingDesc + " loaders=" + v.getNoOfLoader();
+                    //loadingDesc = loadingDesc + " loaders=" + v.getNoOfLoader();
                 }
                 double ntotal = v.isIsDeduction() ? (-1 * v.getTotal()) : v.getTotal();
                 Object[] o = new Object[]{rowCounter++, v, loadingDesc,
-                    v.getAmount(), v.getQuantity(), ntotal};
+                    v.getAmount(), 0, ntotal};
                 total = total + ntotal;
                 dtm.addRow(o);
             }
@@ -1471,8 +1443,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
     private void openPaySlipDialog(PaySlipDetail d) {
         try {
             PaySlipDetail psd = d;
-            if (d.getTid() != -1) {
-                psd = PaySlipDetail.getPaySlipDetailByTid(d.getTid());
+            if (d.getId() != -1) {
+                psd = PaySlipDetail.getPaySlipDetailByTid(d.getId());
                 psd.setPaySlip(d.getPaySlip());
 
             }
@@ -1482,16 +1454,16 @@ public class PaySlipInformation extends javax.swing.JPanel {
             dui.setVisible(true);
             if (dui.selectedButton == SelectedButton.Save) {
                 try {
-                    if (dui.psd.getTid() != -1) {
+                    if (dui.psd.getId()!= -1) {
                         boolean found = false;
-                        for (PaySlipDetail psdd : ce.payslip.getPayslipDetails()) {
-                            if (psdd.getTid() == dui.psd.getTid()) {
+                        for (PaySlipDetail psdd : ce.getPayslip().getPayslipDetails()) {
+                            if (psdd.getId() == dui.psd.getId()) {
                                 found = true;
                                 break;
                             }
                         }
                         if (!found) {
-                            ce.payslip.getPayslipDetails().add(d);
+                            ce.getPayslip().getPayslipDetails().add(d);
                         }
                     }
                     d = dui.psd;

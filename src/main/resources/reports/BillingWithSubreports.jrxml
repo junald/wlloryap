@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BillingWithSubreports" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="232"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="REPORT_TITLE" class="java.lang.String"/>
+	<parameter name="ADDRESS_1" class="java.lang.String"/>
+	<parameter name="ADDRESS_2" class="java.lang.String"/>
+	<parameter name="TELEPHONE_1" class="java.lang.String"/>
+	<parameter name="BILL_NO" class="java.lang.String"/>
+	<parameter name="BILL_TO" class="java.lang.String"/>
+	<parameter name="BILL_ADDRESS_1" class="java.lang.String"/>
+	<parameter name="BILL_ADDRESS_2" class="java.lang.String"/>
+	<parameter name="TRANSACTION_DATE" class="java.lang.String"/>
+	<parameter name="PREPARED_BY" class="java.lang.String"/>
+	<parameter name="NET_TOTAL" class="java.lang.String"/>
+	<field name="List" class="java.util.List"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="792">
+			<subreport runToBottom="false">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="612" height="390" isPrintInFirstWholeBand="true"/>
+				<subreportParameter name="REPORT_TITLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_TITLE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ADDRESS_1">
+					<subreportParameterExpression><![CDATA[$P{ADDRESS_1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ADDRESS_2">
+					<subreportParameterExpression><![CDATA[$P{ADDRESS_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="TELEPHONE_1">
+					<subreportParameterExpression><![CDATA[$P{TELEPHONE_1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="BILL_NO">
+					<subreportParameterExpression><![CDATA[$P{BILL_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="BILL_TO">
+					<subreportParameterExpression><![CDATA[$P{BILL_TO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="BILL_ADDRESS_1">
+					<subreportParameterExpression><![CDATA[$P{BILL_ADDRESS_1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="BILL_ADDRESS_2">
+					<subreportParameterExpression><![CDATA[$P{BILL_ADDRESS_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="TRANSACTION_DATE">
+					<subreportParameterExpression><![CDATA[$P{TRANSACTION_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PREPARED_BY">
+					<subreportParameterExpression><![CDATA[$P{PREPARED_BY}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="NET_TOTAL">
+					<subreportParameterExpression><![CDATA[$P{NET_TOTAL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{List})]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "Billing11.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="0" y="396" width="612" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<subreport>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="402" width="612" height="390" isPrintInFirstWholeBand="true"/>
+				<subreportParameter name="REPORT_TITLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_TITLE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ADDRESS_1">
+					<subreportParameterExpression><![CDATA[$P{ADDRESS_1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ADDRESS_2">
+					<subreportParameterExpression><![CDATA[$P{ADDRESS_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="TELEPHONE_1">
+					<subreportParameterExpression><![CDATA[$P{TELEPHONE_1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="BILL_NO">
+					<subreportParameterExpression><![CDATA[$P{BILL_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="BILL_TO">
+					<subreportParameterExpression><![CDATA[$P{BILL_TO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="BILL_ADDRESS_1">
+					<subreportParameterExpression><![CDATA[$P{BILL_ADDRESS_1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="BILL_ADDRESS_2">
+					<subreportParameterExpression><![CDATA[$P{BILL_ADDRESS_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="TRANSACTION_DATE">
+					<subreportParameterExpression><![CDATA[$P{TRANSACTION_DATE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="PREPARED_BY">
+					<subreportParameterExpression><![CDATA[$P{PREPARED_BY}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="NET_TOTAL">
+					<subreportParameterExpression><![CDATA[$P{NET_TOTAL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{List})]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "Billing11.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

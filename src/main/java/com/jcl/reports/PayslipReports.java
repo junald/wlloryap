@@ -30,17 +30,17 @@ public class PayslipReports {
         ArrayList<Employee> employeeList = new ArrayList<Employee>();
 
         PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid(payrollPeriodID);
-        LinkedHashMap<Integer, Employee> emplist = new LinkedHashMap<Integer, Employee>();
+        LinkedHashMap<Long, Employee> emplist = new LinkedHashMap<Long, Employee>();
         System.out.println("payslipinformation x.1");
         if (pp.getStatus().equals(PayrollPeriodStatus.Generated.name())) {
             //note: if the status of the payroll period is generated, make sure the process will not run
             //just retrieve al payslip from the data base, this is not tested 03-02-2011
             System.out.println("payslipinformation x.1.1");
             List<Employee> empList2 = Employee.getEmployees(PayrollPeriodType.valueOf(pp.getPayrollPeriodType()));
-            LinkedHashMap<Integer, PaySlip> paySlipList = PaySlip.getPayslipByEmployee(pp, null);
+            LinkedHashMap<Long, PaySlip> paySlipList = PaySlip.getPayslipByEmployee(pp, null);
             for (Employee e : empList2) {
-                e.payslip = paySlipList.get(e.getTid());
-                emplist.put(e.getTid(), e);
+                e.setPayslip(paySlipList.get(e.getId()));
+                emplist.put(e.getId(), e);
             }
 
         } else {
@@ -68,16 +68,16 @@ public class PayslipReports {
 //                }
 
             PaySlipReportObject psro = new PaySlipReportObject();
-            psro.setEmployeeTid(emp.getTid());
+            psro.setEmployeeTid(emp.getId());
 
-            System.out.println(emp.payslip.getPayrollPeriod().getPayrollPeriodCode());
+            System.out.println(emp.getPayslip().getPayrollPeriod().getPayrollPeriodCode());
 
             double totalAdd = 0;
             int row = 1;
-            for (PaySlipDetail psd : emp.payslip.getPayables()) {
+            for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
                 PaySlipReportRow psrr = new PaySlipReportRow();
                 psrr.setRow(row++);
-                String psdString = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + psd.getNoOfLoader();
+                String psdString = psd.getDescription() + " (" + 0 + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + 1;
                 psrr.setDescription(psdString);
                 psrr.setEmployeeName("Name: " + emp.getName());
 
@@ -89,7 +89,7 @@ public class PayslipReports {
             }
 
             double totalLess = 0;
-            for (PaySlipDetail psd : emp.payslip.getReceivables()) {
+            for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
 
                 PaySlipReportRow psrr = new PaySlipReportRow();
                 psrr.setRow(row++);
@@ -104,7 +104,7 @@ public class PayslipReports {
                 System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
             }
             psro.setNetTotal(totalAdd - totalLess);
-            emp.payslipReport = psro;
+            emp.setPayslipReport(psro);
 
             employeeList.add(emp);
 

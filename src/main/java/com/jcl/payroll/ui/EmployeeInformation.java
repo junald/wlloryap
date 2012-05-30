@@ -18,7 +18,6 @@ import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
 //import com.jcl.dbms.dbms;
 import com.jcl.hrm.Employee;
-import com.jcl.hrm.GlobalDailyRates;
 import com.jcl.hrm.Position;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
@@ -75,17 +74,9 @@ public class EmployeeInformation extends javax.swing.JPanel {
             stf = MyDateFormatter.getTimeFormatter();
             initTableView();
 
-            GlobalDailyRates gdr = GlobalDailyRates.getGlobalDailyRatesByName("Loading");
-
-            if (gdr == null) {
-                gdr = new GlobalDailyRates(GlobalDailyRates.EMPLOYEE, "Loading", 2.5);
-        //        dbms.save(gdr);
-            }
-
-            txtLoaderRates.setValue(gdr.getRates());
 
             double loadingRates = Double.valueOf(txtLoaderRates.getText());
-            gdr.setRates(loadingRates);
+
    //         dbms.save(gdr);
 
             disabledComponents(false);
@@ -1783,29 +1774,10 @@ public class EmployeeInformation extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnDependentNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDependentNewActionPerformed
-        com.jcl.hrm.Dependents d = new com.jcl.hrm.Dependents();
-        openDependentDialog(d);
+       
     }//GEN-LAST:event_btnDependentNewActionPerformed
 
-    private void openDependentDialog(com.jcl.hrm.Dependents d) {
-        Dependents dui = new Dependents(null, true, d);
-        dui.setLocationRelativeTo(this);
-        dui.setVisible(true);
-        if (dui.selectedButton == SelectedButton.Save) {
-            try {
-                if (dui.dependent.getId() == 0) {
-                    if (ce.getDependents() == null) {
-                        ce.setDependents(new ArrayList<com.jcl.hrm.Dependents>());
-                    }
-                    System.out.println("dependent: " + dui.dependent);
-                    ce.getDependents().add(dui.dependent);
-                }
-                initDependent();
-            } catch (Exception ex) {
-                Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+    
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         ce = new Employee();
         initScreen();
@@ -1834,10 +1806,10 @@ public class EmployeeInformation extends javax.swing.JPanel {
             JTable jTable = (JTable) evt.getSource();
             if (jTable.getRowCount() > 0) {
                 int row = jTable.getSelectedRow();
-                com.jcl.hrm.Dependents d = (com.jcl.hrm.Dependents) jTable.getValueAt(row, 0);
-                if (d != null) {
-                    openDependentDialog(d);
-                }
+//                com.jcl.hrm.Dependents d = (com.jcl.hrm.Dependents) jTable.getValueAt(row, 0);
+//                if (d != null) {
+//                    openDependentDialog(d);
+//                }
             }
         }
     }//GEN-LAST:event_tableDependentsMouseClicked
@@ -1860,7 +1832,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
             if (v != null) {
                 try {
-                    ce = Employee.getEmployeeByTid(v.getTid());
+                    ce = Employee.getEmployeeByTid(v.getId());
       //              dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
                     initScreen();
                 } catch (Exception ex) {
@@ -1872,7 +1844,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
     }//GEN-LAST:event_tableEmployeesMouseClicked
 
     private void btnInsertDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertDetailActionPerformed
-        DailyTimeRecord dtr = new DailyTimeRecord(ce.getTid());
+        DailyTimeRecord dtr = new DailyTimeRecord(ce);
         openDTREntryDialog(dtr);
 }//GEN-LAST:event_btnInsertDetailActionPerformed
 
@@ -1934,7 +1906,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
             if (v != null) {
                 try {
-                    ce = Employee.getEmployeeByTid(v.getTid());
+                    ce = Employee.getEmployeeByTid(v.getId());
                  //   dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
                     initScreen();
                     processPayslip();
@@ -1955,9 +1927,9 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
 
         try {
-            GlobalDailyRates gdr = GlobalDailyRates.getGlobalDailyRatesByName("Loading");
-            double loadingRates = Double.valueOf(txtLoaderRates.getText());
-            gdr.setRates(loadingRates);
+//            GlobalDailyRates gdr = GlobalDailyRates.getGlobalDailyRatesByName("Loading");
+//            double loadingRates = Double.valueOf(txtLoaderRates.getText());
+//            gdr.setRates(loadingRates);
           //  dbms.save(gdr);
         } catch (Exception ex) {
             Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
@@ -1977,7 +1949,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
             StringBuffer sb = new StringBuffer();
 
             PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Integer) kv.getValue());
-            LinkedHashMap<Integer, Employee> emplist = PaySlipProcess.processPayslip(pp, null);
+            LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, null);
 
             SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
 
@@ -1996,22 +1968,22 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
             for (Employee emp : emplist.values()) {
 
-                if (emp.payslip.getPayslipDetails().size() == 0) {
+                if (emp.getPayslip().getPayslipDetails().size() == 0) {
                     continue;
                 }
 
                 PaySlipReportObject psro = new PaySlipReportObject();
-                psro.setEmployeeTid(emp.getTid());
-                System.out.println(emp.payslip);
-                System.out.println(emp.payslip.getPayrollPeriod());
-                System.out.println(emp.payslip.getPayrollPeriod().getPayrollPeriodCode());
+                psro.setEmployeeTid(emp.getId());
+                System.out.println(emp.getPayslip());
+                System.out.println(emp.getPayslip().getPayrollPeriod());
+                System.out.println(emp.getPayslip().getPayrollPeriod().getPayrollPeriodCode());
 
                 double totalAdd = 0;
                 int row = 1;
-                for (PaySlipDetail psd : emp.payslip.getPayables()) {
+                for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
                     PaySlipReportRow psrr = new PaySlipReportRow();
                     psrr.setRow(row++);
-                    String psdString = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + psd.getNoOfLoader();
+                    String psdString = psd.getDescription() + " (" + 0 + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + 1;
                     psrr.setDescription(psdString);
                     psrr.setEmployeeName("Name: " + emp.getName());
 
@@ -2023,7 +1995,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
                 }
 
                 double totalLess = 0;
-                for (PaySlipDetail psd : emp.payslip.getReceivables()) {
+                for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
 
                     PaySlipReportRow psrr = new PaySlipReportRow();
                     psrr.setRow(row++);
@@ -2334,21 +2306,14 @@ public class EmployeeInformation extends javax.swing.JPanel {
         textPhilHealthNo.setText(ce.getPhilhealthNo());
 
 
-        textStreet.setText(ce.getStreet());
-        textCity.setText(ce.getCity());
-        textProvince.setText(ce.getProvince());
+        textStreet.setText(ce.getAddress());
+        
         txtContactNo.setText(ce.getTelephoneNo());
-        textEmaillAdd.setText(ce.getEmailAdd());
-
-
-        textEmergencyName.setText(ce.getEmergencyContactName());
-        textEStreet.setText(ce.getEmergencyAddress());
-        textEContactNo.setText(ce.getEmergencyContactNo());
-
+        
 
         txtDateTo.setDate(new Date());
         txtDateFrom.setDate(new Date());
-        initDependent();
+        
         initLoanTableView();
         initDTR();
         initJOB();
@@ -2358,20 +2323,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
     }
 
-    private void initDependent() {
-        if (ce.getDependents() != null) {
-            NonEditableDefaultTableModel dtm = new NonEditableDefaultTableModel();
-            dtm.setColumnIdentifiers(new String[]{"Name", "Date Of Birth", "Relation", "Sex"});
-            for (com.jcl.hrm.Dependents d : ce.getDependents()) {
-                Object[] o = new Object[]{d, d.getDateOfBirth(), d.getRelationship(), d.getGender()};
-                System.out.println(d.getName() + ", " + d.getDateOfBirth() + ", " + d.getRelationship() + ", " + d.getGender());
-                dtm.addRow(o);
-            }
-
-            tableDependents.setModel(dtm);
-
-        }
-    }
+  
 
     private void saveScreen() {
 
@@ -2420,19 +2372,9 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setPagibigNo(textPagIbigNo.getText());
         ce.setPhilhealthNo(textPhilHealthNo.getText());
 
-        ce.setStreet(textStreet.getText());
-        ce.setCity(textCity.getText());
-        ce.setProvince(textProvince.getText());
-        ce.setTelephoneNo(txtContactNo.getText());
-        ce.setEmailAdd(textEmaillAdd.getText());
-
-        ce.setEmergencyContactName(textEmergencyName.getText());
-        ce.setEmergencyAddress(textEStreet.getText());
-        ce.setEmergencyContactNo(textEContactNo.getText());
-
-        if (ce.getDependents() != null) {
-            //init dependent table here.
-        }
+        ce.setAddress(textStreet.getText());
+        
+        ce.setTelephoneNo(txtContactNo.getText());        
 
     }
 
@@ -2503,7 +2445,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
             for (DailyTimeRecord v : list) {
 
-                if (v != null && v.getEmployeeId() == ce.getTid()) {
+                if (v != null && v.getEmployee().getId() == ce.getId()) {
 
                     Object[] o = new Object[]{rowCounter++, v.getDate(), v,
                         stf.format(v.getTimeIn1()), stf.format(v.getTimeOut1()),
@@ -2553,13 +2495,13 @@ public class EmployeeInformation extends javax.swing.JPanel {
             StringBuffer sb = new StringBuffer();
 
             PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Integer) kv.getValue());
-            LinkedHashMap<Integer, Employee> emplist = PaySlipProcess.processPayslip(pp, ce);
+            LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, ce);
 
             SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
 
             for (Employee emp : emplist.values()) {
 
-                if (emp.getTid() != ce.getTid()) {
+                if (emp.getId() != ce.getId()) {
                     continue;
                 }
 
@@ -2571,20 +2513,20 @@ public class EmployeeInformation extends javax.swing.JPanel {
                 sb.append("Position: " + emp.getPosition().getDescription() + "\n");
 
 
-                System.out.println(emp.payslip.getPayrollPeriod().getPayrollPeriodCode());
+                System.out.println(emp.getPayslip().getPayrollPeriod().getPayrollPeriodCode());
                 System.out.println("Add: ");
                 sb.append("Summary:\n");
                 double totalAdd = 0;
-                for (PaySlipDetail psd : emp.payslip.getPayables()) {
+                for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
                     totalAdd = totalAdd + psd.getTotal();
-                    String psdString = psd.getRowNumber() + " " + psd.getDescription() + " (" + psd.getQuantity() + " x " + psd.getAmount() + ")/" + psd.getNoOfLoader() + " = " + psd.getTotal();
+                    String psdString = psd.getRowNumber() + " " + psd.getDescription() + " (" + 0+ " x " + psd.getAmount() + ")/" + 1 + " = " + psd.getTotal();
                     sb.append(psdString + "\n");
                     System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
                 }
                 System.out.println("     Less: ");
                 sb.append("Deduction:\n");
                 double totalLess = 0;
-                for (PaySlipDetail psd : emp.payslip.getReceivables()) {
+                for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
                     totalLess = totalLess + psd.getTotal();
                     String psdString = psd.getRowNumber() + " " + psd.getDescription() + " " + psd.getTotal();
                     sb.append(psdString + "\n");

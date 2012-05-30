@@ -343,7 +343,7 @@ public class PositionSetting extends javax.swing.JPanel {
                 if (p != null) {
                     try {
 
-                        position =Position.getPositionByTid(p.getTid());
+                        position =Position.getPositionByTid(p.getId());
                //         dbms.getDBInstance().activate(position, 3);
                         initScreen();
                     } catch (Exception ex) {
@@ -396,7 +396,7 @@ public class PositionSetting extends javax.swing.JPanel {
 
     private void initScreen() {
         disableAllControls(true);
-        txtCode.setText(position.getTid()+"");
+        txtCode.setText(position.getId()+"");
         txtDescription.setText(position.getDescription());
 
 

@@ -216,10 +216,10 @@ public class EmployeeMyTest {
     }
 
     public void createPosition() {
-        new Position("Loader").save();
-        new Position("Helper").save();
-        new Position("Cashier").save();
-        new Position("Driver").save();
+//        new Position("Loader").save();
+//        new Position("Helper").save();
+//        new Position("Cashier").save();
+//        new Position("Driver").save();
     }
 
 //    private static class SumPredicate extends Predicate<Employee> {

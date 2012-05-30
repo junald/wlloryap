@@ -21,8 +21,8 @@ import java.util.logging.Logger;
  */
 public class DailyTimeRecord {
 
-    private int tid = -1;
-    private int employeeId;
+    private Long id;
+    private Employee employee;
     private String dtrType;//DTRType. Present, Leave, Absence, Overtime, Undertime , Deliveries
     private Date date;
     // all source on this field are manually entered in the UI
@@ -61,6 +61,34 @@ public class DailyTimeRecord {
     private int noOfEmployeeSharing;
     private double netAmount; //
 
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the employee
+     */
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    /**
+     * @param employee the employee to set
+     */
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     @Override
     public String toString() {
         return getDtrType();
@@ -69,38 +97,13 @@ public class DailyTimeRecord {
     public DailyTimeRecord() {
     }
 
-    public DailyTimeRecord(int employeeId) {
-        this.employeeId = employeeId;
+    public DailyTimeRecord(Employee employee) {
+        this.employee = employee;
         setDefualtTime(new Date());
     }
 
-    /**
-     * @return the tid
-     */
-    public int getTid() {
-        return tid;
-    }
-
-    /**
-     * @param tid the tid to set
-     */
-    public void setTid(int tid) {
-        this.tid = tid;
-    }
-
-    /**
-     * @return the employeeId
-     */
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    /**
-     * @param employeeId the employeeId to set
-     */
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
+    
+ 
 
     /**
      * @return the dtrType
@@ -326,30 +329,7 @@ public class DailyTimeRecord {
         this.process = process;
     }
 
-    public void setDefualtTime(Date theDate) {
-        try {
-            SimpleDateFormat sdf2 = MyDateFormatter.getDateTimeFormatter();
-
-            String wdate = MyDateFormatter.getDateDataFormatter().format(theDate);
-
-            Date t1 = sdf2.parse(wdate + " " + WorkShift.TIME_IN1);
-            Date t2 = sdf2.parse(wdate + " " + WorkShift.TIME_OUT1);
-            Date t3 = sdf2.parse(wdate + " " + WorkShift.TIME_IN2);
-            Date t4 = sdf2.parse(wdate + " " + WorkShift.TIME_OUT2);
-
-
-
-            setDate(theDate);
-            setTimeIn1(t1);
-            setTimeOut1(t2);
-            setTimeIn2(t3);
-            setTimeOut2(t4);
-
-        } catch (ParseException ex) {
-            Logger.getLogger(DailyTimeRecord.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+   
     /**
      * @return the sourceTid
      */
@@ -478,4 +458,29 @@ public class DailyTimeRecord {
         }
 
     }
+    
+     public void setDefualtTime(Date theDate) {
+        try {
+            SimpleDateFormat sdf2 = MyDateFormatter.getDateTimeFormatter();
+
+            String wdate = MyDateFormatter.getDateDataFormatter().format(theDate);
+
+            Date t1 = sdf2.parse(wdate + " " + WorkShift.TIME_IN1);
+            Date t2 = sdf2.parse(wdate + " " + WorkShift.TIME_OUT1);
+            Date t3 = sdf2.parse(wdate + " " + WorkShift.TIME_IN2);
+            Date t4 = sdf2.parse(wdate + " " + WorkShift.TIME_OUT2);
+
+
+
+            setDate(theDate);
+            setTimeIn1(t1);
+            setTimeOut1(t2);
+            setTimeIn2(t3);
+            setTimeOut2(t4);
+
+        } catch (ParseException ex) {
+            Logger.getLogger(DailyTimeRecord.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

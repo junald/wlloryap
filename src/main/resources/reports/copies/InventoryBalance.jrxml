@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DynamicReport" pageWidth="595" pageHeight="842" columnWidth="550" leftMargin="30" rightMargin="15" topMargin="30" bottomMargin="20" scriptletClass="ar.com.fdvs.dj.core.DJDefaultScriptlet" whenResourceMissingType="Key">
+	<style name="dj_style_1_" mode="Transparent" forecolor="#000000" backcolor="#FFFFFF" fill="Solid" radius="0" scaleImage="Clip" hAlign="Left" vAlign="Bottom" rotation="None" isBlankWhenNull="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded="false">
+		<pen lineWidth="0.0" lineStyle="Solid"/>
+		<box padding="2">
+			<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="dj_style_2_" mode="Transparent" forecolor="#000000" backcolor="#FFFFFF" fill="Solid" radius="0" scaleImage="Clip" hAlign="Left" vAlign="Bottom" rotation="None" isBlankWhenNull="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded="false">
+		<pen lineWidth="0.0" lineStyle="Solid"/>
+		<box padding="2">
+			<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="dj_style_3_" mode="Transparent" forecolor="#000000" backcolor="#FFFFFF" fill="Solid" radius="0" scaleImage="Clip" hAlign="Left" vAlign="Bottom" rotation="None" isBlankWhenNull="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded="false">
+		<pen lineWidth="0.0" lineStyle="Solid"/>
+		<box padding="2">
+			<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="dj_style_4_" mode="Transparent" forecolor="#000000" backcolor="#FFFFFF" fill="Solid" radius="0" scaleImage="Clip" hAlign="Left" vAlign="Bottom" rotation="None" isBlankWhenNull="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded="false">
+		<pen lineWidth="0.0" lineStyle="Solid"/>
+		<box padding="2">
+			<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Arial_for_group_0_" mode="Transparent" forecolor="#000000" backcolor="#FFFFFF" fill="Solid" radius="0" scaleImage="Clip" hAlign="Left" vAlign="Bottom" rotation="None" isBlankWhenNull="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded="false">
+		<pen lineWidth="0.0" lineStyle="Solid"/>
+		<box padding="2">
+			<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Arial_for_column_COLUMN_0_" mode="Transparent" forecolor="#000000" backcolor="#FFFFFF" fill="Solid" radius="0" scaleImage="Clip" hAlign="Left" vAlign="Bottom" rotation="None" isBlankWhenNull="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded="false">
+		<pen lineWidth="0.0" lineStyle="Solid"/>
+		<box padding="2">
+			<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Arial_for_column_COLUMN_1_" mode="Transparent" forecolor="#000000" backcolor="#FFFFFF" fill="Solid" radius="0" scaleImage="Clip" hAlign="Left" vAlign="Bottom" rotation="None" isBlankWhenNull="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded="false">
+		<pen lineWidth="0.0" lineStyle="Solid"/>
+		<box padding="2">
+			<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="dj_style_5_" mode="Transparent" forecolor="#000000" backcolor="#FFFFFF" fill="Solid" radius="0" scaleImage="Clip" hAlign="Right" vAlign="Bottom" rotation="None" isBlankWhenNull="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded="false">
+		<pen lineWidth="0.0" lineStyle="Solid"/>
+		<box padding="2">
+			<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Arial_for_column_COLUMN_2_" mode="Transparent" forecolor="#000000" backcolor="#FFFFFF" fill="Solid" radius="0" scaleImage="Clip" hAlign="Right" vAlign="Bottom" rotation="None" isBlankWhenNull="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded="false">
+		<pen lineWidth="0.0" lineStyle="Solid"/>
+		<box padding="2">
+			<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<field name="pgroup" class="java.lang.String"/>
+	<field name="pcode" class="java.lang.String"/>
+	<field name="pbalance" class="java.lang.Double"/>
+	<group name="group[0]_for_column_0-COLUMN_0">
+		<groupExpression><![CDATA[$F{pgroup}]]></groupExpression>
+		<groupHeader>
+			<band height="15" splitType="Stretch">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Arial_for_group_0_" positionType="Float" x="0" y="0" width="187" height="15" isPrintWhenDetailOverflows="true" printWhenGroupChanges="group[0]_for_column_0-COLUMN_0"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{pgroup}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<pageHeader>
+		<band height="45">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="dj_style_1_" positionType="Float" x="0" y="0" width="550" height="30" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new java.lang.Boolean(((Number)$V{PAGE_NUMBER}).doubleValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["RGB Company"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="dj_style_2_" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="30" width="550" height="15" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new java.lang.Boolean(((Number)$V{PAGE_NUMBER}).doubleValue() == 1)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Inventory on hand"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="header_Type" style="dj_style_3_" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="187" height="30" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Type"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="header_Item" style="dj_style_3_" positionType="Float" stretchType="RelativeToTallestObject" x="187" y="0" width="187" height="30" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Item"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="header_Quantity" style="dj_style_3_" positionType="Float" stretchType="RelativeToTallestObject" x="374" y="0" width="176" height="30" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Quantity"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Arial_for_column_COLUMN_1_" positionType="Float" stretchType="RelativeToTallestObject" x="187" y="0" width="187" height="15" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{pcode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Arial_for_column_COLUMN_2_" positionType="Float" stretchType="RelativeToTallestObject" x="374" y="0" width="176" height="15" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{pbalance}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

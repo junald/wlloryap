@@ -17,33 +17,21 @@ import java.util.logging.Logger;
  */
 public class Position {
 
-    private int tid = -1;
+    private Long id;
     private String description;
 
-    public Position(String description) {
-        this.description = description;
-    }
-
-     public Position(String description,int t) {
-        this.description = description;
-        this.tid = t;
-    }
-
-    public Position() {
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
     }
 
     /**
-     * @return the tid
+     * @param id the id to set
      */
-    public int getTid() {
-        return tid;
-    }
-
-    /**
-     * @param tid the tid to set
-     */
-    public void setTid(int tid) {
-        this.tid = tid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -60,15 +48,7 @@ public class Position {
         this.description = description;
     }
 
-       /**
-     * @return the id
-     */
-    public long getId() throws Exception {
-
-      //  return dbms.getDBInstance().ext().getID(this);
-        return 1l;
-    }
-
+   
     public static ArrayList<Position> getAllPosition() throws Exception {
         ArrayList<Position> list = new ArrayList<Position>();
 //
@@ -92,7 +72,7 @@ public class Position {
         return emp;
     }
 
-    public static Position getPositionByTid(int id) throws Exception {
+    public static Position getPositionByTid(Long id) throws Exception {
         Position emp = null;
 //        Query query = dbms.getDBInstance().query();
 //        query.constrain(Position.class);
@@ -116,8 +96,5 @@ public class Position {
 //        }
     }
 
-    @Override
-    public String toString() {
-        return description;
-    }
+   
 }

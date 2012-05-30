@@ -337,8 +337,7 @@ public class PaySlipEntry extends javax.swing.JDialog {
 
         txtNotes.setText(psd.getDescription());
         txtAmount.setValue(psd.getAmount());
-        txtQuantity.setValue(psd.getQuantity());
-        txtLoaderCount.setValue(psd.getNoOfLoader());
+
         txtTotal.setValue(psd.getTotal());
         checkIsDeductable.setSelected(psd.isIsDeduction());
 
@@ -354,9 +353,7 @@ public class PaySlipEntry extends javax.swing.JDialog {
 
         psd.setPaySlipDetailType(comboDTRType.getSelectedItem().toString());
         psd.setDescription(txtNotes.getText());
-        psd.setAmount(Double.valueOf(txtAmount.getText()));
-        psd.setQuantity(Double.valueOf(txtQuantity.getText()));
-        psd.setNoOfLoader(Integer.valueOf(txtLoaderCount.getText()));
+        psd.setAmount(Double.valueOf(txtAmount.getText()));        
         psd.setTotal(Double.valueOf(txtTotal.getText()));
         psd.setIsDeduction(checkIsDeductable.isSelected());
 

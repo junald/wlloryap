@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InventoryBalanceAllGrower" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="REPORT_TITLE" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="Cname" class="java.lang.String"/>
+	<field name="Pbalance" class="java.lang.Double"/>
+	<field name="Pgroup" class="java.lang.String"/>
+	<field name="Pcode" class="java.lang.String"/>
+	<sortField name="Cname"/>
+	<sortField name="Pgroup"/>
+	<sortField name="Pcode"/>
+	<variable name="Pbalance_1" class="java.lang.Double" resetType="Group" resetGroup="Grower" calculation="Sum">
+		<variableExpression><![CDATA[$F{Pbalance}]]></variableExpression>
+	</variable>
+	<variable name="Pgroup_1" class="java.lang.Integer" resetType="Group" resetGroup="ProductType" calculation="Count">
+		<variableExpression><![CDATA[$F{Pgroup}]]></variableExpression>
+	</variable>
+	<variable name="Pbalance_2" class="java.lang.Double" resetType="Group" resetGroup="ProductType" calculation="Sum">
+		<variableExpression><![CDATA[$F{Pbalance}]]></variableExpression>
+	</variable>
+	<variable name="Pbalance_3" class="java.lang.Double" resetType="Group" resetGroup="ProductCodes" calculation="Sum">
+		<variableExpression><![CDATA[$F{Pbalance}]]></variableExpression>
+	</variable>
+	<group name="Grower" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{Cname}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<textField>
+					<reportElement x="0" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Cname}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField>
+					<reportElement x="100" y="1" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{Pbalance_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="1" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Cname}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="ProductType">
+		<groupExpression><![CDATA[$F{Pgroup}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<textField>
+					<reportElement x="22" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Pgroup}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField>
+					<reportElement x="128" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Pgroup}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="228" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{Pbalance_2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="ProductCodes">
+		<groupExpression><![CDATA[$F{Pcode}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField>
+					<reportElement x="128" y="1" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Pcode}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="228" y="1" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{Pbalance_3}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1"/>
+	</title>
+	<pageHeader>
+		<band height="50">
+			<textField>
+				<reportElement x="241" y="13" width="100" height="20" printWhenGroupChanges="Grower"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

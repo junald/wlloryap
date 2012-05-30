@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InventoryBalance" columnCount="3" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="246" columnSpacing="7" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="REPORT_TITLE" class="java.lang.String"/>
+	<parameter name="CLIENT_INFO" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="Cname" class="java.lang.String"/>
+	<field name="Pbalance" class="java.lang.Double"/>
+	<field name="Pgroup" class="java.lang.String"/>
+	<field name="Pcode" class="java.lang.String"/>
+	<sortField name="Cname"/>
+	<sortField name="Pgroup"/>
+	<sortField name="Pcode"/>
+	<variable name="Pbalance_1" class="java.lang.Double" resetType="Group" resetGroup="Grower" calculation="Sum">
+		<variableExpression><![CDATA[$F{Pbalance}]]></variableExpression>
+	</variable>
+	<variable name="Pgroup_1" class="java.lang.Integer" resetType="Group" resetGroup="ProductType" calculation="Count">
+		<variableExpression><![CDATA[$F{Pgroup}]]></variableExpression>
+	</variable>
+	<variable name="Pbalance_2" class="java.lang.Double" resetType="Group" resetGroup="ProductType" calculation="Sum">
+		<variableExpression><![CDATA[$F{Pbalance}]]></variableExpression>
+	</variable>
+	<variable name="Pbalance_3" class="java.lang.Double" resetType="Group" resetGroup="ProductCodes" calculation="Sum">
+		<variableExpression><![CDATA[$F{Pbalance}]]></variableExpression>
+	</variable>
+	<variable name="Pgroup_2" class="java.lang.Integer" resetType="Group" resetGroup="ProductType" calculation="Count">
+		<variableExpression><![CDATA[$F{Pgroup}]]></variableExpression>
+	</variable>
+	<group name="Grower">
+		<groupExpression><![CDATA[$F{Cname}]]></groupExpression>
+	</group>
+	<group name="ProductType">
+		<groupExpression><![CDATA[$F{Pgroup}]]></groupExpression>
+		<groupHeader>
+			<band height="17">
+				<textField>
+					<reportElement x="0" y="0" width="246" height="16"/>
+					<box>
+						<topPen lineWidth="0.25" lineStyle="Solid"/>
+						<leftPen lineWidth="0.25" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+						<rightPen lineWidth="0.25" lineStyle="Solid"/>
+					</box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Pgroup}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField pattern="###.##">
+					<reportElement x="146" y="0" width="100" height="17"/>
+					<box leftPadding="0">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0" lineStyle="Solid"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{Pbalance_2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="1" y="0" width="136" height="17"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Total " + $F{Pgroup}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="ProductCodes">
+		<groupExpression><![CDATA[$F{Pcode}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="17">
+				<textField>
+					<reportElement x="1" y="0" width="136" height="17"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Pcode}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###.##">
+					<reportElement x="146" y="0" width="100" height="17"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{Pbalance_3}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="47">
+			<textField isStretchWithOverflow="true" pattern="MM/dd/yyyy HH.mm.ss">
+				<reportElement x="571" y="22" width="181" height="17"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="22" width="182" height="17"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{CLIENT_INFO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="2" width="493" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="5" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="18" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="712" y="1" width="40" height="17"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="633" y="1" width="80" height="17"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

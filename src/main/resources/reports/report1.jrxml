@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="303"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="14" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="610" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="338" height="20"/>
+				<textElement/>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="338" height="20"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="64" width="338" height="20"/>
+				<textElement>
+					<font fontName="Verdana"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="94" width="338" height="20"/>
+				<textElement>
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="125" width="482" height="20"/>
+				<textElement>
+					<font fontName="Monospaced" size="12"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="155" width="482" height="20"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="188" width="338" height="20"/>
+				<textElement>
+					<font fontName="MS PMincho"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="224" width="338" height="20"/>
+				<textElement>
+					<font fontName="MS Gothic"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="259" width="338" height="20"/>
+				<textElement>
+					<font fontName="Miriam Fixed"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="294" width="338" height="20"/>
+				<textElement>
+					<font fontName="Lucida Console"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="331" width="338" height="20"/>
+				<textElement>
+					<font fontName="Lucida Sans"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="364" width="338" height="20"/>
+				<textElement>
+					<font fontName="Lucida Sans Typewriter"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="400" width="338" height="20"/>
+				<textElement>
+					<font fontName="Lucida Sans Unicode"/>
+				</textElement>
+				<text><![CDATA[The quick brown fox jump over the lazy dog. 0123456789]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="441" width="572" height="20"/>
+				<textElement>
+					<font fontName="Lucida Sans Typewriter" size="11"/>
+				</textElement>
+				<text><![CDATA[01234567890123456789012345678901234567890123456789012345678901234567890123456789]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

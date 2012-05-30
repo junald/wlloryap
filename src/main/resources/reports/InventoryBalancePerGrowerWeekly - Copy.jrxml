@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InventoryBalancePerGrowerWeekly" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="REPORT_TITLE" class="java.lang.String"/>
+	<parameter name="CLIENT_INFO" class="java.lang.String"/>
+	<parameter name="DATE_FROMTO" class="java.lang.String"/>
+	<field name="Pcode" class="java.lang.String"/>
+	<field name="Cname" class="java.lang.String"/>
+	<field name="Pbalance" class="java.lang.Double"/>
+	<field name="Pgroup" class="java.lang.String"/>
+	<field name="Weekly" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="41" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="422" y="20" width="133" height="17"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="39" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="555" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="17" width="260" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{CLIENT_INFO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="312" y="20" width="100" height="17"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{DATE_FROMTO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="435" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="0" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="128" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="555" height="128"/>
+				<rowGroup name="Pgroup" width="70" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{Pgroup}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="18"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{Pgroup}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="140" height="18" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="Pcode" width="70" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{Pcode}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="70" height="18"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{Pcode}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="18"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="Weekly" height="23" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{Weekly}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="42" height="23"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{Weekly}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="43" height="23"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[Total Weekly]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="PbalanceMeasure" class="java.lang.Double" calculation="Sum">
+					<measureExpression><![CDATA[$F{Pbalance}]]></measureExpression>
+				</measure>
+				<crosstabCell width="43" height="20">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="###.##">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="18"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Double"><![CDATA[$V{PbalanceMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="43" height="20" rowTotalGroup="Pgroup">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="###.##">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="18" forecolor="#FFFFFF"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Double"><![CDATA[$V{PbalanceMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="43" height="20" columnTotalGroup="Weekly">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="###.##">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="18"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Double"><![CDATA[$V{PbalanceMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="43" height="20" rowTotalGroup="Pgroup" columnTotalGroup="Weekly">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="###.##">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="18" forecolor="#FFFFFF"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Double"><![CDATA[$V{PbalanceMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="43" height="20" rowTotalGroup="Pcode">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="###.##">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="18"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Double"><![CDATA[$V{PbalanceMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="43" height="20" rowTotalGroup="Pcode" columnTotalGroup="Weekly">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="###.##">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="40" height="18"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Double"><![CDATA[$V{PbalanceMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

@@ -23,7 +23,7 @@ import java.util.List;
 public class Employee {
 
     //personal info
-    private int tid = -1; //tracking id;
+    private Long id;
     private String idNumber;
     private transient String name;
     private String lastName = "";
@@ -31,24 +31,21 @@ public class Employee {
     private String middleName;
     private Date dateOfBirth;
     private char gender;
-    private String street = "";
-    private String city ="";
-    private String province="";
-    private String country ="";
+    private String address ="";
+    
     private String telephoneNo;
     private String mobileNo;
-    private String emailAdd;
+    
     private String maritalStatus = "Single";  //   MaritalStatus.  Single,Married,Widowed
-    private List<Dependents> dependents = new ArrayList<Dependents>();
-    private String emergencyContactName; // name of the person
-    private String emergencyContactNo;
-    private String emergencyAddress;
+    private Integer numberOfDependents;
+    
     //company info
     private Position position;
     private Department department;
-    private String branch;
+    private Company company;    
+    private Branch branch;
     private String status = "Probationary"; // EmploymentStatus. Contractual,Regular,Resigned,Probationary,Terminated
-    private String payType = "Variable";//Variable, Monthly, SemiMonthly, Weekly, Daily, PerHour
+    private String payType = "SemiMonthly";//Variable, Monthly, SemiMonthly, Weekly, Daily, PerHour
     private Boolean active = true;
     private Date dateHired;
     private Date dateEnd;
@@ -66,6 +63,7 @@ public class Employee {
     private String tinNo;
     private String pagibigNo;
     private String philhealthNo;
+    
     private double taxWithheld;
     private double sssD;
     private double pagibigD;
@@ -73,47 +71,9 @@ public class Employee {
     private double loan1;
     private double loan2;
 
-    public transient ArrayList<DailyTimeRecord> dtrList;
-    public transient PaySlipReportObject payslipReport;
-    public transient PaySlip payslip;
-
-    public Employee(String idNumber, String lastName, String firstName, String middleName, String status) {
-        this.idNumber = idNumber;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.status = status;
-    }
-
-    public Employee(String idNumber, String lastName, String firstName, String middleName, Position p) {
-        this.idNumber = idNumber;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.position = p;
-    }
-
-    public Employee(String idNumber) {
-        this.idNumber = idNumber;
-    }
-
-    public Employee() {
-
-    }
-
-    /**
-     * @return the tid
-     */
-    public int getTid() {
-        return tid;
-    }
-
-    /**
-     * @param tid the tid to set
-     */
-    public void setTid(int tid) {
-        this.tid = tid;
-    }
+    private transient ArrayList<DailyTimeRecord> dtrList;
+    private transient PaySlipReportObject payslipReport;
+    private transient PaySlip payslip;
 
     /**
      * @return the idNumber
@@ -133,8 +93,7 @@ public class Employee {
      * @return the name
      */
     public String getName() {
-        return lastName + ", " + firstName;
-
+        return name;
     }
 
     /**
@@ -215,59 +174,17 @@ public class Employee {
     }
 
     /**
-     * @return the street
+     * @return the address
      */
-    public String getStreet() {
-        return street;
+    public String getAddress() {
+        return address;
     }
 
     /**
-     * @param street the street to set
+     * @param address the address to set
      */
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    /**
-     * @return the city
-     */
-    public String getCity() {
-        return city;
-    }
-
-    /**
-     * @param city the city to set
-     */
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    /**
-     * @return the province
-     */
-    public String getProvince() {
-        return province;
-    }
-
-    /**
-     * @param province the province to set
-     */
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    /**
-     * @return the country
-     */
-    public String getCountry() {
-        return country;
-    }
-
-    /**
-     * @param country the country to set
-     */
-    public void setCountry(String country) {
-        this.country = country;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     /**
@@ -299,20 +216,6 @@ public class Employee {
     }
 
     /**
-     * @return the emailAdd
-     */
-    public String getEmailAdd() {
-        return emailAdd;
-    }
-
-    /**
-     * @param emailAdd the emailAdd to set
-     */
-    public void setEmailAdd(String emailAdd) {
-        this.emailAdd = emailAdd;
-    }
-
-    /**
      * @return the maritalStatus
      */
     public String getMaritalStatus() {
@@ -327,59 +230,17 @@ public class Employee {
     }
 
     /**
-     * @return the dependents
+     * @return the numberOfDependents
      */
-    public List<Dependents> getDependents() {
-        return dependents;
+    public Integer getNumberOfDependents() {
+        return numberOfDependents;
     }
 
     /**
-     * @param dependents the dependents to set
+     * @param numberOfDependents the numberOfDependents to set
      */
-    public void setDependents(List<Dependents> dependents) {
-        this.dependents = dependents;
-    }
-
-    /**
-     * @return the emergencyContactName
-     */
-    public String getEmergencyContactName() {
-        return emergencyContactName;
-    }
-
-    /**
-     * @param emergencyContactName the emergencyContactName to set
-     */
-    public void setEmergencyContactName(String emergencyContactName) {
-        this.emergencyContactName = emergencyContactName;
-    }
-
-    /**
-     * @return the emergencyContactNo
-     */
-    public String getEmergencyContactNo() {
-        return emergencyContactNo;
-    }
-
-    /**
-     * @param emergencyContactNo the emergencyContactNo to set
-     */
-    public void setEmergencyContactNo(String emergencyContactNo) {
-        this.emergencyContactNo = emergencyContactNo;
-    }
-
-    /**
-     * @return the emergencyAddress
-     */
-    public String getEmergencyAddress() {
-        return emergencyAddress;
-    }
-
-    /**
-     * @param emergencyAddress the emergencyAddress to set
-     */
-    public void setEmergencyAddress(String emergencyAddress) {
-        this.emergencyAddress = emergencyAddress;
+    public void setNumberOfDependents(Integer numberOfDependents) {
+        this.numberOfDependents = numberOfDependents;
     }
 
     /**
@@ -411,16 +272,30 @@ public class Employee {
     }
 
     /**
+     * @return the company
+     */
+    public Company getCompany() {
+        return company;
+    }
+
+    /**
+     * @param company the company to set
+     */
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    /**
      * @return the branch
      */
-    public String getBranch() {
+    public Branch getBranch() {
         return branch;
     }
 
     /**
      * @param branch the branch to set
      */
-    public void setBranch(String branch) {
+    public void setBranch(Branch branch) {
         this.branch = branch;
     }
 
@@ -436,6 +311,20 @@ public class Employee {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * @return the payType
+     */
+    public String getPayType() {
+        return payType;
+    }
+
+    /**
+     * @param payType the payType to set
+     */
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 
     /**
@@ -733,27 +622,82 @@ public class Employee {
     }
 
     /**
-     * @return the id
+     * @return the dtrList
      */
-    public long getId() throws Exception {
-
-        //return dbms.getDBInstance().ext().getID(this);
-        return 1;
+    public ArrayList<DailyTimeRecord> getDtrList() {
+        return dtrList;
     }
 
-
-     public String completeAddress1() {
-
-        String add = getStreet()==null?"":street + ", " + getCity()==null?"":city;
-
-        return add;
-    }
-     public String completeAddress2() {
-        String add =  getProvince()==null?"":province + " " + getMobileNo()==null?"":mobileNo   ;
-
-        return add;
+    /**
+     * @param dtrList the dtrList to set
+     */
+    public void setDtrList(ArrayList<DailyTimeRecord> dtrList) {
+        this.dtrList = dtrList;
     }
 
+    /**
+     * @return the payslipReport
+     */
+    public PaySlipReportObject getPayslipReport() {
+        return payslipReport;
+    }
+
+    /**
+     * @param payslipReport the payslipReport to set
+     */
+    public void setPayslipReport(PaySlipReportObject payslipReport) {
+        this.payslipReport = payslipReport;
+    }
+
+    /**
+     * @return the payslip
+     */
+    public PaySlip getPayslip() {
+        return payslip;
+    }
+
+    /**
+     * @param payslip the payslip to set
+     */
+    public void setPayslip(PaySlip payslip) {
+        this.payslip = payslip;
+    }
+
+    
+    public Long getId() {
+        return id;
+    }
+
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Employee(String idNumber, String lastName, String firstName, String middleName, String status) {
+        this.idNumber = idNumber;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.status = status;
+    }
+
+    public Employee(String idNumber, String lastName, String firstName, String middleName, Position p) {
+        this.idNumber = idNumber;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.position = p;
+    }
+
+    public Employee(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    public Employee() {
+
+    }
+
+   
 
     ///Employee
     public static Employee getEmployee(String employeeId) throws Exception {
@@ -770,7 +714,7 @@ public class Employee {
 
     }
 
-      public static Employee getEmployeeByTid(int key) throws Exception {
+      public static Employee getEmployeeByTid(Long key) throws Exception {
         Employee emp = null;
 //        Query query = dbms.getDBInstance().query();
 //        query.constrain(Employee.class);
@@ -834,23 +778,11 @@ public class Employee {
 
     @Override
     public String toString() {
-        return lastName +", " + firstName;
+        return getLastName() +", " + getFirstName();
         //return "Employee{id= " + getId() + " tid=" + tid + "idNumber=" + idNumber + "name=" + name + "dateOfBirth=" + dateOfBirth + "emergencyContactName=" + emergencyContactName + "position=" + position + '}';
     }
 
-    /**
-     * @return the payType
-     */
-    public String getPayType() {
-        return payType;
-    }
-
-    /**
-     * @param payType the payType to set
-     */
-    public void setPayType(String payType) {
-        this.payType = payType;
-    }
+ 
 
      
 }
