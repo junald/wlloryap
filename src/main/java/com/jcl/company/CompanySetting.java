@@ -13,39 +13,46 @@ package com.jcl.company;
  */
 public class CompanySetting {
 
-    private String companyName ;
-   
-     
+    private Long id;
+    private String name ;        
     private boolean autoComputeHoliday;
     private boolean autoComputeOvertime;
     private boolean autoComputeIncomeTax;
     private boolean autoComputeSSS;
     private boolean autoComputePagIbig;
     private boolean autoComputePhilHealth;
-    private String street;
-    private String city;
-    private String province;
-    private String country;
-    private String telephoneNo;
-    private String mobileNo;
-    private String emailAdd;
+    private String address;    
+    private String telephoneNo;  
     private String zipcode;
 
     /**
-     * @return the companyName
+     * @return the id
      */
-    public String getCompanyName() {
-        return companyName;
+    public Long getId() {
+        return id;
     }
 
     /**
-     * @param companyName the companyName to set
+     * @param id the id to set
      */
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-   
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * @return the autoComputeHoliday
      */
@@ -130,6 +137,49 @@ public class CompanySetting {
         this.autoComputePhilHealth = autoComputePhilHealth;
     }
 
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * @return the telephoneNo
+     */
+    public String getTelephoneNo() {
+        return telephoneNo;
+    }
+
+    /**
+     * @param telephoneNo the telephoneNo to set
+     */
+    public void setTelephoneNo(String telephoneNo) {
+        this.telephoneNo = telephoneNo;
+    }
+
+    /**
+     * @return the zipcode
+     */
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    /**
+     * @param zipcode the zipcode to set
+     */
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    
     public static CompanySetting companySetting() throws Exception {
 
         CompanySetting cs = null;
@@ -154,121 +204,5 @@ public class CompanySetting {
 //        }
     }
 
-    /**
-     * @return the street
-     */
-    public String getStreet() {
-        return street;
-    }
-
-    /**
-     * @param street the street to set
-     */
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    /**
-     * @return the city
-     */
-    public String getCity() {
-        return city;
-    }
-
-    /**
-     * @param city the city to set
-     */
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    /**
-     * @return the province
-     */
-    public String getProvince() {
-        return province;
-    }
-
-    /**
-     * @param province the province to set
-     */
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    /**
-     * @return the country
-     */
-    public String getCountry() {
-        return country;
-    }
-
-    /**
-     * @param country the country to set
-     */
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    /**
-     * @return the telephoneNo
-     */
-    public String getTelephoneNo() {
-        return telephoneNo;
-    }
-
-    /**
-     * @param telephoneNo the telephoneNo to set
-     */
-    public void setTelephoneNo(String telephoneNo) {
-        this.telephoneNo = telephoneNo;
-    }
-
-    /**
-     * @return the mobileNo
-     */
-    public String getMobileNo() {
-        return mobileNo;
-    }
-
-    /**
-     * @param mobileNo the mobileNo to set
-     */
-    public void setMobileNo(String mobileNo) {
-        this.mobileNo = mobileNo;
-    }
-
-    /**
-     * @return the emailAdd
-     */
-    public String getEmailAdd() {
-        return emailAdd;
-    }
-
-    /**
-     * @param emailAdd the emailAdd to set
-     */
-    public void setEmailAdd(String emailAdd) {
-        this.emailAdd = emailAdd;
-    }
-
-    /**
-     * @return the zipcode
-     */
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    /**
-     * @param zipcode the zipcode to set
-     */
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String completeAddress() {
-        String add = getStreet() + ", " + getCity() + ",\n" + getZipcode() + " " + getProvince() + " PH";
-
-        return add;
-    }
+   
 }

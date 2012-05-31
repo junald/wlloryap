@@ -180,10 +180,8 @@ public class CompanySettingInformation extends javax.swing.JPanel {
     public void initScreen() {
         try {
             company = CompanySetting.companySetting();
-            this.txtCompanyName.setText(company.getCompanyName());
-            this.txtStreet.setText(company.getStreet());
-            this.txtCity.setText(company.getCity());
-            this.txtProvince.setText(company.getProvince());
+            this.txtCompanyName.setText(company.getName());
+            this.txtStreet.setText(company.getAddress());            
             this.txtZipcode.setText(company.getZipcode());
             this.txtTelephone.setText(company.getTelephoneNo());
         } catch (Exception ex) {
@@ -192,10 +190,8 @@ public class CompanySettingInformation extends javax.swing.JPanel {
     }
 
     public void saveScreen() {
-        company.setCompanyName(this.txtCompanyName.getText());
-        company.setStreet(this.txtStreet.getText());
-        company.setCity(this.txtCity.getText());
-        company.setProvince(this.txtProvince.getText());
+        
+        company.setAddress(this.txtStreet.getText());        
         company.setZipcode(this.txtZipcode.getText());
         company.setTelephoneNo(this.txtTelephone.getText());
 

@@ -6,10 +6,10 @@ package com.jcl.dbms;
 
 
 
-import com.jcl.hrm.Employee;
-import com.jcl.payroll.transaction.PaySlipDetail;
-import com.jcl.payroll.transaction.PayrollPeriod;
-import com.jcl.security.User;
+import com.jcl.model.Employee;
+import com.jcl.model.PaySlipDetail;
+import com.jcl.model.PayrollPeriod;
+import com.jcl.model.User;
 import com.jcl.utilities.TrackingIdGenerator;
 import com.jcl.utilities.TransactionException;
 import java.io.FileInputStream;

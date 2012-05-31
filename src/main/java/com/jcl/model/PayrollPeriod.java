@@ -2,34 +2,99 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jcl.payroll.transaction;
+package com.jcl.model;
 
- 
-//import com.jcl.dbms.dbms;
-import com.jcl.utilities.TransactionException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.*;
 
 /**
  *
  * @author junald
  */
+@Entity
 public class PayrollPeriod {
 
-    private int tid = -1;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column
     private String payrollPeriodCode;
+    @Column
+    @Temporal(TemporalType.DATE)
     private Date dateFrom;
+    @Column
+    @Temporal(TemporalType.DATE)
     private Date dateTo;
+    @Column
+    @Temporal(TemporalType.DATE)
     private Date datePrepared;
+    @Column(length = 150)
     private String notes;
+    @Column(length = 15)
     private String status = "Prepared"; // prepared, generated, updated, closed, cancelled
-    private List<Integer> truckingTids;
-    private String payrollPeriodType = "Variable"; //monthly, semi monthly, weekly, daily
-
+    private String payrollPeriodType = "SemiMonthly"; //monthly, semi monthly, weekly, daily
+    @Column
     private String modifiedBy;
+    @Column
     private String preparedBy;
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
+
+    @Override
+    public String toString() {
+        return getPayrollPeriodCode();
+    }
+
+    public static PayrollPeriod getPayrollPeriodByTid(Long id) throws Exception {
+        PayrollPeriod emp = null;
+//        Query query = dbms.getDBInstance().query();
+//        query.constrain(PayrollPeriod.class);
+//        query.descend("tid").constrain(id);
+//
+//        ObjectSet result = query.execute();
+//        if (result.hasNext()) {
+//            emp = (PayrollPeriod) result.next();
+//        }
+        return emp;
+    }
+
+    public static List<PayrollPeriod> getAllPayrollPeriod(boolean includeOthers) throws Exception {
+        List<PayrollPeriod> list = new ArrayList<PayrollPeriod>();
+//         Query query = dbms.getDBInstance().query();
+//        query.constrain(PayrollPeriod.class);
+//        if(!includeOthers){
+//               query.descend("status").constrain("Opened");
+//        }
+//
+//        list = query.execute();
+
+        return list;
+
+    }
+
+    /**
+     * format N-DDMMYY
+     */
+    public void createPayrollPeriodCode() {
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     /**
      * @return the payrollPeriodCode
@@ -116,20 +181,6 @@ public class PayrollPeriod {
     }
 
     /**
-     * @return the truckingTids
-     */
-    public List<Integer> getTruckingTids() {
-        return truckingTids;
-    }
-
-    /**
-     * @param truckingTids the truckingTids to set
-     */
-    public void setTruckingTids(List<Integer> truckingTids) {
-        this.truckingTids = truckingTids;
-    }
-
-    /**
      * @return the payrollPeriodType
      */
     public String getPayrollPeriodType() {
@@ -184,70 +235,4 @@ public class PayrollPeriod {
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
-
- 
-
-    /**
-     * @return the tid
-     */
-    public int getTid() {
-        return tid;
-    }
-
-    /**
-     * @param tid the tid to set
-     */
-    public void setTid(int tid) {
-        this.tid = tid;
-    }
-
-    @Override
-    public String toString() {
-        return   payrollPeriodCode ;
-    }
-
-     public void businessRule() throws Exception {
-        if (this.dateFrom == null || this.dateTo == null) {
-            throw new TransactionException("To and From date cannot be empty");
-        } else if (this.dateFrom.compareTo(this.dateTo) > 0) {
-            throw new TransactionException("(from) date must be less than (to)");
-        }
-    }
-
-
-     public static PayrollPeriod getPayrollPeriodByTid(int id) throws Exception {
-        PayrollPeriod emp = null;
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(PayrollPeriod.class);
-//        query.descend("tid").constrain(id);
-//
-//        ObjectSet result = query.execute();
-//        if (result.hasNext()) {
-//            emp = (PayrollPeriod) result.next();
-//        }
-        return emp;
-    }
-
-     public static List<PayrollPeriod> getAllPayrollPeriod(boolean includeOthers) throws Exception{
-         List<PayrollPeriod> list = new ArrayList<PayrollPeriod>();
-//         Query query = dbms.getDBInstance().query();
-//        query.constrain(PayrollPeriod.class);
-//        if(!includeOthers){
-//               query.descend("status").constrain("Opened");
-//        }
-//
-//        list = query.execute();
-
-         return  list;
-         
-     }
-
-     /**
-      * format
-      * N-DDMMYY
-      */
-     public void createPayrollPeriodCode(){
-
-     }
-
 }

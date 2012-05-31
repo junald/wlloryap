@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.jcl.model;
 
-package com.jcl.security;
+import javax.persistence.*;
 
 
 
@@ -11,23 +12,27 @@ package com.jcl.security;
  *
  * @author junald
  */
-public class ModuleRole {
+@Entity
+public class Department {
 
-    private int code;
+   @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(length = 150, unique = true, nullable = false)
     private String description;
 
     /**
-     * @return the code
+     * @return the id
      */
-    public int getCode() {
-        return code;
+    public Long getId() {
+        return id;
     }
 
     /**
-     * @param code the code to set
+     * @param id the id to set
      */
-    public void setCode(int code) {
-        this.code = code;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -43,4 +48,6 @@ public class ModuleRole {
     public void setDescription(String description) {
         this.description = description;
     }
+
+  
 }

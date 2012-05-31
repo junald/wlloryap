@@ -7,10 +7,10 @@ package com.jcl.payroll.transaction;
  
  
 //import com.jcl.dbms.dbms;
-import com.jcl.hrm.Employee;
-import com.jcl.hrm.WorkShift;
-//import com.jcl.inventory.InventoryBalance;
-//import com.jcl.inventory.Product;
+import com.jcl.model.PayrollPeriod;
+import com.jcl.model.PaySlip;
+import com.jcl.model.PaySlipDetail;
+import com.jcl.model.Employee;  
 import com.jcl.payroll.dtr.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
@@ -36,7 +36,7 @@ import java.util.logging.Logger;
  * @author jlavador
  */
 public class PaySlipProcess {
-public static List<Employee> preparePayslip(int payrollPeriodID, Employee eep) throws Exception {
+public static List<Employee> preparePayslip(Long payrollPeriodID, Employee eep) throws Exception {
 
         System.out.println("processPayslip: " + payrollPeriodID + " employee: " + eep);
         List<Employee> employeeList = new ArrayList<Employee>();
@@ -573,7 +573,7 @@ public static List<Employee> preparePayslip(int payrollPeriodID, Employee eep) t
         return counter;
     }
 
-    public static int finalizedPaySlip(int payrollPeriodID) throws Exception{
+    public static int finalizedPaySlip(Long payrollPeriodID) throws Exception{
 
         PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid(payrollPeriodID);
         List<Employee> employeeList = preparePayslip(payrollPeriodID, null);
@@ -628,7 +628,7 @@ public static List<Employee> preparePayslip(int payrollPeriodID, Employee eep) t
         try {
         //    dbms.login("admin", "password");
 
-            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid(1);
+            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid(1L);
             LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, null);
             for (Employee emp : emplist.values()) {
                 System.out.println("================================");

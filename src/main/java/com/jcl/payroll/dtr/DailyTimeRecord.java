@@ -4,8 +4,7 @@
  */
 package com.jcl.payroll.dtr;
 
-import com.jcl.hrm.Employee;
-import com.jcl.hrm.WorkShift;
+import com.jcl.model.Employee;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.TransactionException;
 import java.sql.Time;
@@ -460,27 +459,27 @@ public class DailyTimeRecord {
     }
     
      public void setDefualtTime(Date theDate) {
-        try {
-            SimpleDateFormat sdf2 = MyDateFormatter.getDateTimeFormatter();
-
-            String wdate = MyDateFormatter.getDateDataFormatter().format(theDate);
-
-            Date t1 = sdf2.parse(wdate + " " + WorkShift.TIME_IN1);
-            Date t2 = sdf2.parse(wdate + " " + WorkShift.TIME_OUT1);
-            Date t3 = sdf2.parse(wdate + " " + WorkShift.TIME_IN2);
-            Date t4 = sdf2.parse(wdate + " " + WorkShift.TIME_OUT2);
-
-
-
-            setDate(theDate);
-            setTimeIn1(t1);
-            setTimeOut1(t2);
-            setTimeIn2(t3);
-            setTimeOut2(t4);
-
-        } catch (ParseException ex) {
-            Logger.getLogger(DailyTimeRecord.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            SimpleDateFormat sdf2 = MyDateFormatter.getDateTimeFormatter();
+//
+//            String wdate = MyDateFormatter.getDateDataFormatter().format(theDate);
+//
+//            Date t1 = sdf2.parse(wdate + " " + WorkShift.TIME_IN1);
+//            Date t2 = sdf2.parse(wdate + " " + WorkShift.TIME_OUT1);
+//            Date t3 = sdf2.parse(wdate + " " + WorkShift.TIME_IN2);
+//            Date t4 = sdf2.parse(wdate + " " + WorkShift.TIME_OUT2);
+//
+//
+//
+//            setDate(theDate);
+//            setTimeIn1(t1);
+//            setTimeOut1(t2);
+//            setTimeIn2(t3);
+//            setTimeOut2(t4);
+//
+//        } catch (ParseException ex) {
+//            Logger.getLogger(DailyTimeRecord.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
 }

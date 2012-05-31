@@ -13,14 +13,14 @@ package com.jcl.payroll.ui;
  
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.dbms.dbms;
-import com.jcl.hrm.Position;
+import com.jcl.model.Position;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
 import com.jcl.payroll.transaction.PaySlipProcess;
 import com.jcl.payroll.transaction.PaySlipStatus;
-import com.jcl.payroll.transaction.PayrollPeriod;
+import com.jcl.model.PayrollPeriod;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.verycommon.JOptionErrorMessage;
@@ -483,7 +483,7 @@ public class PayrollPeriodInformation extends javax.swing.JPanel {
 
                 if (p != null) {
                     try {
-                        pp = PayrollPeriod.getPayrollPeriodByTid(p.getTid());
+                        pp = PayrollPeriod.getPayrollPeriodByTid(p.getId());
                     //    dbms.getDBInstance().activate(pp, 3);
                         initScreen();
                     } catch (Exception ex) {
@@ -506,7 +506,7 @@ public class PayrollPeriodInformation extends javax.swing.JPanel {
 
                 if (p != null) {
                     try {
-                        pp = PayrollPeriod.getPayrollPeriodByTid(p.getTid());
+                        pp = PayrollPeriod.getPayrollPeriodByTid(p.getId());
                    //     dbms.getDBInstance().activate(pp, 3);
                         int counter =  PaySlipProcess.createPayslipForPayrollPeriod(pp,null);
                           JOptionPane.showMessageDialog(this, "Done, creating Payslip("+counter+") for Pay Type: "+ pp.getPayrollPeriodType(), "Payroll Period", JOptionPane.INFORMATION_MESSAGE);
@@ -595,7 +595,7 @@ public class PayrollPeriodInformation extends javax.swing.JPanel {
         }else{
         disableAllControls(true);
         }
-        txtTid.setText(pp.getTid() + "");
+        txtTid.setText(pp.getId() + "");
         txtCode.setText(pp.getPayrollPeriodCode());
         txtDatePrepared.setText(sdf.format(pp.getDatePrepared()));
         txtDateTo.setDate(pp.getDateTo());

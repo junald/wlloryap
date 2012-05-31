@@ -12,11 +12,11 @@ package com.jcl.payroll.ui;
 
 
 import com.jcl.dbms.dbms;
-import com.jcl.hrm.Employee;
+import com.jcl.model.Employee;
 import com.jcl.payroll.dtr.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.FamilyRelationship;
-import com.jcl.payroll.transaction.PaySlipDetail;
+import com.jcl.model.PaySlipDetail;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.utils.SelectedButton;

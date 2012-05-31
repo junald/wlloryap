@@ -4,15 +4,15 @@
  */
 package com.jcl.reports;
 
-import com.jcl.hrm.Employee;
+import com.jcl.model.Employee;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
-import com.jcl.payroll.transaction.PaySlip;
-import com.jcl.payroll.transaction.PaySlipDetail;
+import com.jcl.model.PaySlip;
+import com.jcl.model.PaySlipDetail;
 import com.jcl.payroll.transaction.PaySlipProcess;
 import com.jcl.payroll.transaction.PaySlipReportObject;
 import com.jcl.payroll.transaction.PaySlipReportRow;
-import com.jcl.payroll.transaction.PayrollPeriod;
+import com.jcl.model.PayrollPeriod;
 import com.jcl.utilities.MyNumberFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class PayslipReports {
 
-    public static ArrayList<Employee> processPayslip(int payrollPeriodID, Employee eep) throws Exception {
+    public static ArrayList<Employee> processPayslip(Long payrollPeriodID, Employee eep) throws Exception {
 
         System.out.println("processPayslip: " + payrollPeriodID + " employee: " + eep);
         ArrayList<Employee> employeeList = new ArrayList<Employee>();
@@ -74,35 +74,35 @@ public class PayslipReports {
 
             double totalAdd = 0;
             int row = 1;
-            for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
-                PaySlipReportRow psrr = new PaySlipReportRow();
-                psrr.setRow(row++);
-                String psdString = psd.getDescription() + " (" + 0 + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + 1;
-                psrr.setDescription(psdString);
-                psrr.setEmployeeName("Name: " + emp.getName());
-
-                psrr.setPosition(emp.getPosition().getDescription());
-                psrr.setAmount(psd.getTotal());
-                psro.getList().add(psrr);
-                totalAdd = totalAdd + psd.getTotal();
-                System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
-            }
+//            for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
+//                PaySlipReportRow psrr = new PaySlipReportRow();
+//                psrr.setRow(row++);
+//                String psdString = psd.getDescription() + " (" + 0 + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + 1;
+//                psrr.setDescription(psdString);
+//                psrr.setEmployeeName("Name: " + emp.getName());
+//
+//                psrr.setPosition(emp.getPosition().getDescription());
+//                psrr.setAmount(psd.getTotal());
+//                psro.getList().add(psrr);
+//                totalAdd = totalAdd + psd.getTotal();
+//                System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
+//            }
 
             double totalLess = 0;
-            for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
-
-                PaySlipReportRow psrr = new PaySlipReportRow();
-                psrr.setRow(row++);
-                psrr.setDescription(psd.getDescription());
-                psrr.setEmployeeName(emp.getName());
-                psrr.setPosition(emp.getPosition().getDescription());
-                psrr.setAmount(psd.getTotal());
-                psro.getList().add(psrr);
-
-                totalLess = totalLess + psd.getTotal();
-
-                System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
-            }
+//            for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
+//
+//                PaySlipReportRow psrr = new PaySlipReportRow();
+//                psrr.setRow(row++);
+//                psrr.setDescription(psd.getDescription());
+//                psrr.setEmployeeName(emp.getName());
+//                psrr.setPosition(emp.getPosition().getDescription());
+//                psrr.setAmount(psd.getTotal());
+//                psro.getList().add(psrr);
+//
+//                totalLess = totalLess + psd.getTotal();
+//
+//                System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
+//            }
             psro.setNetTotal(totalAdd - totalLess);
             emp.setPayslipReport(psro);
 

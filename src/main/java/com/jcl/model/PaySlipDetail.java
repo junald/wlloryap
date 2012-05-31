@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jcl.payroll.transaction;
+package com.jcl.model;
 
 //import com.db4o.ObjectSet;
 //import com.db4o.query.Query;
@@ -12,6 +12,9 @@ package com.jcl.payroll.transaction;
 import com.jcl.dbms.dbms;
 import com.jcl.payroll.enumtypes.PayslipDetailType;
 import java.util.Date;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  *
@@ -19,19 +22,40 @@ import java.util.Date;
  */
 public class PaySlipDetail {
 
+     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @ManyToOne(optional = false)
+	@JoinColumn(name = "payslip_id")
     private PaySlip paySlip;    
+    
+    @Column(length = 15)
     private String paySlipDetailType; //// Absent, Adjustment,Holiday,IncomeTax,Lates,Leave,OverTime,PagIbig,PhilHealth,SSS,UnderTime,WorkedHours,Others
+    @Column(length = 150)
     private String description;
-    private boolean isTaxable = false;
-    private boolean isDeduction = false;
-    private double total;
-    private int rowNumber;
+    
+    @Column    
+    private Boolean isTaxable = false;
+    @Column
+    private Boolean isDeduction = false;
+    @Column
+    private Double total;
+    @Column
+    private Integer rowNumber;
+    @Column
     private String modifiedBy;
+    @Column
     private String preparedBy;
+    
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;    
-    private double amount;    
+    @Column
+    private Double amount;    
+    @Column
     private boolean isGenerated = true;
+    @Column
     private boolean isProcess = false;
 
     /**

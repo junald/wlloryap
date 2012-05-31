@@ -16,7 +16,7 @@ import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
 import com.jcl.dbms.dbms;
-import com.jcl.security.User;
+import com.jcl.model.User;
 import com.jcl.verycommon.JOptionErrorMessage;
 import java.awt.Component;
 import java.util.logging.Level;
@@ -471,6 +471,7 @@ public class UserInformation extends javax.swing.JPanel {
                 User u = (User) jTable.getValueAt(row, 1);
 
                 System.out.println(u);
+                
                 if (u != null && !u.getUsername().equals("admin")) {
 //                    cp = dbms.getDBInstance().ext().getByID(p.getId());
 //                    dbms.getDBInstance().activate(cp, 5);
@@ -579,7 +580,7 @@ public class UserInformation extends javax.swing.JPanel {
         txtPassword.setText(user.getPassword());
         txtFullName.setText(user.getFullName());
         txtConfirmPassword.setText("");
-        if(user.getTid() != -1){
+        if(user.getId() != -1){
             txtUsername.setEditable(false);
         }else{
             txtUsername.setEditable(true);
@@ -591,7 +592,7 @@ public class UserInformation extends javax.swing.JPanel {
 
     private void saveScreen() {
 
-        if (user.getTid() == -1) {
+        if (user.getId() == -1) {
             user.setUsername(txtUsername.getText());
         }
         boolean isEqual = txtPassword.getText().equals(txtConfirmPassword.getText());

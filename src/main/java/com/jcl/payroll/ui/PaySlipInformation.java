@@ -17,16 +17,16 @@ import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
 import com.jcl.customizetable.TransactionNumberTableCellRenderer;
 import com.jcl.dbms.dbms;
-import com.jcl.hrm.Employee;
+import com.jcl.model.Employee;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
 import com.jcl.payroll.dtr.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayslipDetailType;
-import com.jcl.payroll.transaction.PaySlipDetail;
+import com.jcl.model.PaySlipDetail;
 import com.jcl.payroll.transaction.PaySlipProcess;
-import com.jcl.payroll.transaction.PayrollPeriod;
+import com.jcl.model.PayrollPeriod;
 import com.jcl.reports.PayslipReports;
 import com.jcl.reports.ReportViewerFactory;
 import com.jcl.utilities.MyDateFormatter;
@@ -1020,7 +1020,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
                 ce = Employee.getEmployeeByTid(v.getId());
             //    dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
                 System.out.println("payslipinformation 1");
-                PayslipReports.processPayslip((Integer) kv.getValue(), ce);
+                PayslipReports.processPayslip((Long) kv.getValue(), ce);
                 System.out.println("payslipinformation 2");
                 initScreen();
                 System.out.println("payslipinformation 3");
@@ -1096,7 +1096,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
         try {
             dbms.useNewDBInstance();
-            List<Employee> employeeList = PaySlipProcess.preparePayslip((Integer) kv.getValue(), null);
+            List<Employee> employeeList = PaySlipProcess.preparePayslip((Long) kv.getValue(), null);
 
             dtm.setColumnIdentifiers(new String[]{"#","IDNo", "Position", "Name", "Amount"});
             int row = 1;
@@ -1139,7 +1139,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         } else {
         }
         try {
-            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Integer) kv.getValue());
+            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Long) kv.getValue());
             labelFrom.setText(sdf.format(pp.getDateFrom()));
             labelTo.setText(sdf.format(pp.getDateTo()));
             labelDatePrepared.setText(sdf.format(pp.getDatePrepared()));
@@ -1180,7 +1180,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         try {
             dbms.useNewDBInstance();
            
-            PaySlipProcess.finalizedPaySlip((Integer) kv.getValue());
+            PaySlipProcess.finalizedPaySlip((Long) kv.getValue());
 
         } catch (TransactionException ex) {
             JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex.getSimpleMessage());
@@ -1220,8 +1220,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
        try {
             dbms.useNewDBInstance();
 
-            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Integer) kv.getValue());
-            List<Employee> employeeList = PaySlipProcess.preparePayslip((Integer) kv.getValue(), null);
+            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Long) kv.getValue());
+            List<Employee> employeeList = PaySlipProcess.preparePayslip((Long) kv.getValue(), null);
             List list = new ArrayList();
 
             for(Employee eep: employeeList){
@@ -1235,11 +1235,11 @@ public class PaySlipInformation extends javax.swing.JPanel {
             HashMap parameters = new HashMap();
             CompanySetting cs = CompanySetting.companySetting();
 
-            parameters.put("REPORT_TITLE", cs.getCompanyName());
+            parameters.put("REPORT_TITLE", cs.getName());
             String payroll_period = pp.getPayrollPeriodCode() + " - [" + _sdf.format(pp.getDateFrom()) + "-" + _sdf.format(pp.getDateTo()) + "]";
             parameters.put("PAYROLL_PERIOD", "Payroll Period: " + payroll_period);
             parameters.put("DATE_GENERATED", _sdf.format(pp.getDatePrepared()));
-            parameters.put("PREPARED_BY", dbms.user.getFullName());
+            parameters.put("PREPARED_BY", dbms.user.getUsername());
             parameters.put("SUBREPORT_DIR", dbms.codebaseReports);
 
             System.out.println("payslip count: " + list.size());
@@ -1343,7 +1343,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         comboPayrollPeriod.removeAllItems();
         for (PayrollPeriod p : PayrollPeriod.getAllPayrollPeriod(includeOthers.isSelected())) {
             String code = p.getPayrollPeriodType() + " :[" + sdf.format(p.getDateFrom()) + "-" + sdf.format(p.getDateTo()) + "] " + p.getPayrollPeriodCode();
-            KeyValue kv = new KeyValue(code, p.getTid());
+            KeyValue kv = new KeyValue(code, p.getId());
             comboPayrollPeriod.addItem(kv);
         }
 

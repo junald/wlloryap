@@ -17,8 +17,8 @@ import com.jcl.customizetable.DateTableCellRenderer;
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
 //import com.jcl.dbms.dbms;
-import com.jcl.hrm.Employee;
-import com.jcl.hrm.Position;
+import com.jcl.model.Employee;
+import com.jcl.model.Position;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
 import com.jcl.payroll.dtr.DailyTimeRecord;
@@ -27,11 +27,11 @@ import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.EmploymentStatus;
 import com.jcl.payroll.enumtypes.MaritalStatus;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
-import com.jcl.payroll.transaction.PaySlipDetail;
+import com.jcl.model.PaySlipDetail;
 import com.jcl.payroll.transaction.PaySlipProcess;
 import com.jcl.payroll.transaction.PaySlipReportObject;
 import com.jcl.payroll.transaction.PaySlipReportRow;
-import com.jcl.payroll.transaction.PayrollPeriod;
+import com.jcl.model.PayrollPeriod;
 import com.jcl.reports.ReportViewerFactory;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.MyNumberFormatter;
@@ -1948,7 +1948,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
             StringBuffer sb = new StringBuffer();
 
-            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Integer) kv.getValue());
+            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Long) kv.getValue());
             LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, null);
 
             SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
@@ -1959,7 +1959,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
             HashMap parameters = new HashMap();
             CompanySetting cs = CompanySetting.companySetting();
 
-            parameters.put("REPORT_TITLE", cs.getCompanyName());
+            parameters.put("REPORT_TITLE", cs.getName());
             String payroll_period = pp.getPayrollPeriodCode() + " - [" + sdf.format(pp.getDateFrom()) + "-" + sdf.format(pp.getDateTo()) + "]";
             parameters.put("PAYROLL_PERIOD", "Payroll Period: " + payroll_period);
             parameters.put("DATE_GENERATED", sdf.format(pp.getDatePrepared()));
@@ -2296,9 +2296,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         textDSSS.setValue(ce.getSssD());
         textDPagIbig.setValue(ce.getPagibigD());
         textDPhilHealth.setValue(ce.getPhilhealthD());
-        textDLoan1.setValue(ce.getLoan1());
-        textDLoan2.setValue(ce.getLoan2());
-
+       
         textBankAccountNo.setText(ce.getBankAccountNumber());
         textTaxIdNo.setText(ce.getTaxID());
         textSSSNo.setText(ce.getSssNo());
@@ -2362,9 +2360,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setSssD(Double.valueOf(textDSSS.getText()));
         ce.setPagibigD(Double.valueOf(textDPagIbig.getText()));
         ce.setPhilhealthD(Double.valueOf(textDPhilHealth.getText()));
-        ce.setLoan1(Double.valueOf(textDLoan1.getText()));
-        ce.setLoan2(Double.valueOf(textDLoan2.getText()));
-
+      
 
         ce.setBankAccountNumber(textBankAccountNo.getText());
         ce.setTaxID(textTaxIdNo.getText());
@@ -2494,7 +2490,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
             StringBuffer sb = new StringBuffer();
 
-            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Integer) kv.getValue());
+            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Long) kv.getValue());
             LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, ce);
 
             SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter2();

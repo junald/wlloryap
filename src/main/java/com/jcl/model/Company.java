@@ -2,16 +2,23 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jcl.hrm;
+package com.jcl.model;
+
+import javax.persistence.*;
 
 /**
  *
  * @author JLavador
  */
+@Entity
 public class Company {
         
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(length = 150, unique = true, nullable = false)
     private String description;
+    @Column(length = 150, unique = true, nullable = false)
     private String address;
 
     /**

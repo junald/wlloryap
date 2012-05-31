@@ -2,34 +2,45 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jcl.hrm;
+package com.jcl.model;
 
  
 //import com.jcl.dbms.dbms;
 import com.jcl.payroll.dtr.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
-import com.jcl.payroll.transaction.PaySlip;
 import com.jcl.payroll.transaction.PaySlipReportObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.*;
 
 /**
  *
  * @author junald
  */
+@Entity
 public class Employee {
 
     //personal info
+      @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(length = 15, unique = true, nullable = false)
     private String idNumber;
+    
     private transient String name;
-    private String lastName = "";
-    private String firstName = "";
+       @Column(length = 50,  nullable = false)
+    private String lastName;
+       @Column(length = 50,  nullable = false)
+    private String firstName;
+       @Column(length = 50)
     private String middleName;
+    	@Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateOfBirth;
+        
     private char gender;
     private String address ="";
     
@@ -40,40 +51,207 @@ public class Employee {
     private Integer numberOfDependents;
     
     //company info
+    @OneToOne
+    @JoinColumn(name = "position_id")
     private Position position;
+     
+    @OneToOne
+    @JoinColumn(name = "department_id")
     private Department department;
+     
+    @OneToOne
+    @JoinColumn(name = "company_id")
     private Company company;    
+    
+    @OneToOne
+    @JoinColumn(name = "branch_id")
     private Branch branch;
+    
+    @Column
     private String status = "Probationary"; // EmploymentStatus. Contractual,Regular,Resigned,Probationary,Terminated
+    
+    @Column
     private String payType = "SemiMonthly";//Variable, Monthly, SemiMonthly, Weekly, Daily, PerHour
+    
+    @Column
     private Boolean active = true;
+    
+    @Column
+    @Temporal(TemporalType.DATE)
     private Date dateHired;
+    
+    @Column
+    @Temporal(TemporalType.DATE)
     private Date dateEnd;
-    private WorkShift workShift;
+    
+    
     //payroll info
+    @Column(length = 15)
     private String bankAccountNumber;
-    private double allowance;
-    private double salary;
-    private double dailyRate;
-    private double hourRate;
-    private double minuteRate;
+    
+    @Column
+    private Double allowance;
+    
+    @Column
+    private Double salary;
+    
+    @Column
+    private Double dailyRate;
+    
+    @Column
+    private Double hourRate;
+    
+    @Column
+    private Double minuteRate;
     //Goverment numbers
+    @Column
     private String taxID;
+    @Column
     private String sssNo;
+    @Column
     private String tinNo;
+    @Column
     private String pagibigNo;
+    @Column
     private String philhealthNo;
     
-    private double taxWithheld;
-    private double sssD;
-    private double pagibigD;
-    private double philhealthD;
-    private double loan1;
-    private double loan2;
+    @Column
+    private Double taxWithheld;
+    @Column
+    private Double sssD;
+    @Column
+    private Double pagibigD;
+    @Column
+    private Double philhealthD;
+ 
 
     private transient ArrayList<DailyTimeRecord> dtrList;
     private transient PaySlipReportObject payslipReport;
     private transient PaySlip payslip;
+
+    
+    public Employee(String idNumber, String lastName, String firstName, String middleName, String status) {
+        this.idNumber = idNumber;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.status = status;
+    }
+
+    public Employee(String idNumber, String lastName, String firstName, String middleName, Position p) {
+        this.idNumber = idNumber;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.position = p;
+    }
+
+    public Employee(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    public Employee() {
+
+    }
+
+   
+
+    ///Employee
+    public static Employee getEmployee(String employeeId) throws Exception {
+        Employee emp = null;
+//        Query query = dbms.getDBInstance().query();
+//        query.constrain(Employee.class);
+//        query.descend("idNumber").constrain(employeeId);
+//
+//        ObjectSet result = query.execute();
+//        if (result.hasNext()) {
+//            emp = (Employee) result.next();
+//        }
+        return emp;
+
+    }
+
+      public static Employee getEmployeeByTid(Long key) throws Exception {
+        Employee emp = null;
+//        Query query = dbms.getDBInstance().query();
+//        query.constrain(Employee.class);
+//        query.descend("tid").constrain(key);
+//
+//        ObjectSet result = query.execute();
+//        if (result.hasNext()) {
+//            emp = (Employee) result.next();
+//        }
+        return emp;
+    }
+
+    public static List<Employee> getSortedEmployees() throws Exception {
+//        Query query = dbms.getDBInstance().query();
+//        query.constrain(Employee.class);
+//        query.descend("position").descend("description").orderDescending();
+//
+//        List<Employee> result = query.execute();
+//
+//        LinkedList<Employee> list = new LinkedList<Employee>(result);
+//
+//        return result;
+        return null;
+    }
+
+     public static List<Employee> getSortedEmployees(Position pos) throws Exception {
+//        Query query = dbms.getDBInstance().query();
+//        query.constrain(Employee.class);
+//        query.descend("position").constrain(pos);
+//       // query.descend("position").orderDescending();
+//
+//        List<Employee> result = query.execute();
+//
+//        return result;
+         return null;
+    }
+
+      public static List<Employee> getEmployees(PayrollPeriodType ppt) throws Exception {
+//        Query query = dbms.getDBInstance().query();
+//        query.constrain(Employee.class);
+//        query.descend("payType").constrain(ppt.name());
+//
+//        List<Employee> result = query.execute();
+//
+//        return result;
+          return null;
+    }
+
+    public static List<Employee> getEmployeesForDelivery() throws Exception {
+//        Query query = dbms.getDBInstance().query();
+//        query.constrain(Employee.class);
+//        Constraint constraint1 = query.descend("position").descend("tid").constrain(1);
+//        Constraint constraint2 = query.descend("position").descend("tid").constrain(2).or(constraint1);
+//        query.descend("position").descend("tid").constrain(3).or(constraint2);
+//
+//        List<Employee> result = query.execute();
+//
+//        return result;
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return getLastName() +", " + getFirstName();
+        //return "Employee{id= " + getId() + " tid=" + tid + "idNumber=" + idNumber + "name=" + name + "dateOfBirth=" + dateOfBirth + "emergencyContactName=" + emergencyContactName + "position=" + position + '}';
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     /**
      * @return the idNumber
@@ -370,20 +548,6 @@ public class Employee {
     }
 
     /**
-     * @return the workShift
-     */
-    public WorkShift getWorkShift() {
-        return workShift;
-    }
-
-    /**
-     * @param workShift the workShift to set
-     */
-    public void setWorkShift(WorkShift workShift) {
-        this.workShift = workShift;
-    }
-
-    /**
      * @return the bankAccountNumber
      */
     public String getBankAccountNumber() {
@@ -400,70 +564,70 @@ public class Employee {
     /**
      * @return the allowance
      */
-    public double getAllowance() {
+    public Double getAllowance() {
         return allowance;
     }
 
     /**
      * @param allowance the allowance to set
      */
-    public void setAllowance(double allowance) {
+    public void setAllowance(Double allowance) {
         this.allowance = allowance;
     }
 
     /**
      * @return the salary
      */
-    public double getSalary() {
+    public Double getSalary() {
         return salary;
     }
 
     /**
      * @param salary the salary to set
      */
-    public void setSalary(double salary) {
+    public void setSalary(Double salary) {
         this.salary = salary;
     }
 
     /**
      * @return the dailyRate
      */
-    public double getDailyRate() {
+    public Double getDailyRate() {
         return dailyRate;
     }
 
     /**
      * @param dailyRate the dailyRate to set
      */
-    public void setDailyRate(double dailyRate) {
+    public void setDailyRate(Double dailyRate) {
         this.dailyRate = dailyRate;
     }
 
     /**
      * @return the hourRate
      */
-    public double getHourRate() {
+    public Double getHourRate() {
         return hourRate;
     }
 
     /**
      * @param hourRate the hourRate to set
      */
-    public void setHourRate(double hourRate) {
+    public void setHourRate(Double hourRate) {
         this.hourRate = hourRate;
     }
 
     /**
      * @return the minuteRate
      */
-    public double getMinuteRate() {
+    public Double getMinuteRate() {
         return minuteRate;
     }
 
     /**
      * @param minuteRate the minuteRate to set
      */
-    public void setMinuteRate(double minuteRate) {
+    public void setMinuteRate(Double minuteRate) {
         this.minuteRate = minuteRate;
     }
 
@@ -540,85 +704,57 @@ public class Employee {
     /**
      * @return the taxWithheld
      */
-    public double getTaxWithheld() {
+    public Double getTaxWithheld() {
         return taxWithheld;
     }
 
     /**
      * @param taxWithheld the taxWithheld to set
      */
-    public void setTaxWithheld(double taxWithheld) {
+    public void setTaxWithheld(Double taxWithheld) {
         this.taxWithheld = taxWithheld;
     }
 
     /**
      * @return the sssD
      */
-    public double getSssD() {
+    public Double getSssD() {
         return sssD;
     }
 
     /**
      * @param sssD the sssD to set
      */
-    public void setSssD(double sssD) {
+    public void setSssD(Double sssD) {
         this.sssD = sssD;
     }
 
     /**
      * @return the pagibigD
      */
-    public double getPagibigD() {
+    public Double getPagibigD() {
         return pagibigD;
     }
 
     /**
      * @param pagibigD the pagibigD to set
      */
-    public void setPagibigD(double pagibigD) {
+    public void setPagibigD(Double pagibigD) {
         this.pagibigD = pagibigD;
     }
 
     /**
      * @return the philhealthD
      */
-    public double getPhilhealthD() {
+    public Double getPhilhealthD() {
         return philhealthD;
     }
 
     /**
      * @param philhealthD the philhealthD to set
      */
-    public void setPhilhealthD(double philhealthD) {
+    public void setPhilhealthD(Double philhealthD) {
         this.philhealthD = philhealthD;
-    }
-
-    /**
-     * @return the loan1
-     */
-    public double getLoan1() {
-        return loan1;
-    }
-
-    /**
-     * @param loan1 the loan1 to set
-     */
-    public void setLoan1(double loan1) {
-        this.loan1 = loan1;
-    }
-
-    /**
-     * @return the loan2
-     */
-    public double getLoan2() {
-        return loan2;
-    }
-
-    /**
-     * @param loan2 the loan2 to set
-     */
-    public void setLoan2(double loan2) {
-        this.loan2 = loan2;
     }
 
     /**
@@ -661,125 +797,6 @@ public class Employee {
      */
     public void setPayslip(PaySlip payslip) {
         this.payslip = payslip;
-    }
-
-    
-    public Long getId() {
-        return id;
-    }
-
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Employee(String idNumber, String lastName, String firstName, String middleName, String status) {
-        this.idNumber = idNumber;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.status = status;
-    }
-
-    public Employee(String idNumber, String lastName, String firstName, String middleName, Position p) {
-        this.idNumber = idNumber;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.position = p;
-    }
-
-    public Employee(String idNumber) {
-        this.idNumber = idNumber;
-    }
-
-    public Employee() {
-
-    }
-
-   
-
-    ///Employee
-    public static Employee getEmployee(String employeeId) throws Exception {
-        Employee emp = null;
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        query.descend("idNumber").constrain(employeeId);
-//
-//        ObjectSet result = query.execute();
-//        if (result.hasNext()) {
-//            emp = (Employee) result.next();
-//        }
-        return emp;
-
-    }
-
-      public static Employee getEmployeeByTid(Long key) throws Exception {
-        Employee emp = null;
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        query.descend("tid").constrain(key);
-//
-//        ObjectSet result = query.execute();
-//        if (result.hasNext()) {
-//            emp = (Employee) result.next();
-//        }
-        return emp;
-    }
-
-    public static List<Employee> getSortedEmployees() throws Exception {
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        query.descend("position").descend("description").orderDescending();
-//
-//        List<Employee> result = query.execute();
-//
-//        LinkedList<Employee> list = new LinkedList<Employee>(result);
-//
-//        return result;
-        return null;
-    }
-
-     public static List<Employee> getSortedEmployees(Position pos) throws Exception {
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        query.descend("position").constrain(pos);
-//       // query.descend("position").orderDescending();
-//
-//        List<Employee> result = query.execute();
-//
-//        return result;
-         return null;
-    }
-
-      public static List<Employee> getEmployees(PayrollPeriodType ppt) throws Exception {
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        query.descend("payType").constrain(ppt.name());
-//
-//        List<Employee> result = query.execute();
-//
-//        return result;
-          return null;
-    }
-
-    public static List<Employee> getEmployeesForDelivery() throws Exception {
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        Constraint constraint1 = query.descend("position").descend("tid").constrain(1);
-//        Constraint constraint2 = query.descend("position").descend("tid").constrain(2).or(constraint1);
-//        query.descend("position").descend("tid").constrain(3).or(constraint2);
-//
-//        List<Employee> result = query.execute();
-//
-//        return result;
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return getLastName() +", " + getFirstName();
-        //return "Employee{id= " + getId() + " tid=" + tid + "idNumber=" + idNumber + "name=" + name + "dateOfBirth=" + dateOfBirth + "emergencyContactName=" + emergencyContactName + "position=" + position + '}';
     }
 
  

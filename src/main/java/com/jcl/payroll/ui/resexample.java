@@ -4,7 +4,7 @@
  */
 package com.jcl.payroll.ui;
 
-import com.jcl.hrm.Employee;
+import com.jcl.model.Employee;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

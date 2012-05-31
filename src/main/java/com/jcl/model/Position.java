@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jcl.hrm;
+package com.jcl.model;
 
 
 
@@ -11,13 +11,20 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.*;
 /**
  *
  * @author junald
  */
+
+@Entity
 public class Position {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @Column(length = 150, unique = true)
     private String description;
 
     /**

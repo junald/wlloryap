@@ -11,7 +11,7 @@
 package com.jcl.payroll.ui;
 
 
-import com.jcl.hrm.Employee;
+import com.jcl.model.Employee;
 import com.jcl.payroll.dtr.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.FamilyRelationship;

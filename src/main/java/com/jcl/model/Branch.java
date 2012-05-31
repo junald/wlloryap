@@ -3,22 +3,29 @@
  * and open the template in the editor.
  */
 
-package com.jcl.hrm;
+package com.jcl.model;
+
+import javax.persistence.*;
 
 
 /**
  *
  * @author junald
  */
+@Entity
 public class Branch {
  
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @Column(length = 10, unique = true, nullable = false)
     private String code;
+    
+    @Column(length = 150, unique = true, nullable = false)
     private String description;
 
-    /**
-     * @return the id
-     */
+    
     public Long getId() {
         return id;
     }

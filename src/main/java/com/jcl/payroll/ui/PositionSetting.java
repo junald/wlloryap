@@ -14,7 +14,7 @@ package com.jcl.payroll.ui;
 
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.dbms.dbms;
-import com.jcl.hrm.Position;
+import com.jcl.model.Position;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
 import com.jcl.verycommon.JOptionErrorMessage;
