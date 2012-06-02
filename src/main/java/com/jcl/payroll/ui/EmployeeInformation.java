@@ -59,6 +59,7 @@ import org.apache.poi.ss.usermodel.ExcelStyleDateFormatter;
  *
  * @author jlavador
  */
+@org.springframework.stereotype.Component
 public class EmployeeInformation extends javax.swing.JPanel {
 
     private Employee ce;
@@ -2165,7 +2166,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         comboMaritalStatus.setSelectedItem(ce.getMaritalStatus());
 
         labelCompleteName.setText(ce.getName());
-        if (ce.getGender() == 'F') {
+        if (ce.getGender().equals("F") ){
             rbFemale.setSelected(true);
         } else {
             rbMale.setSelected(true);
@@ -2227,9 +2228,9 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setName(labelCompleteName.getText());
 
         if (rbFemale.isSelected()) {
-            ce.setGender('F');
+            ce.setGender("F");
         } else {
-            ce.setGender('M');
+            ce.setGender("M");
         }
 
         ce.setStatus(comboEmploymentStatus.getSelectedItem().toString());

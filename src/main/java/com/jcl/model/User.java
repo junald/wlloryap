@@ -32,7 +32,7 @@ public class User {
     private String fullName;
      
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy="user")
     private List<ModuleRole> moduleRoles;
 
     

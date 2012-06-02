@@ -18,23 +18,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miSetting">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Setting"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="miProductSettings">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Product Settings"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="miTrucking">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Truck Setting"/>
+                <Property name="text" type="java.lang.String" value="Settings"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemActionPerformed"/>

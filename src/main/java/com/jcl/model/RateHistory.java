@@ -18,8 +18,7 @@ public class RateHistory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @ManyToOne    
     private Employee employee;
     
     @Column

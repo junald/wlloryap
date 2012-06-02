@@ -23,8 +23,7 @@ public class ApplicationSetting extends javax.swing.JPanel {
     /** Creates new form ApplicationSetting */
     public ApplicationSetting() {
         initComponents();
-      //  panelTrucking.add(new TruckingSetting());
-        panelEmployee.add(new OtherDataSettings());
+           
         panelUser.add(new UserInformation());
         panelCompany.add(new CompanySettingInformation());
     }
@@ -43,7 +42,6 @@ public class ApplicationSetting extends javax.swing.JPanel {
         panelEmployee = new javax.swing.JPanel();
         panelUser = new javax.swing.JPanel();
         panelCompany = new javax.swing.JPanel();
-        panelTrucking = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
@@ -60,9 +58,6 @@ public class ApplicationSetting extends javax.swing.JPanel {
 
         panelCompany.setLayout(new javax.swing.BoxLayout(panelCompany, javax.swing.BoxLayout.LINE_AXIS));
         jTabbedPane1.addTab("Company", panelCompany);
-
-        panelTrucking.setLayout(new javax.swing.BoxLayout(panelTrucking, javax.swing.BoxLayout.LINE_AXIS));
-        jTabbedPane1.addTab("Trucking", panelTrucking);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -110,7 +105,6 @@ public class ApplicationSetting extends javax.swing.JPanel {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel panelCompany;
     private javax.swing.JPanel panelEmployee;
-    private javax.swing.JPanel panelTrucking;
     private javax.swing.JPanel panelUser;
     // End of variables declaration//GEN-END:variables
 }

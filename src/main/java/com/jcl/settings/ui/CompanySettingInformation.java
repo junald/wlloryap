@@ -80,11 +80,11 @@ public class CompanySettingInformation extends javax.swing.JPanel {
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCity, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addComponent(txtStreet, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addComponent(txtZipcode, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addComponent(txtProvince, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addComponent(txtTelephone, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
+                    .addComponent(txtCity)
+                    .addComponent(txtStreet)
+                    .addComponent(txtZipcode)
+                    .addComponent(txtProvince)
+                    .addComponent(txtTelephone))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

@@ -32,6 +32,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -48,10 +49,11 @@ public class MainApp extends JFrame implements Observer {
     static ApplicationContext context;
     /** Creates new form MainApp2 */
     public MainApp() {
-
+        
+        
         this.setTitle(windowTitle);
         MLogger.init();
-     
+        
 
         try {
 
@@ -99,8 +101,6 @@ public class MainApp extends JFrame implements Observer {
         jMenuBar1 = new javax.swing.JMenuBar();
         mFile = new javax.swing.JMenu();
         miSetting = new javax.swing.JMenuItem();
-        miProductSettings = new javax.swing.JMenuItem();
-        miTrucking = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         miExit = new javax.swing.JMenuItem();
         mEmployee = new javax.swing.JMenu();
@@ -189,29 +189,13 @@ public class MainApp extends JFrame implements Observer {
 
         mFile.setText("File");
 
-        miSetting.setText("Setting");
+        miSetting.setText("Settings");
         miSetting.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemActionPerformed(evt);
             }
         });
         mFile.add(miSetting);
-
-        miProductSettings.setText("Product Settings");
-        miProductSettings.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemActionPerformed(evt);
-            }
-        });
-        mFile.add(miProductSettings);
-
-        miTrucking.setText("Truck Setting");
-        miTrucking.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemActionPerformed(evt);
-            }
-        });
-        mFile.add(miTrucking);
         mFile.add(jSeparator1);
 
         miExit.setText("Exit");
@@ -322,7 +306,9 @@ public class MainApp extends JFrame implements Observer {
 
     private void openTabPanel(String panel) {
         if (panel.equals("Employee")) {
-            tabbedPaneMain.add(panel, new com.jcl.payroll.ui.EmployeeInformation());
+            
+             com.jcl.payroll.ui.EmployeeInformation employeeInformationUI = context.getBean(com.jcl.payroll.ui.EmployeeInformation.class);
+            tabbedPaneMain.add(panel, employeeInformationUI);
         }  else if (panel.equals("Setting")) {
             tabbedPaneMain.add(panel, new com.jcl.settings.ui.ApplicationSetting());
         }  else if (panel.equals("Payroll Period")) {
@@ -343,6 +329,8 @@ public class MainApp extends JFrame implements Observer {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
+        context =   new ClassPathXmlApplicationContext("/applicationContext.xml");
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
@@ -381,9 +369,7 @@ public class MainApp extends JFrame implements Observer {
     private javax.swing.JMenuItem miExit;
     private javax.swing.JMenuItem miPayroll;
     private javax.swing.JMenuItem miPayslip;
-    private javax.swing.JMenuItem miProductSettings;
     private javax.swing.JMenuItem miSetting;
-    private javax.swing.JMenuItem miTrucking;
     private javax.swing.JPanel panel1;
     private javax.swing.JPanel panel2;
     private javax.swing.JPanel panel3;

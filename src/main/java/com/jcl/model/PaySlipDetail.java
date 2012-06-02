@@ -20,22 +20,21 @@ import javax.persistence.*;
  *
  * @author junald
  */
+@Entity
 public class PaySlipDetail {
 
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne(optional = false)
-	@JoinColumn(name = "payslip_id")
-    private PaySlip paySlip;    
+    @OneToOne(optional = false)    
+    private PaySlip paySlip;
     
     @Column(length = 15)
     private String paySlipDetailType; //// Absent, Adjustment,Holiday,IncomeTax,Lates,Leave,OverTime,PagIbig,PhilHealth,SSS,UnderTime,WorkedHours,Others
     @Column(length = 150)
     private String description;
-    
-    @Column    
+    @Column
     private Boolean isTaxable = false;
     @Column
     private Boolean isDeduction = false;
@@ -47,12 +46,11 @@ public class PaySlipDetail {
     private String modifiedBy;
     @Column
     private String preparedBy;
-    
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    private Date modifiedDate;    
+    private Date modifiedDate;
     @Column
-    private Double amount;    
+    private Double amount;
     @Column
     private boolean isGenerated = true;
     @Column
@@ -253,7 +251,6 @@ public class PaySlipDetail {
     public void setIsProcess(boolean isProcess) {
         this.isProcess = isProcess;
     }
-  
 
     public PaySlipDetail() {
     }
@@ -261,20 +258,20 @@ public class PaySlipDetail {
     public PaySlipDetail(PaySlip paySlip, String psdt) {
         this.paySlip = paySlip;
         this.paySlipDetailType = psdt;
-    //    this.businessRule = BusinessRuleFactory.getBusinessRuleType(this.paySlipDetailType, this.paySlip.getEmployee());
-        this.description = this.paySlipDetailType.toString();        
+        //    this.businessRule = BusinessRuleFactory.getBusinessRuleType(this.paySlipDetailType, this.paySlip.getEmployee());
+        this.description = this.paySlipDetailType.toString();
     }
 
     public PaySlipDetail(PaySlip paySlip, String psdt, boolean isGen) {
         this.paySlip = paySlip;
         this.paySlipDetailType = psdt;
-     //   this.businessRule = BusinessRuleFactory.getBusinessRuleType(this.paySlipDetailType, this.paySlip.getEmployee());
-        this.description = this.paySlipDetailType.toString();       
+        //   this.businessRule = BusinessRuleFactory.getBusinessRuleType(this.paySlipDetailType, this.paySlip.getEmployee());
+        this.description = this.paySlipDetailType.toString();
         this.isGenerated = isGen;
 
     }
-    
-      public static PaySlipDetail getPaySlipDetailByTid(Long key) throws Exception {
+
+    public static PaySlipDetail getPaySlipDetailByTid(Long key) throws Exception {
         PaySlipDetail ps = null;
 //        Query query = dbms.getDBInstance().query();
 //        query.constrain(PaySlipDetail.class);
@@ -286,6 +283,4 @@ public class PaySlipDetail {
 //        }
         return ps;
     }
-
-    
 }

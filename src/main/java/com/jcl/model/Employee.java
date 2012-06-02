@@ -4,7 +4,6 @@
  */
 package com.jcl.model;
 
- 
 //import com.jcl.dbms.dbms;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
 import com.jcl.payroll.transaction.PaySlipReportObject;
@@ -23,83 +22,65 @@ import javax.persistence.*;
 public class Employee {
 
     //personal info
-      @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(length = 15, unique = true, nullable = false)
     private String idNumber;
-    
     private transient String name;
-       @Column(length = 50,  nullable = false)
+    @Column(length = 50, nullable = false)
     private String lastName;
-       @Column(length = 50,  nullable = false)
+    @Column(length = 50, nullable = false)
     private String firstName;
-       @Column(length = 50)
+    @Column(length = 50)
     private String middleName;
-    	@Column
+    @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateOfBirth;
-        
-    private char gender;
-    private String address ="";
-    
+    @Column(length=1)
+    private String gender;
+    @Column(length=150)
+    private String address;
+    @Column(length=15)
     private String telephoneNo;
+    @Column(length=15)
     private String mobileNo;
-    
+    @Column(length=15)
     private String maritalStatus = "Single";  //   MaritalStatus.  Single,Married,Widowed
+    @Column
     private Integer numberOfDependents;
-    
     //company info
-    @OneToOne
-    @JoinColumn(name = "position_id")
+    @OneToOne    
     private Position position;
-     
-    @OneToOne
-    @JoinColumn(name = "department_id")
+    @OneToOne    
     private Department department;
-     
-    @OneToOne
-    @JoinColumn(name = "company_id")
-    private Company company;    
-    
-    @OneToOne
-    @JoinColumn(name = "branch_id")
+    @OneToOne    
+    private Company company;
+    @OneToOne    
     private Branch branch;
-    
     @Column
     private String status = "Probationary"; // EmploymentStatus. Contractual,Regular,Resigned,Probationary,Terminated
-    
     @Column
     private String payType = "SemiMonthly";//Variable, Monthly, SemiMonthly, Weekly, Daily, PerHour
-    
     @Column
     private Boolean active = true;
-    
     @Column
     @Temporal(TemporalType.DATE)
     private Date dateHired;
-    
     @Column
     @Temporal(TemporalType.DATE)
     private Date dateEnd;
-    
-    
     //payroll info
     @Column(length = 15)
     private String bankAccountNumber;
-    
     @Column
     private Double allowance;
-    
     @Column
     private Double salary;
-    
     @Column
     private Double dailyRate;
-    
     @Column
     private Double hourRate;
-    
     @Column
     private Double minuteRate;
     //Goverment numbers
@@ -113,7 +94,6 @@ public class Employee {
     private String pagibigNo;
     @Column
     private String philhealthNo;
-    
     @Column
     private Double taxWithheld;
     @Column
@@ -122,13 +102,10 @@ public class Employee {
     private Double pagibigD;
     @Column
     private Double philhealthD;
- 
-
     private transient ArrayList<DailyTimeRecord> dtrList;
     private transient PaySlipReportObject payslipReport;
     private transient PaySlip payslip;
 
-    
     public Employee(String idNumber, String lastName, String firstName, String middleName, String status) {
         this.idNumber = idNumber;
         this.lastName = lastName;
@@ -150,10 +127,7 @@ public class Employee {
     }
 
     public Employee() {
-
     }
-
-   
 
     ///Employee
     public static Employee getEmployee(String employeeId) throws Exception {
@@ -170,7 +144,7 @@ public class Employee {
 
     }
 
-      public static Employee getEmployeeByTid(Long key) throws Exception {
+    public static Employee getEmployeeByTid(Long key) throws Exception {
         Employee emp = null;
 //        Query query = dbms.getDBInstance().query();
 //        query.constrain(Employee.class);
@@ -196,7 +170,7 @@ public class Employee {
         return null;
     }
 
-     public static List<Employee> getSortedEmployees(Position pos) throws Exception {
+    public static List<Employee> getSortedEmployees(Position pos) throws Exception {
 //        Query query = dbms.getDBInstance().query();
 //        query.constrain(Employee.class);
 //        query.descend("position").constrain(pos);
@@ -205,10 +179,10 @@ public class Employee {
 //        List<Employee> result = query.execute();
 //
 //        return result;
-         return null;
+        return new ArrayList<Employee>();
     }
 
-      public static List<Employee> getEmployees(PayrollPeriodType ppt) throws Exception {
+    public static List<Employee> getEmployees(PayrollPeriodType ppt) throws Exception {
 //        Query query = dbms.getDBInstance().query();
 //        query.constrain(Employee.class);
 //        query.descend("payType").constrain(ppt.name());
@@ -216,7 +190,7 @@ public class Employee {
 //        List<Employee> result = query.execute();
 //
 //        return result;
-          return null;
+        return null;
     }
 
     public static List<Employee> getEmployeesForDelivery() throws Exception {
@@ -234,7 +208,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return getLastName() +", " + getFirstName();
+        return getLastName() + ", " + getFirstName();
         //return "Employee{id= " + getId() + " tid=" + tid + "idNumber=" + idNumber + "name=" + name + "dateOfBirth=" + dateOfBirth + "emergencyContactName=" + emergencyContactName + "position=" + position + '}';
     }
 
@@ -339,14 +313,14 @@ public class Employee {
     /**
      * @return the gender
      */
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
     /**
      * @param gender the gender to set
      */
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -797,8 +771,4 @@ public class Employee {
     public void setPayslip(PaySlip payslip) {
         this.payslip = payslip;
     }
-
- 
-
-     
 }

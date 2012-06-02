@@ -25,8 +25,7 @@ public class DailyTimeRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @ManyToOne    
     private Employee employee;
     @Column(length = 15)
     private String dtrType;//DTRType. Present, Leave, Absence, Overtime, Undertime , Deliveries

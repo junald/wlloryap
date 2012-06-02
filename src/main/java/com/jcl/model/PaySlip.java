@@ -4,7 +4,6 @@
  */
 package com.jcl.model;
 
- 
 //import com.jcl.dbms.dbms;
 import com.jcl.model.Employee;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
@@ -21,35 +20,28 @@ import javax.persistence.*;
 @Entity
 public class PaySlip {
 
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
-	@JoinColumn(name = "employee_id")
+    @ManyToOne    
     private Employee employee;
-      @ManyToOne
-	@JoinColumn(name = "payrollPeriod_id")
+    @ManyToOne    
     private PayrollPeriod payrollPeriod;
-      
     @Column(length = 150)
     private String description;
     @Column(length = 150)
     private String others;
-    
-    @OneToMany(mappedBy = "payslip")
+    @OneToMany(mappedBy="paySlip")
     private List<PaySlipDetail> payslipDetails;
-    
     @Column
     private String status;
     @Column
     private String modifiedBy;
     @Column
     private String preparedBy;
-    
-    @Column    
+    @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
-    
     @Column
     private Long rowCounter;
 
@@ -58,16 +50,13 @@ public class PaySlip {
 
     public PaySlip(Employee emp, PayrollPeriod pp) {
         this.employee = emp;
-        this.payrollPeriod = pp;        
+        this.payrollPeriod = pp;
         this.employee = emp;
         payslipDetails = new ArrayList<PaySlipDetail>();
     }
 
-     
-    
-
     public static LinkedHashMap<Long, PaySlip> getPayslipByEmployee(PayrollPeriod pp, Employee eep) throws Exception {
-  System.out.println("payslipinformation x.3");
+        System.out.println("payslipinformation x.3");
         LinkedHashMap<Long, PaySlip> paySlipList = new LinkedHashMap<Long, PaySlip>();
 //        Query query = dbms.getDBInstance().query();
 //        query.constrain(PaySlip.class);
@@ -121,8 +110,8 @@ public class PaySlip {
         return paySlipList;
     }
 
-    public static void retreivePayslipDetail(LinkedHashMap<Integer, PaySlip> paySlipList,int pp) throws Exception {
-          //======================payslipdetails
+    public static void retreivePayslipDetail(LinkedHashMap<Integer, PaySlip> paySlipList, int pp) throws Exception {
+        //======================payslipdetails
 //        System.out.println("payslipinformation x.3.2.1 payrollperiod id: " + pp);
 //          Query queryd = dbms.getDBInstance().query();
 //          queryd.constrain(PaySlipDetail.class);
@@ -139,7 +128,6 @@ public class PaySlip {
 //                 ps.getPayslipDetails().add(psd);
 //              }
 //          }
- 
     }
 
     public static PaySlip getPaySlipByTid(int key) throws Exception {
@@ -154,8 +142,8 @@ public class PaySlip {
 //        }
         return ps;
     }
-    
-      public List<PaySlipDetail> getPayables() {
+
+    public List<PaySlipDetail> getPayables() {
         List<PaySlipDetail> list = new ArrayList<PaySlipDetail>();
         for (PaySlipDetail psd : payslipDetails) {
             if (!psd.isIsDeduction()) {

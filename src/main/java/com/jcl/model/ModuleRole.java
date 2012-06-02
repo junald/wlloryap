@@ -26,8 +26,7 @@ public class ModuleRole {
     @Column(length = 150, unique = true, nullable = false)
     private String description;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @OneToOne(optional = false)    
     private User user;
 
     /**
