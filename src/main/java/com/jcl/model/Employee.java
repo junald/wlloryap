@@ -6,7 +6,6 @@ package com.jcl.model;
 
  
 //import com.jcl.dbms.dbms;
-import com.jcl.payroll.dtr.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
 import com.jcl.payroll.transaction.PaySlipReportObject;
 

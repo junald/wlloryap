@@ -20,7 +20,7 @@ import com.jcl.dbms.dbms;
 import com.jcl.model.Employee;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
-import com.jcl.payroll.dtr.DailyTimeRecord;
+import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayslipDetailType;

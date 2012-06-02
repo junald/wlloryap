@@ -54,17 +54,6 @@
             <Property name="text" type="java.lang.String" value="Payroll"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="miCAEmployee">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Employee Accounting(CA/Loans)"/>
-              </Properties>
-              <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Employee Accounting"/>
-              </AccessibilityProperties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miPayslip">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Payslip"/>

@@ -18,6 +18,7 @@ import javax.persistence.*;
  *
  * @author junald
  */
+@Entity
 public class PaySlip {
 
      @Id

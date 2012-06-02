@@ -20,7 +20,7 @@ import com.jcl.model.Employee;
 import com.jcl.model.Position;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
-import com.jcl.payroll.dtr.DailyTimeRecord;
+import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRDisplayType;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.EmploymentStatus;
@@ -1055,10 +1055,10 @@ public class DTRInformation extends javax.swing.JPanel {
 
                 if (v != null && v.getEmployee().getId() == ce.getId()) {
 
-                    Object[] o = new Object[]{rowCounter++, v.getDate(), v,
+                    Object[] o = new Object[]{rowCounter++, v.getTransactionDate(), v,
                         stf.format(v.getTimeIn1()), stf.format(v.getTimeOut1()),
                         stf.format(v.getTimeIn2()), stf.format(v.getTimeOut2()),
-                        v.getNotes(), v.isProcess(), v.isIsDTR()};
+                        v.getNotes(), v.getProcess(), v.getIsDTR()};
                     dtm.addRow(o);
                 }
             }

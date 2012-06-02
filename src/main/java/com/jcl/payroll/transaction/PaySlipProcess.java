@@ -11,7 +11,7 @@ import com.jcl.model.PayrollPeriod;
 import com.jcl.model.PaySlip;
 import com.jcl.model.PaySlipDetail;
 import com.jcl.model.Employee;  
-import com.jcl.payroll.dtr.DailyTimeRecord;
+import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;

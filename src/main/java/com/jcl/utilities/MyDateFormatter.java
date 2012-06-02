@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.joda.time.Interval;
 import org.joda.time.JodaTimePermission;
-import com.jcl.payroll.dtr.DailyTimeRecord;
+import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 
 /**

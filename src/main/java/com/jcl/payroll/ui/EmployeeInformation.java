@@ -21,7 +21,7 @@ import com.jcl.model.Employee;
 import com.jcl.model.Position;
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
-import com.jcl.payroll.dtr.DailyTimeRecord;
+import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRDisplayType;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.EmploymentStatus;
@@ -74,10 +74,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
             stf = MyDateFormatter.getTimeFormatter();
             initTableView();
 
-
-            double loadingRates = Double.valueOf(txtLoaderRates.getText());
-
-   //         dbms.save(gdr);
 
             disabledComponents(false);
             disabledComponents();
@@ -234,9 +230,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableEmployees = new javax.swing.JTable();
         jPanel18 = new javax.swing.JPanel();
-        btnUpdateLoaderRate = new javax.swing.JButton();
-        txtLoaderRates = new javax.swing.JFormattedTextField();
-        jLabel46 = new javax.swing.JLabel();
         panelCenter = new javax.swing.JPanel();
         panelEmployeeInfo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -341,11 +334,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
         btnDependentDelete = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableDependents = new javax.swing.JTable();
-        panelLoans = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tableInvoice = new javax.swing.JTable();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
         panelDTR = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         btnInsertDetail = new javax.swing.JButton();
@@ -388,7 +376,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         panelTop.setPreferredSize(new java.awt.Dimension(750, 25));
         panelTop.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Employee Information");
         panelTop.add(jLabel8);
 
@@ -500,43 +488,15 @@ public class EmployeeInformation extends javax.swing.JPanel {
         jPanel18.setMinimumSize(new java.awt.Dimension(0, 32));
         jPanel18.setPreferredSize(new java.awt.Dimension(349, 32));
 
-        btnUpdateLoaderRate.setText("Update loading rates");
-        btnUpdateLoaderRate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateLoaderRateActionPerformed(evt);
-            }
-        });
-
-        txtLoaderRates.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.##"))));
-
-        jLabel46.setText("Loader rate per box");
-
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jLabel46)
-                .addGap(5, 5, 5)
-                .addComponent(txtLoaderRates, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnUpdateLoaderRate)
-                .addGap(172, 172, 172))
+            .addGap(0, 349, Short.MAX_VALUE)
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel46))
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtLoaderRates, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnUpdateLoaderRate))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 32, Short.MAX_VALUE)
         );
 
         panelLeft.add(jPanel18, java.awt.BorderLayout.SOUTH);
@@ -571,7 +531,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelEmployeeInfo.add(jLabel3, gridBagConstraints);
 
-        txtEmployeeID.setFont(new java.awt.Font("Verdana", 1, 12));
+        txtEmployeeID.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         txtEmployeeID.setMinimumSize(new java.awt.Dimension(2, 22));
         txtEmployeeID.setPreferredSize(new java.awt.Dimension(55, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -582,7 +542,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelEmployeeInfo.add(txtEmployeeID, gridBagConstraints);
 
-        txtFirstName.setFont(new java.awt.Font("Verdana", 1, 12));
+        txtFirstName.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         txtFirstName.setMinimumSize(new java.awt.Dimension(2, 22));
         txtFirstName.setPreferredSize(new java.awt.Dimension(55, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -593,7 +553,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         panelEmployeeInfo.add(txtFirstName, gridBagConstraints);
         txtFirstName.getAccessibleContext().setAccessibleName("firstName");
 
-        txtMiddleName.setFont(new java.awt.Font("Verdana", 1, 12));
+        txtMiddleName.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         txtMiddleName.setMinimumSize(new java.awt.Dimension(2, 20));
         txtMiddleName.setPreferredSize(new java.awt.Dimension(55, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -613,7 +573,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelEmployeeInfo.add(jLabel5, gridBagConstraints);
 
-        txtLastName.setFont(new java.awt.Font("Verdana", 1, 12));
+        txtLastName.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         txtLastName.setMinimumSize(new java.awt.Dimension(2, 20));
         txtLastName.setPreferredSize(new java.awt.Dimension(55, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -688,7 +648,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelEmployeeInfo.add(labelName, gridBagConstraints);
 
-        labelCompleteName.setFont(new java.awt.Font("Tahoma", 1, 12));
+        labelCompleteName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelCompleteName.setForeground(java.awt.Color.blue);
         labelCompleteName.setText("Juan Dela Cruz");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1424,44 +1384,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Personal", panelPersonalTab);
 
-        panelLoans.setLayout(new java.awt.GridBagLayout());
-
-        tableInvoice.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        tableInvoice.setFillsViewportHeight(true);
-        jScrollPane3.setViewportView(tableInvoice);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        panelLoans.add(jScrollPane3, gridBagConstraints);
-
-        jPanel4.setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));
-        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel9.setText("Employee Personal Loans / Advances");
-        jPanel4.add(jLabel9);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        panelLoans.add(jPanel4, gridBagConstraints);
-
-        jTabbedPane1.addTab("Loans", panelLoans);
-
         panelDTR.setLayout(new java.awt.GridBagLayout());
 
         jPanel7.setMaximumSize(new java.awt.Dimension(150, 33));
@@ -1523,7 +1445,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         jPanel13.setLayout(new java.awt.GridBagLayout());
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel17.setText("Total");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
@@ -1532,7 +1454,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         jPanel13.add(jLabel17, gridBagConstraints);
 
         txtTotal.setEditable(false);
-        txtTotal.setFont(new java.awt.Font("Tahoma", 1, 12));
+        txtTotal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotal.setText(" ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1550,8 +1472,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
         panelDTR.add(jPanel13, gridBagConstraints);
 
         jPanel14.setLayout(new java.awt.GridBagLayout());
-
-        txtDateTo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -1606,8 +1526,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel14.add(jLabel44, gridBagConstraints);
-
-        txtDateFrom.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1712,7 +1630,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         jLabel45.setText("Payroll Period");
         jPanel19.add(jLabel45);
 
-        comboPayrollPeriod.setFont(new java.awt.Font("Tahoma", 0, 12));
+        comboPayrollPeriod.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboPayrollPeriod.setForeground(java.awt.Color.blue);
         jPanel19.add(comboPayrollPeriod);
 
@@ -1773,10 +1691,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
         MainApp.messagePanelObservable.callObserver(new PanelMessage("Employee", "remove"));
     }//GEN-LAST:event_btnCloseActionPerformed
 
-    private void btnDependentNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDependentNewActionPerformed
-       
-    }//GEN-LAST:event_btnDependentNewActionPerformed
-
     
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         ce = new Employee();
@@ -1799,20 +1713,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
-
-    private void tableDependentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDependentsMouseClicked
-        if (evt.getClickCount() > 1) {
-
-            JTable jTable = (JTable) evt.getSource();
-            if (jTable.getRowCount() > 0) {
-                int row = jTable.getSelectedRow();
-//                com.jcl.hrm.Dependents d = (com.jcl.hrm.Dependents) jTable.getValueAt(row, 0);
-//                if (d != null) {
-//                    openDependentDialog(d);
-//                }
-            }
-        }
-    }//GEN-LAST:event_tableDependentsMouseClicked
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
@@ -1842,99 +1742,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
         }
         //  }
     }//GEN-LAST:event_tableEmployeesMouseClicked
-
-    private void btnInsertDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertDetailActionPerformed
-        DailyTimeRecord dtr = new DailyTimeRecord(ce);
-        openDTREntryDialog(dtr);
-}//GEN-LAST:event_btnInsertDetailActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (tableDTR.getRowCount() > 0) {
-            int row = tableDTR.getSelectedRow();
-            if (row > -1) {
-//                TransactionDetail b = (TransactionDetail) tableDTR.getModel().getValueAt(row, 1);
-//
-//                if (b != null && !trans.isIsGenerated()) {
-//                    int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to remove this details.", "Confirm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-//                    if (result == JOptionPane.YES_OPTION) {
-//                        try {
-//                            trans.getTransactionDetails().remove(b);
-//                            initDetails();
-//                            dbms.getDBInstance().delete(b);
-//                        } catch (Exception ex) {
-//                            Logger.getLogger(AccountingInformation.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//
-//                    }
-//
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "Cannot delete generated details.");
-//                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Please select detail");
-            }
-        }
-}//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void tableDTRMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDTRMouseClicked
-        if (evt.getClickCount() > 1) {
-
-            JTable jTable = (JTable) evt.getSource();
-            if (jTable.getRowCount() > 0) {
-                int row = jTable.getSelectedRow();
-                DailyTimeRecord dtr = (DailyTimeRecord) jTable.getValueAt(row, 2);
-
-                if (dtr != null) {
-                    try {
-                        openDTREntryDialog(dtr);
-                    } catch (Exception ex) {
-                        Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        }
-}//GEN-LAST:event_tableDTRMouseClicked
-
-    private void btnRefreshDTRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshDTRActionPerformed
-        initDTR();
-    }//GEN-LAST:event_btnRefreshDTRActionPerformed
-
-    private void btnPayslipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayslipActionPerformed
-        if (tableEmployees.getRowCount() > 0) {
-            int row = tableEmployees.getSelectedRow();
-            Employee v = (Employee) tableEmployees.getValueAt(row, 3);
-
-            if (v != null) {
-                try {
-                    ce = Employee.getEmployeeByTid(v.getId());
-                 //   dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
-                    initScreen();
-                    processPayslip();
-                } catch (Exception ex) {
-                    Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }//GEN-LAST:event_btnPayslipActionPerformed
-
-    private void btnUpdateLoaderRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateLoaderRateActionPerformed
-        KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
-        String msg = "Are you sure you want to change the loading rate per box";
-        int result = JOptionPane.showConfirmDialog(this, msg, "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        if (result != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-
-        try {
-//            GlobalDailyRates gdr = GlobalDailyRates.getGlobalDailyRatesByName("Loading");
-//            double loadingRates = Double.valueOf(txtLoaderRates.getText());
-//            gdr.setRates(loadingRates);
-          //  dbms.save(gdr);
-        } catch (Exception ex) {
-            Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnUpdateLoaderRateActionPerformed
 
     private void btnPayslipAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayslipAllActionPerformed
 
@@ -2025,6 +1832,99 @@ public class EmployeeInformation extends javax.swing.JPanel {
             Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPayslipAllActionPerformed
+
+    private void btnPayslipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayslipActionPerformed
+        if (tableEmployees.getRowCount() > 0) {
+            int row = tableEmployees.getSelectedRow();
+            Employee v = (Employee) tableEmployees.getValueAt(row, 3);
+
+            if (v != null) {
+                try {
+                    ce = Employee.getEmployeeByTid(v.getId());
+                    //   dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
+                    initScreen();
+                    processPayslip();
+                } catch (Exception ex) {
+                    Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnPayslipActionPerformed
+
+    private void tableDTRMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDTRMouseClicked
+        if (evt.getClickCount() > 1) {
+
+            JTable jTable = (JTable) evt.getSource();
+            if (jTable.getRowCount() > 0) {
+                int row = jTable.getSelectedRow();
+                DailyTimeRecord dtr = (DailyTimeRecord) jTable.getValueAt(row, 2);
+
+                if (dtr != null) {
+                    try {
+                        openDTREntryDialog(dtr);
+                    } catch (Exception ex) {
+                        Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_tableDTRMouseClicked
+
+    private void btnRefreshDTRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshDTRActionPerformed
+        initDTR();
+    }//GEN-LAST:event_btnRefreshDTRActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (tableDTR.getRowCount() > 0) {
+            int row = tableDTR.getSelectedRow();
+            if (row > -1) {
+//                TransactionDetail b = (TransactionDetail) tableDTR.getModel().getValueAt(row, 1);
+//
+//                if (b != null && !trans.isIsGenerated()) {
+//                    int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to remove this details.", "Confirm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+//                    if (result == JOptionPane.YES_OPTION) {
+//                        try {
+//                            trans.getTransactionDetails().remove(b);
+//                            initDetails();
+//                            dbms.getDBInstance().delete(b);
+//                        } catch (Exception ex) {
+//                            Logger.getLogger(AccountingInformation.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//
+//                    }
+//
+//                } else {
+//                    JOptionPane.showMessageDialog(this, "Cannot delete generated details.");
+//                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select detail");
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnInsertDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertDetailActionPerformed
+        DailyTimeRecord dtr = new DailyTimeRecord(ce);
+        openDTREntryDialog(dtr);
+    }//GEN-LAST:event_btnInsertDetailActionPerformed
+
+    private void tableDependentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDependentsMouseClicked
+        if (evt.getClickCount() > 1) {
+
+            JTable jTable = (JTable) evt.getSource();
+            if (jTable.getRowCount() > 0) {
+                int row = jTable.getSelectedRow();
+//                com.jcl.hrm.Dependents d = (com.jcl.hrm.Dependents) jTable.getValueAt(row, 0);
+//                if (d != null) {
+//                    openDependentDialog(d);
+//                }
+            }
+        }
+    }//GEN-LAST:event_tableDependentsMouseClicked
+
+    private void btnDependentNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDependentNewActionPerformed
+
+   }//GEN-LAST:event_btnDependentNewActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClose;
@@ -2037,7 +1937,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JButton btnPayslipAll;
     private javax.swing.JButton btnRefreshDTR;
     private javax.swing.JButton btnSave;
-    private javax.swing.JButton btnUpdateLoaderRate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox comboBranch;
     private javax.swing.JComboBox comboDepartment;
@@ -2087,12 +1986,10 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -2107,7 +2004,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -2115,7 +2011,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
@@ -2137,7 +2032,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JPanel panelEmployeeData;
     private javax.swing.JPanel panelEmployeeInfo;
     private javax.swing.JPanel panelLeft;
-    private javax.swing.JPanel panelLoans;
     private javax.swing.JPanel panelOthers;
     private javax.swing.JPanel panelPersonalTab;
     private javax.swing.JPanel panelTop;
@@ -2146,7 +2040,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JTable tableDTR;
     private javax.swing.JTable tableDependents;
     private javax.swing.JTable tableEmployees;
-    private javax.swing.JTable tableInvoice;
     private javax.swing.JTable tableJob;
     private javax.swing.JFormattedTextField textAllowance;
     private javax.swing.JTextField textBankAccountNo;
@@ -2180,7 +2073,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmployeeID;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtLastName;
-    private javax.swing.JFormattedTextField txtLoaderRates;
     private javax.swing.JTextField txtMiddleName;
     private javax.swing.JTextArea txtPayslip;
     private javax.swing.JTextField txtTotal;
@@ -2443,10 +2335,10 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
                 if (v != null && v.getEmployee().getId() == ce.getId()) {
 
-                    Object[] o = new Object[]{rowCounter++, v.getDate(), v,
+                    Object[] o = new Object[]{rowCounter++, v.getTransactionDate(), v,
                         stf.format(v.getTimeIn1()), stf.format(v.getTimeOut1()),
                         stf.format(v.getTimeIn2()), stf.format(v.getTimeOut2()),
-                        v.getNotes(), v.isProcess(), v.isIsDTR()};
+                        v.getNotes(), v.getProcess(), v.getIsDTR()};
                     dtm.addRow(o);
                 }
             }

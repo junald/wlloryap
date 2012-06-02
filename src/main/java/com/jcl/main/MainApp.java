@@ -31,18 +31,21 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jlavador
  */
+@Component
 public class MainApp extends JFrame implements Observer {
 
     String windowTitle = "Business Management System";
     // static final Logger logger = Logger.getLogger("app_log");
     public static MessagePanelObservable messagePanelObservable;
     ArrayList<String> openPanels;
-
+    static ApplicationContext context;
     /** Creates new form MainApp2 */
     public MainApp() {
 
@@ -51,8 +54,6 @@ public class MainApp extends JFrame implements Observer {
      
 
         try {
-
-
 
             String system = UIManager.getSystemLookAndFeelClassName();
             String cross = UIManager.getCrossPlatformLookAndFeelClassName();
@@ -70,8 +71,7 @@ public class MainApp extends JFrame implements Observer {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         messagePanelObservable = new MessagePanelObservable();
         messagePanelObservable.addObserver(this);
-        openPanels = new ArrayList<String>();
-       
+        openPanels = new ArrayList<String>();       
 
     }
 
@@ -104,7 +104,6 @@ public class MainApp extends JFrame implements Observer {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         miExit = new javax.swing.JMenuItem();
         mEmployee = new javax.swing.JMenu();
-        miCAEmployee = new javax.swing.JMenuItem();
         miPayslip = new javax.swing.JMenuItem();
         miDtr = new javax.swing.JMenuItem();
         miPayroll = new javax.swing.JMenuItem();
@@ -221,15 +220,6 @@ public class MainApp extends JFrame implements Observer {
         jMenuBar1.add(mFile);
 
         mEmployee.setText("Payroll");
-
-        miCAEmployee.setText("Employee Accounting(CA/Loans)");
-        miCAEmployee.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemActionPerformed(evt);
-            }
-        });
-        mEmployee.add(miCAEmployee);
-        miCAEmployee.getAccessibleContext().setAccessibleName("Employee Accounting");
 
         miPayslip.setText("Payslip");
         miPayslip.addActionListener(new java.awt.event.ActionListener() {
@@ -386,7 +376,6 @@ public class MainApp extends JFrame implements Observer {
     private javax.swing.JMenu mEmployee;
     private javax.swing.JMenu mFile;
     private javax.swing.JMenu menuOpenWindows;
-    private javax.swing.JMenuItem miCAEmployee;
     private javax.swing.JMenuItem miDtr;
     private javax.swing.JMenuItem miEmployee;
     private javax.swing.JMenuItem miExit;

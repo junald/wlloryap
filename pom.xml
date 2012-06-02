@@ -234,19 +234,16 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.jcl.wrollyap.main.App</mainClass>   
+                            <mainClass>com.jcl.main.MainApp</mainClass>   
                              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
+                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
                         
                     </archive>
                     
                 </configuration>
             </plugin>
-
-            
-          
-            
+ 
              <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>

@@ -12,9 +12,8 @@ package com.jcl.payroll.ui;
 
 
 import com.jcl.model.Employee;
-import com.jcl.payroll.dtr.DailyTimeRecord;
+import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
-import com.jcl.payroll.enumtypes.FamilyRelationship;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.utils.SelectedButton;
@@ -337,39 +336,36 @@ public class DTREntry extends javax.swing.JDialog {
 
     private void initScreen() {
 
-        if (dtr.getId() == -1 && dtr.getSourceTid() == -1) {
-            System.out.println("Regular" + " : " + dtr.getSourceTid());
-            comboDTRType.setSelectedItem("Regular");
-
-        } else {
-            System.out.println(dtr.getDtrType() + " : " + dtr.getSourceTid());
-            comboDTRType.setSelectedItem(dtr.getDtrType());
-        }
-        txtWorkingDate.setDate(dtr.getDate());
+//        if (dtr.getId() == -1 ) {            
+//            
+//        } else {
+//            System.out.println(dtr.getDtrType() + " : " + dtr.getSourceTid());
+//            comboDTRType.setSelectedItem(dtr.getDtrType());
+//        }
+        comboDTRType.setSelectedItem("Regular");
+        txtWorkingDate.setDate(dtr.getTransactionDate());
         txtNotes.setText(dtr.getNotes());
         txtTimeInAm.setText(stf.format(dtr.getTimeIn1()));
         txtTimeOutAm.setText(stf.format(dtr.getTimeOut1()));
         txtTimeInPM.setText(stf.format(dtr.getTimeIn2()));
         txtTimeOutPm.setText(stf.format(dtr.getTimeOut2()));
 
-        if (dtr.getSourceTid() != -1 || dtr.isProcess()) {
-            btnSave.setEnabled(false);
-        }
+//        if (dtr.getSourceTid() != -1 || dtr.isProcess()) {
+//            btnSave.setEnabled(false);
+//        }
 
         labelHours.setText(MyDateFormatter.getNumberOfHours(dtr)+" hrs");
     }
 
     private void saveScreen() throws TransactionException,  Exception {
 
-        if (dtr.getSourceTid() != -1) {
-            return;
-        }
-        dtr.setDate(txtWorkingDate.getDate());
+         
+        dtr.setTransactionDate(txtWorkingDate.getDate());
         dtr.setDtrType(comboDTRType.getSelectedItem().toString());
         System.out.println(txtTimeInAm.getText());
         //  System.out.println(txtTimeInAm.getValue().toString());
 
-        String wdate = MyDateFormatter.getDateDataFormatter().format(dtr.getDate());
+        String wdate = MyDateFormatter.getDateDataFormatter().format(dtr.getTransactionDate());
 //
 //        Date t1 = sdf2.parse(wdate + " " + txtTimeInAm.getText() + ":00 AM");
 //        Date t2 = sdf2.parse(wdate + " " + txtTimeOutAm.getText() + ":00 PM");
