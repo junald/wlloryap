@@ -6,13 +6,27 @@ package com.jcl.payroll.data;
  *
  */
 public class Philhealth {
-	private double range1;
+
+        private double range1;
 	private double range2;
         private double salaryBase;
         private double totalMonthlyContribution; // total monthly contribution
         private double er;
         private double ee;
+           
+        public Philhealth(){
+            
+        }
         
+        public Philhealth(double range1, double range2, double salaryBase, double tmc, double er, double ee){
+            this.range1 = range1;
+            this.range2 = range2;
+            this.salaryBase = salaryBase;
+            this.totalMonthlyContribution = tmc;
+            this.er = er;
+            this.ee = ee;          
+        }
+
 	/**
 	 * @return
 	 */
@@ -96,5 +110,5 @@ public class Philhealth {
 	public void setTotalMonthlyContribution(double d) {
 		totalMonthlyContribution = d;
 	}
-
+     
 }
