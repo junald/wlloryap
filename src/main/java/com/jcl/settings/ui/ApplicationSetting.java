@@ -13,19 +13,28 @@ package com.jcl.settings.ui;
 
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author junald
  */
+@Component
 public class ApplicationSetting extends javax.swing.JPanel {
 
+    @Autowired
+    SimpleCompanySettingInformation scsi;
+    
     /** Creates new form ApplicationSetting */
     public ApplicationSetting() {
-        initComponents();
-           
+        initComponents();                 
+    }
+    
+    public void setup(){
         panelUser.add(new UserInformation());
-        panelCompany.add(new CompanySettingInformation());
+        scsi.initScreen();
+        panelCompany.add(scsi);        
     }
 
     /** This method is called from within the constructor to

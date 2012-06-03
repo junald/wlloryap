@@ -98,19 +98,19 @@ public class DTRInformation extends javax.swing.JPanel {
         dtm.setColumnIdentifiers(new String[]{"ID", "Position", "Name"});
 
         try {
-   //         dbms.useNewDBInstance();
-            employeeList = Employee.getSortedEmployees();
-
-            for (Employee e : employeeList) {
-
-                if (e != null) {
-                    Object[] o = new Object[]{e.getIdNumber(), e.getPosition(), e};
-                    dtm.addRow(o);
-                }
-            }
+ 
+//            employeeList = Employee.getSortedEmployees();
+//
+//            for (Employee e : employeeList) {
+//
+//                if (e != null) {
+//                    Object[] o = new Object[]{e.getIdNumber(), e.getPosition(), e};
+//                    dtm.addRow(o);
+//                }
+//            }
 
         } finally {
-  //          dbms.closeNewDB();
+ 
         }
 
 
@@ -844,24 +844,24 @@ public class DTRInformation extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void tableEmployeesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEmployeesMouseClicked
-        if (evt.getClickCount() > 1) {
-
-            JTable jTable = (JTable) evt.getSource();
-            if (jTable.getRowCount() > 0) {
-                int row = jTable.getSelectedRow();
-                Employee v = (Employee) jTable.getValueAt(row, 2);
-
-                if (v != null) {
-                    try {
-                        ce = Employee.getEmployeeByTid(v.getId());
-//                        dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
-                        initScreen();
-                    } catch (Exception ex) {
-                        Logger.getLogger(DTRInformation.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        }
+//        if (evt.getClickCount() > 1) {
+//
+//            JTable jTable = (JTable) evt.getSource();
+//            if (jTable.getRowCount() > 0) {
+//                int row = jTable.getSelectedRow();
+//                Employee v = (Employee) jTable.getValueAt(row, 2);
+//
+//                if (v != null) {
+//                    try {
+//                        ce = Employee.getEmployeeByTid(v.getId());
+////                        dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
+//                        initScreen();
+//                    } catch (Exception ex) {
+//                        Logger.getLogger(DTRInformation.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                }
+//            }
+//        }
     }//GEN-LAST:event_tableEmployeesMouseClicked
 
     private void btnRefreshDTRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshDTRActionPerformed

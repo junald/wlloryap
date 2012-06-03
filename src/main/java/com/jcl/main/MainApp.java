@@ -17,6 +17,7 @@ import com.jcl.verycommon.MLogger;
 import com.jcl.observables.MessagePanelObservable;
 import com.jcl.observables.PanelMessage;
 import com.jcl.model.User;
+import com.jcl.settings.ui.ApplicationSetting;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -46,7 +47,7 @@ public class MainApp extends JFrame implements Observer {
     // static final Logger logger = Logger.getLogger("app_log");
     public static MessagePanelObservable messagePanelObservable;
     ArrayList<String> openPanels;
-    static ApplicationContext context;
+    public static ApplicationContext context;
     /** Creates new form MainApp2 */
     public MainApp() {
         
@@ -305,12 +306,15 @@ public class MainApp extends JFrame implements Observer {
 
 
     private void openTabPanel(String panel) {
+        
         if (panel.equals("Employee")) {
             
              com.jcl.payroll.ui.EmployeeInformation employeeInformationUI = context.getBean(com.jcl.payroll.ui.EmployeeInformation.class);
             tabbedPaneMain.add(panel, employeeInformationUI);
-        }  else if (panel.equals("Setting")) {
-            tabbedPaneMain.add(panel, new com.jcl.settings.ui.ApplicationSetting());
+        }  else if (panel.equals("Settings")) {
+            com.jcl.settings.ui.ApplicationSetting applicationSettingUI = context.getBean( com.jcl.settings.ui.ApplicationSetting.class);
+            applicationSettingUI.setup();
+            tabbedPaneMain.add(panel,applicationSettingUI);
         }  else if (panel.equals("Payroll Period")) {
             tabbedPaneMain.add(panel, new com.jcl.payroll.ui.PayrollPeriodInformation());
         } else  if (panel.equals("Daily Time Record")) {

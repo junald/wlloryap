@@ -11,7 +11,6 @@
 package com.jcl.payroll.ui;
 
 
-import com.jcl.company.CompanySetting;
 import com.jcl.customizetable.DateTableCellRenderer;
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
@@ -19,14 +18,12 @@ import com.jcl.customizetable.TransactionNumberTableCellRenderer;
 import com.jcl.dbms.dbms;
 import com.jcl.model.Employee;
 import com.jcl.main.MainApp;
+import com.jcl.model.*;
 import com.jcl.observables.PanelMessage;
-import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayslipDetailType;
-import com.jcl.model.PaySlipDetail;
 import com.jcl.payroll.transaction.PaySlipProcess;
-import com.jcl.model.PayrollPeriod;
 import com.jcl.reports.PayslipReports;
 import com.jcl.reports.ReportViewerFactory;
 import com.jcl.utilities.MyDateFormatter;
@@ -1007,29 +1004,29 @@ public class PaySlipInformation extends javax.swing.JPanel {
     }//GEN-LAST:event_tableEmployeesMouseClicked
 
     private void processEmployee(Employee v) {
-        try {
-            dbms.useNewDBInstance();
-            //ce = Employee.getEmployeeByTid(v.getTid());
-            KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
-            if (kv == null) {
-                return;
-            } else {
-            }
-            synchronized (this) {
-
-                ce = Employee.getEmployeeByTid(v.getId());
-            //    dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
-                System.out.println("payslipinformation 1");
-                PayslipReports.processPayslip((Long) kv.getValue(), ce);
-                System.out.println("payslipinformation 2");
-                initScreen();
-                System.out.println("payslipinformation 3");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            dbms.closeNewDB();
-        }
+//        try {
+//            dbms.useNewDBInstance();
+//            //ce = Employee.getEmployeeByTid(v.getTid());
+//            KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
+//            if (kv == null) {
+//                return;
+//            } else {
+//            }
+//            synchronized (this) {
+//
+//                ce = Employee.getEmployeeByTid(v.getId());
+//            //    dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
+//                System.out.println("payslipinformation 1");
+//                PayslipReports.processPayslip((Long) kv.getValue(), ce);
+//                System.out.println("payslipinformation 2");
+//                initScreen();
+//                System.out.println("payslipinformation 3");
+//            }
+//        } catch (Exception ex) {
+//            Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            dbms.closeNewDB();
+//        }
     }
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -1233,9 +1230,10 @@ public class PaySlipInformation extends javax.swing.JPanel {
             SimpleDateFormat _sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
 
             HashMap parameters = new HashMap();
-            CompanySetting cs = CompanySetting.companySetting();
+            //Company cs = CompanySetting.companySetting();
+            Company cs = new Company();
 
-            parameters.put("REPORT_TITLE", cs.getName());
+            parameters.put("REPORT_TITLE", cs.getDescription());
             String payroll_period = pp.getPayrollPeriodCode() + " - [" + _sdf.format(pp.getDateFrom()) + "-" + _sdf.format(pp.getDateTo()) + "]";
             parameters.put("PAYROLL_PERIOD", "Payroll Period: " + payroll_period);
             parameters.put("DATE_GENERATED", _sdf.format(pp.getDatePrepared()));

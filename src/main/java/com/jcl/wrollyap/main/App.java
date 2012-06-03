@@ -10,7 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class App 
 {
     
-     static ApplicationContext context;
+    static ApplicationContext context;
       
     public static void main( String[] args )
     {

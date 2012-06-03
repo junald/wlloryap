@@ -33,8 +33,8 @@ public class PaySlip {
     private String others;
     @OneToMany(mappedBy="paySlip")
     private List<PaySlipDetail> payslipDetails;
-    @Column
-    private String status;
+    @Column(length = 15)
+    private String status;   //open, close
     @Column
     private String modifiedBy;
     @Column
@@ -51,118 +51,9 @@ public class PaySlip {
     public PaySlip(Employee emp, PayrollPeriod pp) {
         this.employee = emp;
         this.payrollPeriod = pp;
-        this.employee = emp;
-        payslipDetails = new ArrayList<PaySlipDetail>();
+        this.employee = emp;       
     }
-
-    public static LinkedHashMap<Long, PaySlip> getPayslipByEmployee(PayrollPeriod pp, Employee eep) throws Exception {
-        System.out.println("payslipinformation x.3");
-        LinkedHashMap<Long, PaySlip> paySlipList = new LinkedHashMap<Long, PaySlip>();
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(PaySlip.class);
-//
-//        if (eep == null) {
-//            query.descend("payrollPeriodTid").constrain(pp.getTid());
-//        } else {
-//            Constraint c1 = query.descend("employeeTid").constrain(eep.getTid());
-//            query.descend("payrollPeriodTid").constrain(pp.getTid()).and(c1);
-//        }
-//
-//        List<PaySlip> result = query.execute();
-//        System.out.println("Payslip count: " + result.size() + " payrollperiod id: " + pp.getTid());
-//        if (result != null && !result.isEmpty()) {
-//               System.out.println("payslipinformation x.3.1");
-//            for (PaySlip ps : result) {
-//                System.out.println("payslipinformation x.3.1.1 "+ ps.getTid() + " " + ps.getEmployeeTid());
-//                ps.setPayslipDetails(new ArrayList<PaySlipDetail>());
-//                ps.setPayrollPeriod(pp);
-//                paySlipList.put(ps.getEmployeeTid(), ps);
-//            }
-//        }
-//        System.out.println("payslipinformation x.3.2");
-//        retreivePayslipDetail(paySlipList,pp.getTid());
-
-        return paySlipList;
-    }
-
-    //TODO: please check it is using payrollperiodtid as a key
-    // in which it should use payslip id.
-    public static LinkedHashMap<Integer, PaySlip> getPayslipByPaySlip(PayrollPeriod pp, Employee eep) throws Exception {
-
-        LinkedHashMap<Integer, PaySlip> paySlipList = new LinkedHashMap<Integer, PaySlip>();
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(PaySlip.class);
-//        if (eep == null) {
-//            query.descend("payrollPeriodTid").constrain(pp.getTid());
-//        } else {
-//            Constraint c1 = query.descend("employeeTid").constrain(eep.getTid());
-//            query.descend("payrollPeriodTid").constrain(pp.getTid()).and(c1);
-//        }
-//
-//        List<PaySlip> result = query.execute();
-//        if (result != null && !result.isEmpty()) {
-//            for (PaySlip ps : result) {
-//                paySlipList.put(ps.getPayrollPeriodTid(), ps);
-//            }
-//        }
-//        retreivePayslipDetail(paySlipList,pp.getTid());
-
-        return paySlipList;
-    }
-
-    public static void retreivePayslipDetail(LinkedHashMap<Integer, PaySlip> paySlipList, int pp) throws Exception {
-        //======================payslipdetails
-//        System.out.println("payslipinformation x.3.2.1 payrollperiod id: " + pp);
-//          Query queryd = dbms.getDBInstance().query();
-//          queryd.constrain(PaySlipDetail.class);
-//          queryd.descend("payrollPeriodTid").constrain(pp);
-//          List<PaySlipDetail> resultd = queryd.execute();
-//
-//            System.out.println("payslipinformation x.3.2.1 resultd count: " + resultd.size());
-//          for(PaySlipDetail psd : resultd){
-//              System.out.println("psd id: " + psd.getEmployeeTid());
-//              PaySlip ps = paySlipList.get(psd.getEmployeeTid());
-//              if(ps == null){
-//                   System.out.println("ps is null");
-//              }else{
-//                 ps.getPayslipDetails().add(psd);
-//              }
-//          }
-    }
-
-    public static PaySlip getPaySlipByTid(int key) throws Exception {
-        PaySlip ps = null;
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(PaySlip.class);
-//        query.descend("tid").constrain(key);
-//
-//        ObjectSet result = query.execute();
-//        if (result.hasNext()) {
-//            ps = (PaySlip) result.next();
-//        }
-        return ps;
-    }
-
-    public List<PaySlipDetail> getPayables() {
-        List<PaySlipDetail> list = new ArrayList<PaySlipDetail>();
-        for (PaySlipDetail psd : payslipDetails) {
-            if (!psd.isIsDeduction()) {
-                list.add(psd);
-            }
-        }
-        return list;
-    }
-
-    public List<PaySlipDetail> getReceivables() {
-        List<PaySlipDetail> list = new ArrayList<PaySlipDetail>();
-        for (PaySlipDetail psd : payslipDetails) {
-            if (psd.isIsDeduction()) {
-                list.add(psd);
-            }
-        }
-        return list;
-    }
-
+ 
     /**
      * @return the id
      */
@@ -315,5 +206,26 @@ public class PaySlip {
      */
     public void setRowCounter(Long rowCounter) {
         this.rowCounter = rowCounter;
+    }
+    
+    
+     public List<PaySlipDetail> getCompensations() {
+        List<PaySlipDetail> list = new ArrayList<PaySlipDetail>();
+        for (PaySlipDetail psd : payslipDetails) {
+            if (!psd.isIsDeduction()) {
+                list.add(psd);
+            }
+        }
+        return list;
+    }
+
+    public List<PaySlipDetail> getDeductions() {
+        List<PaySlipDetail> list = new ArrayList<PaySlipDetail>();
+        for (PaySlipDetail psd : payslipDetails) {
+            if (psd.isIsDeduction()) {
+                list.add(psd);
+            }
+        }
+        return list;
     }
 }

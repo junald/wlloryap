@@ -4,13 +4,11 @@
  */
 package com.jcl.payroll.transaction;
 
- 
- 
 //import com.jcl.dbms.dbms;
 import com.jcl.model.PayrollPeriod;
 import com.jcl.model.PaySlip;
 import com.jcl.model.PaySlipDetail;
-import com.jcl.model.Employee;  
+import com.jcl.model.Employee;
 import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
@@ -36,7 +34,8 @@ import java.util.logging.Logger;
  * @author jlavador
  */
 public class PaySlipProcess {
-public static List<Employee> preparePayslip(Long payrollPeriodID, Employee eep) throws Exception {
+
+    public static List<Employee> preparePayslip(Long payrollPeriodID, Employee eep) throws Exception {
 
         System.out.println("processPayslip: " + payrollPeriodID + " employee: " + eep);
         List<Employee> employeeList = new ArrayList<Employee>();
@@ -119,7 +118,7 @@ public static List<Employee> preparePayslip(Long payrollPeriodID, Employee eep) 
         return employeeList;
     }
 
-    public static List<DailyTimeRecord> retreiveDTR(Date fromDate, Date toDate, Employee employee) throws  TransactionException, Exception {
+    public static List<DailyTimeRecord> retreiveDTR(Date fromDate, Date toDate, Employee employee) throws TransactionException, Exception {
 
 //        int transCount = 0;
 //        SimpleDateFormat sdf = MyDateFormatter.getYearDateKeyFormatter();
@@ -235,20 +234,19 @@ public static List<Employee> preparePayslip(Long payrollPeriodID, Employee eep) 
 //        }
 //        return dtr;
 //    }
-
     /**
-     * 1. get all employee with payroll period type (variable, semimonthly, weekly, );
-     * 2. retrieve all dtr loop and create entries
-     * 3. retrieve all trucking and loops on employeedetails and create dtr entries 
-     *    get trucking driver and create dtr entries.
-     * 4. while looping on employee details. compute rates on
-     * still in question adding new fields in DTR , rates,
+     * 1. get all employee with payroll period type (variable, semimonthly,
+     * weekly, ); 2. retrieve all dtr loop and create entries 3. retrieve all
+     * trucking and loops on employeedetails and create dtr entries get trucking
+     * driver and create dtr entries. 4. while looping on employee details.
+     * compute rates on still in question adding new fields in DTR , rates,
      *
      *
      * 5. this will create payments for cashadvanced and loans we can combined
-     *    payments for cashadvances and loans into a single transacation
-     *    "check filter transaction and figure out how to filter payments for generated
-     *    billing transaction.
+     * payments for cashadvances and loans into a single transacation "check
+     * filter transaction and figure out how to filter payments for generated
+     * billing transaction.
+     *
      * @param fromDate
      * @param toDate
      * @param ppt
@@ -551,29 +549,30 @@ public static List<Employee> preparePayslip(Long payrollPeriodID, Employee eep) 
 //        }
 //
 //    }
-
+    
+    
     public static int createPayslipForPayrollPeriod(PayrollPeriod pp, Employee eep) throws Exception {
 
         int counter = 0;
-        LinkedHashMap<Long, PaySlip> empList = PaySlip.getPayslipByEmployee(pp, eep);
-        System.out.println("PayslipForPayrollPeriod anti: '" + empList.size());
-        List<Employee> listPP = Employee.getEmployees(PayrollPeriodType.valueOf(pp.getPayrollPeriodType()));
-        System.out.println("PayslipForPayrollPeriod: " + listPP.size());
-        for (Employee e : listPP) {
-
-            PaySlip ps = empList.get(e.getId());
-            if (ps == null) {
-                ps = new PaySlip(e, pp);
-              //  dbms.save(ps);
-                counter++;
-            }
-
-        }
+//        LinkedHashMap<Long, PaySlip> empList = PaySlip.getPayslipByEmployee(pp, eep);
+//        System.out.println("PayslipForPayrollPeriod anti: '" + empList.size());
+//        List<Employee> listPP = Employee.getEmployees(PayrollPeriodType.valueOf(pp.getPayrollPeriodType()));
+//        System.out.println("PayslipForPayrollPeriod: " + listPP.size());
+//        for (Employee e : listPP) {
+//
+//            PaySlip ps = empList.get(e.getId());
+//            if (ps == null) {
+//                ps = new PaySlip(e, pp);
+//                //  dbms.save(ps);
+//                counter++;
+//            }
+//
+//        }
 
         return counter;
     }
 
-    public static int finalizedPaySlip(Long payrollPeriodID) throws Exception{
+    public static int finalizedPaySlip(Long payrollPeriodID) throws Exception {
 
         PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid(payrollPeriodID);
         List<Employee> employeeList = preparePayslip(payrollPeriodID, null);
@@ -601,12 +600,11 @@ public static List<Employee> preparePayslip(Long payrollPeriodID, Employee eep) 
 //
 //         pp.setStatus(PayrollPeriodStatus.Generated.name());
 //         dbms.save(pp);
-         return counter;
+        return counter;
     }
 
-
-    public static String createPayslipDetailDescription(PaySlipDetail psd){
-        String desc ="";
+    public static String createPayslipDetailDescription(PaySlipDetail psd) {
+        String desc = "";
 
 //        if(psd.getPaySlipDetailType().equals(DTRType.Loading.name())){
 //            desc = psd.getDescription() + " (" + psd.getQuantity() + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + psd.getNoOfLoader();
@@ -623,10 +621,9 @@ public static List<Employee> preparePayslip(Long payrollPeriodID, Employee eep) 
 
     }
 
-
     public static void main(String[] args) {
         try {
-        //    dbms.login("admin", "password");
+            //    dbms.login("admin", "password");
 
             PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid(1L);
             LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, null);
@@ -635,11 +632,11 @@ public static List<Employee> preparePayslip(Long payrollPeriodID, Employee eep) 
                 System.out.println(emp);
                 System.out.println(emp.getPayslip().getPayrollPeriod().getPayrollPeriodCode());
                 System.out.println("Add: ");
-                for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
+                for (PaySlipDetail psd : emp.getPayslip().getCompensations()) {
                     System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
                 }
                 System.out.println("     Less: ");
-                for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
+                for (PaySlipDetail psd : emp.getPayslip().getDeductions()) {
                     System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
                 }
 
