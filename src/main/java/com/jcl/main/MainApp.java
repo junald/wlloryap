@@ -349,9 +349,9 @@ public class MainApp extends JFrame implements Observer {
 //
 //                dbms.user = u;
 //                System.out.println("main user: " + dbms.user.getUsername());
-                LoginDialog ld = new LoginDialog(ma, true);
-                ld.setLocationRelativeTo(ma);
-                ld.setVisible(true);
+//                LoginDialog ld = new LoginDialog(ma, true);
+//                ld.setLocationRelativeTo(ma);
+//                ld.setVisible(true);
             }
         });
     }
