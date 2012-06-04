@@ -1,6 +1,7 @@
 package com.jcl.utils;
 
-import com.jcl.company.CompanySetting;
+
+import com.jcl.model.Company;
 import com.jcl.utilities.MyDateFormatter;
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
@@ -197,7 +198,7 @@ public class MyTextPrinter {
         lineCount++;
     }
 
-    public void headers(CompanySetting cs) {
+    public void headers(Company cs) {
     }
 
     public void footers() {

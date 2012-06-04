@@ -11,22 +11,15 @@
 package com.jcl.payroll.ui;
 
 
-import com.jcl.dbms.dbms;
 import com.jcl.model.Employee;
-import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.model.PaySlipDetail;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.utils.SelectedButton;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 
 /**
  *

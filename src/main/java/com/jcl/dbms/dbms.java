@@ -27,7 +27,7 @@ import java.util.logging.Level;
  *
  * @author jlavador
  */
-public class dbms  implements ServerSetup {
+public class dbms    {
 
     //final static String DB4OFILENAME = System.getProperty("user.home") + "c:/testdb/mydb.db4o";
     public final static String DB4OFILENAME = "c:/testdb/mydb2.db4o";
@@ -91,22 +91,9 @@ public class dbms  implements ServerSetup {
             System.out.println(ex.getMessage());
         }
     }
+ 
 
-    public static void close() {
-//        if (db != null) {
-//            db.close();
-//            db = null;
-//        }
-    }
-
-    public static void closeNewDB() {
-//        if (newDB != null) {
-//            newDB.close();
-//            newDB = null;
-//        }
-//        useNewDB = false;
-//        System.out.println("useNewDB");
-    }
+ 
 
 //this code set the activation depth,
 //Configuration config = Db4o.configure();

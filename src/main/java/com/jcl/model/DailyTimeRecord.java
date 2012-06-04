@@ -28,7 +28,7 @@ public class DailyTimeRecord {
     @ManyToOne    
     private Employee employee;
     @Column(length = 15)
-    private String dtrType;//DTRType. Present, Leave, Absence, Overtime, Undertime , Deliveries
+    private String dtrType;//DTRType. Present, Leave, Absence, Overtime, Undertime , holiday
     @Column
     @Temporal(TemporalType.DATE)
     private Date transactionDate;
@@ -58,6 +58,11 @@ public class DailyTimeRecord {
     // on that particular date the absenthour is set to daily working hours of the employee.
     // if Date falls on holidays or special day. the number of hours is computed also.
     @Column
+    private Integer actualHours;
+    @Column
+    private Integer actualMins;
+    
+    @Column
     private Integer workHours;
     @Column
     private Integer workMins;
@@ -85,6 +90,7 @@ public class DailyTimeRecord {
     private Integer leaveHours;
     @Column
     private Integer leaveMins;
+    
     @Column(length = 15)
     private String status;
     @Column(length = 150)
@@ -250,6 +256,34 @@ public class DailyTimeRecord {
      */
     public void setTimeOut2(Date timeOut2) {
         this.timeOut2 = timeOut2;
+    }
+
+    /**
+     * @return the actualHours
+     */
+    public Integer getActualHours() {
+        return actualHours;
+    }
+
+    /**
+     * @param actualHours the actualHours to set
+     */
+    public void setActualHours(Integer actualHours) {
+        this.actualHours = actualHours;
+    }
+
+    /**
+     * @return the actualMins
+     */
+    public Integer getActualMins() {
+        return actualMins;
+    }
+
+    /**
+     * @param actualMins the actualMins to set
+     */
+    public void setActualMins(Integer actualMins) {
+        this.actualMins = actualMins;
     }
 
     /**

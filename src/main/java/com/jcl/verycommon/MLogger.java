@@ -28,7 +28,8 @@ public class MLogger {
                 // This block configure the logger with handler and formatter
                 Date n = new Date();
                 SimpleDateFormat  sdf = new SimpleDateFormat("yyyyMM");
-                String flogfilename = sdf.format(n) +".log";
+                //String flogfilename = sdf.format(n) +".log";
+                String flogfilename = "test062012.log";
                 fh = new FileHandler(flogfilename, true);
                 logger.addHandler(fh);
                 logger.setLevel(Level.ALL);

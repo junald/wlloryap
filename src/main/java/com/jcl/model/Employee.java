@@ -27,7 +27,6 @@ public class Employee {
     private Long id;
     @Column(length = 15, unique = true, nullable = false)
     private String idNumber;
-    private transient String name;
     @Column(length = 50, nullable = false)
     private String lastName;
     @Column(length = 50, nullable = false)
@@ -37,33 +36,33 @@ public class Employee {
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateOfBirth;
-    @Column(length=1)
+    @Column(length = 1)
     private String gender;
-    @Column(length=150)
+    @Column(length = 150)
     private String address;
-    @Column(length=15)
+    @Column(length = 15)
     private String telephoneNo;
-    @Column(length=15)
+    @Column(length = 15)
     private String mobileNo;
-    @Column(length=15)
+    @Column(length = 15)
     private String maritalStatus = "Single";  //   MaritalStatus.  Single,Married,Widowed
     @Column
     private Integer numberOfDependents;
     //company info
-    @OneToOne    
+    @OneToOne
     private Position position;
-    @OneToOne    
+    @OneToOne
     private Department department;
-    @OneToOne    
+    @OneToOne
     private Company company;
-    @OneToOne    
+    @OneToOne
     private Branch branch;
     @Column
     private String status = "Probationary"; // EmploymentStatus. Contractual,Regular,Resigned,Probationary,Terminated
     @Column
-    private String payType = "SemiMonthly";//Variable, Monthly, SemiMonthly, Weekly, Daily, PerHour
+    private String payCode = "Monthly";//Monthly, Daily
     @Column
-    private Boolean active = true;
+    private String payType = "SemiMonthly";//  Monthly, SemiMonthly, Weekly, Daily, 
     @Column
     @Temporal(TemporalType.DATE)
     private Date dateHired;
@@ -102,6 +101,22 @@ public class Employee {
     private Double pagibigD;
     @Column
     private Double philhealthD;
+    @Column
+    private Boolean active = true;
+    @Column
+    private Boolean sss = true;
+    @Column
+    private Boolean pagibig = true;
+    @Column
+    private Boolean philhealth = true;
+    @Column
+    private Boolean tax = true;
+    @Column
+    private Integer sickLeave;
+    @Column
+    private Integer vacationLeave;
+    
+    private transient String name;
     private transient ArrayList<DailyTimeRecord> dtrList;
     private transient PaySlipReportObject payslipReport;
     private transient PaySlip payslip;
@@ -127,83 +142,6 @@ public class Employee {
     }
 
     public Employee() {
-    }
-
-    ///Employee
-    public static Employee getEmployee(String employeeId) throws Exception {
-        Employee emp = null;
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        query.descend("idNumber").constrain(employeeId);
-//
-//        ObjectSet result = query.execute();
-//        if (result.hasNext()) {
-//            emp = (Employee) result.next();
-//        }
-        return emp;
-
-    }
-
-    public static Employee getEmployeeByTid(Long key) throws Exception {
-        Employee emp = null;
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        query.descend("tid").constrain(key);
-//
-//        ObjectSet result = query.execute();
-//        if (result.hasNext()) {
-//            emp = (Employee) result.next();
-//        }
-        return emp;
-    }
-
-    public static List<Employee> getSortedEmployees() throws Exception {
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        query.descend("position").descend("description").orderDescending();
-//
-//        List<Employee> result = query.execute();
-//
-//        LinkedList<Employee> list = new LinkedList<Employee>(result);
-//
-//        return result;
-        return null;
-    }
-
-    public static List<Employee> getSortedEmployees(Position pos) throws Exception {
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        query.descend("position").constrain(pos);
-//       // query.descend("position").orderDescending();
-//
-//        List<Employee> result = query.execute();
-//
-//        return result;
-        return new ArrayList<Employee>();
-    }
-
-    public static List<Employee> getEmployees(PayrollPeriodType ppt) throws Exception {
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        query.descend("payType").constrain(ppt.name());
-//
-//        List<Employee> result = query.execute();
-//
-//        return result;
-        return null;
-    }
-
-    public static List<Employee> getEmployeesForDelivery() throws Exception {
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(Employee.class);
-//        Constraint constraint1 = query.descend("position").descend("tid").constrain(1);
-//        Constraint constraint2 = query.descend("position").descend("tid").constrain(2).or(constraint1);
-//        query.descend("position").descend("tid").constrain(3).or(constraint2);
-//
-//        List<Employee> result = query.execute();
-//
-//        return result;
-        return null;
     }
 
     @Override
@@ -244,7 +182,7 @@ public class Employee {
      * @return the name
      */
     public String getName() {
-        return name;
+        return lastName + ", " + firstName + " " + middleName;
     }
 
     /**
@@ -462,6 +400,20 @@ public class Employee {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * @return the payCode
+     */
+    public String getPayCode() {
+        return payCode;
+    }
+
+    /**
+     * @param payCode the payCode to set
+     */
+    public void setPayCode(String payCode) {
+        this.payCode = payCode;
     }
 
     /**
@@ -770,5 +722,89 @@ public class Employee {
      */
     public void setPayslip(PaySlip payslip) {
         this.payslip = payslip;
+    }
+
+    /**
+     * @return the sss
+     */
+    public Boolean getSss() {
+        return sss;
+    }
+
+    /**
+     * @param sss the sss to set
+     */
+    public void setSss(Boolean sss) {
+        this.sss = sss;
+    }
+
+    /**
+     * @return the pagibig
+     */
+    public Boolean getPagibig() {
+        return pagibig;
+    }
+
+    /**
+     * @param pagibig the pagibig to set
+     */
+    public void setPagibig(Boolean pagibig) {
+        this.pagibig = pagibig;
+    }
+
+    /**
+     * @return the philhealth
+     */
+    public Boolean getPhilhealth() {
+        return philhealth;
+    }
+
+    /**
+     * @param philhealth the philhealth to set
+     */
+    public void setPhilhealth(Boolean philhealth) {
+        this.philhealth = philhealth;
+    }
+
+    /**
+     * @return the tax
+     */
+    public Boolean getTax() {
+        return tax;
+    }
+
+    /**
+     * @param tax the tax to set
+     */
+    public void setTax(Boolean tax) {
+        this.tax = tax;
+    }
+
+    /**
+     * @return the sickLeave
+     */
+    public Integer getSickLeave() {
+        return sickLeave;
+    }
+
+    /**
+     * @param sickLeave the sickLeave to set
+     */
+    public void setSickLeave(Integer sickLeave) {
+        this.sickLeave = sickLeave;
+    }
+
+    /**
+     * @return the vacationLeave
+     */
+    public Integer getVacationLeave() {
+        return vacationLeave;
+    }
+
+    /**
+     * @param vacationLeave the vacationLeave to set
+     */
+    public void setVacationLeave(Integer vacationLeave) {
+        this.vacationLeave = vacationLeave;
     }
 }

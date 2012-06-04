@@ -11,9 +11,7 @@
 package com.jcl.settings.ui;
 
 import com.jcl.dao.CompanyDao;
-import com.jcl.dao.CompanySettingDao;
 import com.jcl.model.Company;
-import com.jcl.model.CompanySetting;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +23,16 @@ import org.springframework.stereotype.Component;
  * @author junald
  */
 @Component
-public class CompanySettingInformation extends javax.swing.JPanel {
+public class SimpleCompanySettingInformation extends javax.swing.JPanel {
 
     @Autowired
-    CompanySettingDao cDao;
-    CompanySetting company;
+    CompanyDao cDao;
+    Company company;
 
     /**
      * Creates new form CompanySetting
      */
-    public CompanySettingInformation() {
+    public SimpleCompanySettingInformation() {
         initComponents();     
     }
 
@@ -148,7 +146,7 @@ public class CompanySettingInformation extends javax.swing.JPanel {
             saveScreen();
             cDao.save(company);
         } catch (Exception ex) {
-            Logger.getLogger(CompanySettingInformation.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SimpleCompanySettingInformation.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -174,17 +172,17 @@ public class CompanySettingInformation extends javax.swing.JPanel {
                 this.txtTelephone.setText(company.getTelephoneNo());
             } else {
                 System.out.println("setting new company..");
-                company = new CompanySetting();
+                company = new Company();
             }
         } catch (Exception ex) {
-            Logger.getLogger(CompanySettingInformation.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SimpleCompanySettingInformation.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void saveScreen() {
         if (company == null) {
             System.out.println("new company");
-            company = new CompanySetting();
+            company = new Company();
         }
         company.setDescription(this.txtCompanyName.getText());
         company.setAddress(this.txtStreet.getText());

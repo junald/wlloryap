@@ -12,7 +12,6 @@ package com.jcl.payroll.ui;
 
 
 
-import com.jcl.company.CompanySetting;
 import com.jcl.customizetable.DateTableCellRenderer;
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
@@ -99,21 +98,21 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         dtm.setColumnIdentifiers(new String[]{"#", "ID", "Position", "Name"});
 
-        try {
-          //  dbms.useNewDBInstance();
-            employeeList = Employee.getSortedEmployees();
-            int counter = 1;
-            for (Employee e : employeeList) {
-
-                if (e != null) {
-                    Object[] o = new Object[]{counter++, e.getIdNumber(), e.getPosition(), e};
-                    dtm.addRow(o);
-                }
-            }
-
-        } finally {
-       //     dbms.closeNewDB();
-        }
+//        try {
+// 
+//            employeeList = Employee.getSortedEmployees();
+//            int counter = 1;
+//            for (Employee e : employeeList) {
+//
+//                if (e != null) {
+//                    Object[] o = new Object[]{counter++, e.getIdNumber(), e.getPosition(), e};
+//                    dtm.addRow(o);
+//                }
+//            }
+//
+//        } finally {
+//     
+//        }
 
 
 
@@ -1722,134 +1721,134 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private void tableEmployeesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEmployeesMouseClicked
         // if (evt.getClickCount() > 1) {
 
-        JTable jTable = (JTable) evt.getSource();
-        if (jTable.getRowCount() > 0) {
-            int row = jTable.getSelectedRow();
-            if (row < 0) {
-                return;
-            }
-
-            Employee v = (Employee) jTable.getValueAt(row, 3);
-
-            if (v != null) {
-                try {
-                    ce = Employee.getEmployeeByTid(v.getId());
-      //              dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
-                    initScreen();
-                } catch (Exception ex) {
-                    Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        //  }
+//        JTable jTable = (JTable) evt.getSource();
+//        if (jTable.getRowCount() > 0) {
+//            int row = jTable.getSelectedRow();
+//            if (row < 0) {
+//                return;
+//            }
+//
+//            Employee v = (Employee) jTable.getValueAt(row, 3);
+//
+//            if (v != null) {
+//                try {
+//                    ce = Employee.getEmployeeByTid(v.getId());
+//      //              dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
+//                    initScreen();
+//                } catch (Exception ex) {
+//                    Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        }
+//        //  }
     }//GEN-LAST:event_tableEmployeesMouseClicked
 
     private void btnPayslipAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayslipAllActionPerformed
 
 
-        KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
-        if (kv == null) {
-            return;
-        } else {
-        }
-        try {
-
-            StringBuffer sb = new StringBuffer();
-
-            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Long) kv.getValue());
-            LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, null);
-
-            SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
-
-            List list = new ArrayList();
-
-
-            HashMap parameters = new HashMap();
-            CompanySetting cs = CompanySetting.companySetting();
-
-            parameters.put("REPORT_TITLE", cs.getName());
-            String payroll_period = pp.getPayrollPeriodCode() + " - [" + sdf.format(pp.getDateFrom()) + "-" + sdf.format(pp.getDateTo()) + "]";
-            parameters.put("PAYROLL_PERIOD", "Payroll Period: " + payroll_period);
-            parameters.put("DATE_GENERATED", sdf.format(pp.getDatePrepared()));
-//            parameters.put("PREPARED_BY", dbms.user.getFullName());
-//            parameters.put("SUBREPORT_DIR", dbms.codebaseReports);
-
-            for (Employee emp : emplist.values()) {
-
-                if (emp.getPayslip().getPayslipDetails().size() == 0) {
-                    continue;
-                }
-
-                PaySlipReportObject psro = new PaySlipReportObject();
-                psro.setEmployeeTid(emp.getId());
-                System.out.println(emp.getPayslip());
-                System.out.println(emp.getPayslip().getPayrollPeriod());
-                System.out.println(emp.getPayslip().getPayrollPeriod().getPayrollPeriodCode());
-
-                double totalAdd = 0;
-                int row = 1;
-                for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
-                    PaySlipReportRow psrr = new PaySlipReportRow();
-                    psrr.setRow(row++);
-                    String psdString = psd.getDescription() + " (" + 0 + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + 1;
-                    psrr.setDescription(psdString);
-                    psrr.setEmployeeName("Name: " + emp.getName());
-
-                    psrr.setPosition(emp.getPosition().getDescription());
-                    psrr.setAmount(psd.getTotal());
-                    psro.getList().add(psrr);
-                    totalAdd = totalAdd + psd.getTotal();
-                    System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
-                }
-
-                double totalLess = 0;
-                for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
-
-                    PaySlipReportRow psrr = new PaySlipReportRow();
-                    psrr.setRow(row++);
-                    psrr.setDescription(psd.getDescription());
-                    psrr.setEmployeeName(emp.getName());
-                    psrr.setPosition(emp.getPosition().getDescription());
-                    psrr.setAmount(psd.getTotal());
-                    psro.getList().add(psrr);
-
-                    totalLess = totalLess + psd.getTotal();
-
-                    System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
-                }
-                psro.setNetTotal(totalAdd - totalLess);
-                list.add(psro);
-
-
-            }
-
-            ReportViewerFactory rvf = new ReportViewerFactory("Payroll", parameters, list);
-
-            JRViewer jrv = rvf.getReport(false);
-
-            rvf.showReport(jrv);
-
-        } catch (Exception ex) {
-            Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
+//        if (kv == null) {
+//            return;
+//        } else {
+//        }
+//        try {
+//
+//            StringBuffer sb = new StringBuffer();
+//
+//            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Long) kv.getValue());
+//            LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, null);
+//
+//            SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
+//
+//            List list = new ArrayList();
+//
+//
+//            HashMap parameters = new HashMap();
+//            CompanySetting cs = CompanySetting.companySetting();
+//
+//            parameters.put("REPORT_TITLE", cs.getName());
+//            String payroll_period = pp.getPayrollPeriodCode() + " - [" + sdf.format(pp.getDateFrom()) + "-" + sdf.format(pp.getDateTo()) + "]";
+//            parameters.put("PAYROLL_PERIOD", "Payroll Period: " + payroll_period);
+//            parameters.put("DATE_GENERATED", sdf.format(pp.getDatePrepared()));
+////            parameters.put("PREPARED_BY", dbms.user.getFullName());
+////            parameters.put("SUBREPORT_DIR", dbms.codebaseReports);
+//
+//            for (Employee emp : emplist.values()) {
+//
+//                if (emp.getPayslip().getPayslipDetails().size() == 0) {
+//                    continue;
+//                }
+//
+//                PaySlipReportObject psro = new PaySlipReportObject();
+//                psro.setEmployeeTid(emp.getId());
+//                System.out.println(emp.getPayslip());
+//                System.out.println(emp.getPayslip().getPayrollPeriod());
+//                System.out.println(emp.getPayslip().getPayrollPeriod().getPayrollPeriodCode());
+//
+//                double totalAdd = 0;
+//                int row = 1;
+//                for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
+//                    PaySlipReportRow psrr = new PaySlipReportRow();
+//                    psrr.setRow(row++);
+//                    String psdString = psd.getDescription() + " (" + 0 + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + 1;
+//                    psrr.setDescription(psdString);
+//                    psrr.setEmployeeName("Name: " + emp.getName());
+//
+//                    psrr.setPosition(emp.getPosition().getDescription());
+//                    psrr.setAmount(psd.getTotal());
+//                    psro.getList().add(psrr);
+//                    totalAdd = totalAdd + psd.getTotal();
+//                    System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
+//                }
+//
+//                double totalLess = 0;
+//                for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
+//
+//                    PaySlipReportRow psrr = new PaySlipReportRow();
+//                    psrr.setRow(row++);
+//                    psrr.setDescription(psd.getDescription());
+//                    psrr.setEmployeeName(emp.getName());
+//                    psrr.setPosition(emp.getPosition().getDescription());
+//                    psrr.setAmount(psd.getTotal());
+//                    psro.getList().add(psrr);
+//
+//                    totalLess = totalLess + psd.getTotal();
+//
+//                    System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
+//                }
+//                psro.setNetTotal(totalAdd - totalLess);
+//                list.add(psro);
+//
+//
+//            }
+//
+//            ReportViewerFactory rvf = new ReportViewerFactory("Payroll", parameters, list);
+//
+//            JRViewer jrv = rvf.getReport(false);
+//
+//            rvf.showReport(jrv);
+//
+//        } catch (Exception ex) {
+//            Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnPayslipAllActionPerformed
 
     private void btnPayslipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayslipActionPerformed
-        if (tableEmployees.getRowCount() > 0) {
-            int row = tableEmployees.getSelectedRow();
-            Employee v = (Employee) tableEmployees.getValueAt(row, 3);
-
-            if (v != null) {
-                try {
-                    ce = Employee.getEmployeeByTid(v.getId());
-                    //   dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
-                    initScreen();
-                    processPayslip();
-                } catch (Exception ex) {
-                    Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
+//        if (tableEmployees.getRowCount() > 0) {
+//            int row = tableEmployees.getSelectedRow();
+//            Employee v = (Employee) tableEmployees.getValueAt(row, 3);
+//
+//            if (v != null) {
+//                try {
+//                    ce = Employee.getEmployeeByTid(v.getId());
+//                    //   dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
+//                    initScreen();
+//                    processPayslip();
+//                } catch (Exception ex) {
+//                    Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        }
     }//GEN-LAST:event_btnPayslipActionPerformed
 
     private void tableDTRMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDTRMouseClicked
@@ -2374,67 +2373,67 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
     private void processPayslip() {
 
-        KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
-        if (kv == null) {
-            return;
-        } else {
-        }
-        try {
-
-            StringBuffer sb = new StringBuffer();
-
-            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Long) kv.getValue());
-            LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, ce);
-
-            SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
-
-            for (Employee emp : emplist.values()) {
-
-                if (emp.getId() != ce.getId()) {
-                    continue;
-                }
-
-                System.out.println("================================");
-                System.out.println(emp.getName());
-
-                sb.append("Payroll Period: " + sdf.format(pp.getDateFrom()) + "-" + sdf.format(pp.getDateTo()) + "\n");
-                sb.append("Name: " + emp.getName() + "\n");
-                sb.append("Position: " + emp.getPosition().getDescription() + "\n");
-
-
-                System.out.println(emp.getPayslip().getPayrollPeriod().getPayrollPeriodCode());
-                System.out.println("Add: ");
-                sb.append("Summary:\n");
-                double totalAdd = 0;
-                for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
-                    totalAdd = totalAdd + psd.getTotal();
-                    String psdString = psd.getRowNumber() + " " + psd.getDescription() + " (" + 0+ " x " + psd.getAmount() + ")/" + 1 + " = " + psd.getTotal();
-                    sb.append(psdString + "\n");
-                    System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
-                }
-                System.out.println("     Less: ");
-                sb.append("Deduction:\n");
-                double totalLess = 0;
-                for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
-                    totalLess = totalLess + psd.getTotal();
-                    String psdString = psd.getRowNumber() + " " + psd.getDescription() + " " + psd.getTotal();
-                    sb.append(psdString + "\n");
-                    System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
-                }
-
-
-                sb.append("\n");
-                sb.append("Total: " + (totalAdd - totalLess));
-                sb.append("\n");
-     //         sb.append(dbms.user.getFullName() + "\n");
-
-                txtPayslip.setText(sb.toString());
-
-            }
-
-        } catch (Exception ex) {
-            Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
+//        if (kv == null) {
+//            return;
+//        } else {
+//        }
+//        try {
+//
+//            StringBuffer sb = new StringBuffer();
+//
+//            PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid((Long) kv.getValue());
+//            LinkedHashMap<Long, Employee> emplist = PaySlipProcess.processPayslip(pp, ce);
+//
+//            SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
+//
+//            for (Employee emp : emplist.values()) {
+//
+//                if (emp.getId() != ce.getId()) {
+//                    continue;
+//                }
+//
+//                System.out.println("================================");
+//                System.out.println(emp.getName());
+//
+//                sb.append("Payroll Period: " + sdf.format(pp.getDateFrom()) + "-" + sdf.format(pp.getDateTo()) + "\n");
+//                sb.append("Name: " + emp.getName() + "\n");
+//                sb.append("Position: " + emp.getPosition().getDescription() + "\n");
+//
+//
+//                System.out.println(emp.getPayslip().getPayrollPeriod().getPayrollPeriodCode());
+//                System.out.println("Add: ");
+//                sb.append("Summary:\n");
+//                double totalAdd = 0;
+//                for (PaySlipDetail psd : emp.getPayslip().getPayables()) {
+//                    totalAdd = totalAdd + psd.getTotal();
+//                    String psdString = psd.getRowNumber() + " " + psd.getDescription() + " (" + 0+ " x " + psd.getAmount() + ")/" + 1 + " = " + psd.getTotal();
+//                    sb.append(psdString + "\n");
+//                    System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
+//                }
+//                System.out.println("     Less: ");
+//                sb.append("Deduction:\n");
+//                double totalLess = 0;
+//                for (PaySlipDetail psd : emp.getPayslip().getReceivables()) {
+//                    totalLess = totalLess + psd.getTotal();
+//                    String psdString = psd.getRowNumber() + " " + psd.getDescription() + " " + psd.getTotal();
+//                    sb.append(psdString + "\n");
+//                    System.out.println(psd.getRowNumber() + "     " + psd.getDescription() + " " + psd.getTotal());
+//                }
+//
+//
+//                sb.append("\n");
+//                sb.append("Total: " + (totalAdd - totalLess));
+//                sb.append("\n");
+//     //         sb.append(dbms.user.getFullName() + "\n");
+//
+//                txtPayslip.setText(sb.toString());
+//
+//            }
+//
+//        } catch (Exception ex) {
+//            Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 

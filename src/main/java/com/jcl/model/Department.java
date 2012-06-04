@@ -6,8 +6,6 @@ package com.jcl.model;
 
 import javax.persistence.*;
 
-
-
 /**
  *
  * @author junald
@@ -15,7 +13,7 @@ import javax.persistence.*;
 @Entity
 public class Department {
 
-   @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(length = 150, unique = true, nullable = false)
@@ -48,6 +46,4 @@ public class Department {
     public void setDescription(String description) {
         this.description = description;
     }
-
-  
 }

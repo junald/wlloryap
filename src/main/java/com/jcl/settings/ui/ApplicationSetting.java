@@ -13,19 +13,34 @@ package com.jcl.settings.ui;
 
 import com.jcl.main.MainApp;
 import com.jcl.observables.PanelMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author junald
  */
+@Component
 public class ApplicationSetting extends javax.swing.JPanel {
 
+    @Autowired
+    CompanySettingInformation csi;
+    
+     @Autowired
+    BranchSetting bs;
+    
     /** Creates new form ApplicationSetting */
     public ApplicationSetting() {
-        initComponents();
-           
+        initComponents();  
+        
+    }
+    
+    public void setup(){
         panelUser.add(new UserInformation());
-        panelCompany.add(new CompanySettingInformation());
+        csi.initScreen();        
+        bs.setup();
+        panelSetting.add(csi);     
+        panelBranch.add(bs);
     }
 
     /** This method is called from within the constructor to
@@ -36,47 +51,52 @@ public class ApplicationSetting extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        panelEmployee = new javax.swing.JPanel();
+        panelData = new javax.swing.JPanel();
+        panelBranch = new javax.swing.JPanel();
+        panelPosition = new javax.swing.JPanel();
+        panelDepartment = new javax.swing.JPanel();
+        panelCompanies = new javax.swing.JPanel();
+        paneltAdjustment = new javax.swing.JPanel();
+        panelHolidays = new javax.swing.JPanel();
         panelUser = new javax.swing.JPanel();
-        panelCompany = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        panelSetting = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
 
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.BorderLayout());
 
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
-        panelEmployee.setLayout(new javax.swing.BoxLayout(panelEmployee, javax.swing.BoxLayout.LINE_AXIS));
-        jTabbedPane1.addTab("Data", panelEmployee);
+        panelData.setLayout(new javax.swing.BoxLayout(panelData, javax.swing.BoxLayout.LINE_AXIS));
+        jTabbedPane1.addTab("Data", panelData);
+
+        panelBranch.setLayout(new javax.swing.BoxLayout(panelBranch, javax.swing.BoxLayout.LINE_AXIS));
+        jTabbedPane1.addTab("Branch", panelBranch);
+
+        panelPosition.setLayout(new javax.swing.BoxLayout(panelPosition, javax.swing.BoxLayout.LINE_AXIS));
+        jTabbedPane1.addTab("Position", panelPosition);
+
+        panelDepartment.setLayout(new javax.swing.BoxLayout(panelDepartment, javax.swing.BoxLayout.LINE_AXIS));
+        jTabbedPane1.addTab("Department", panelDepartment);
+
+        panelCompanies.setLayout(new javax.swing.BoxLayout(panelCompanies, javax.swing.BoxLayout.LINE_AXIS));
+        jTabbedPane1.addTab("Companies", panelCompanies);
+
+        paneltAdjustment.setLayout(new javax.swing.BoxLayout(paneltAdjustment, javax.swing.BoxLayout.LINE_AXIS));
+        jTabbedPane1.addTab("Adjustment", paneltAdjustment);
+
+        panelHolidays.setLayout(new javax.swing.BoxLayout(panelHolidays, javax.swing.BoxLayout.LINE_AXIS));
+        jTabbedPane1.addTab("Holidays", panelHolidays);
 
         panelUser.setLayout(new javax.swing.BoxLayout(panelUser, javax.swing.BoxLayout.LINE_AXIS));
         jTabbedPane1.addTab("User", panelUser);
 
-        panelCompany.setLayout(new javax.swing.BoxLayout(panelCompany, javax.swing.BoxLayout.LINE_AXIS));
-        jTabbedPane1.addTab("Company", panelCompany);
+        panelSetting.setLayout(new javax.swing.BoxLayout(panelSetting, javax.swing.BoxLayout.LINE_AXIS));
+        jTabbedPane1.addTab("System", panelSetting);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 525, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 262, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("System", jPanel4);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        add(jTabbedPane1, gridBagConstraints);
+        add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
@@ -88,23 +108,24 @@ public class ApplicationSetting extends javax.swing.JPanel {
         });
         jPanel1.add(btnClose);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        add(jPanel1, gridBagConstraints);
+        add(jPanel1, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        MainApp.messagePanelObservable.callObserver(new PanelMessage("Setting", "remove"));
+        MainApp.messagePanelObservable.callObserver(new PanelMessage("Settings", "remove"));
     }//GEN-LAST:event_btnCloseActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JPanel panelCompany;
-    private javax.swing.JPanel panelEmployee;
+    private javax.swing.JPanel panelBranch;
+    private javax.swing.JPanel panelCompanies;
+    private javax.swing.JPanel panelData;
+    private javax.swing.JPanel panelDepartment;
+    private javax.swing.JPanel panelHolidays;
+    private javax.swing.JPanel panelPosition;
+    private javax.swing.JPanel panelSetting;
     private javax.swing.JPanel panelUser;
+    private javax.swing.JPanel paneltAdjustment;
     // End of variables declaration//GEN-END:variables
 }

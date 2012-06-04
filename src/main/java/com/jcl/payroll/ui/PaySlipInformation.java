@@ -11,30 +11,25 @@
 package com.jcl.payroll.ui;
 
 
-import com.jcl.company.CompanySetting;
 import com.jcl.customizetable.DateTableCellRenderer;
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
 import com.jcl.customizetable.TransactionNumberTableCellRenderer;
 import com.jcl.dbms.dbms;
-import com.jcl.model.Employee;
 import com.jcl.main.MainApp;
+import com.jcl.model.*;
 import com.jcl.observables.PanelMessage;
-import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayslipDetailType;
-import com.jcl.model.PaySlipDetail;
 import com.jcl.payroll.transaction.PaySlipProcess;
-import com.jcl.model.PayrollPeriod;
-import com.jcl.reports.PayslipReports;
 import com.jcl.reports.ReportViewerFactory;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.MyNumberFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.utils.KeyValue;
-import com.jcl.verycommon.JOptionErrorMessage;
 import com.jcl.utils.SelectedButton;
+import com.jcl.verycommon.JOptionErrorMessage;
 import java.awt.Component;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,13 +58,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
             initComponents();
             sdf = MyDateFormatter.getSimpleDateTimeFormatter();
             stf = MyDateFormatter.getTimeFormatter();
-
-
-           
-        
-
-            double loadingRates = Double.valueOf(txtLoaderRates.getText());
-          
+       
 
             disabledComponents(false);
             disabledComponents();
@@ -134,8 +123,6 @@ public class PaySlipInformation extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableEmployees = new javax.swing.JTable();
         panelLoaderRate = new javax.swing.JPanel();
-        txtLoaderRates = new javax.swing.JFormattedTextField();
-        jLabel46 = new javax.swing.JLabel();
         btnPayslipAll = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         panelPayrollPeriod = new javax.swing.JPanel();
@@ -207,7 +194,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         panelTop.setPreferredSize(new java.awt.Dimension(750, 25));
         panelTop.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Pay Slip");
         panelTop.add(jLabel8);
 
@@ -320,24 +307,6 @@ public class PaySlipInformation extends javax.swing.JPanel {
         panelLoaderRate.setPreferredSize(new java.awt.Dimension(349, 32));
         panelLoaderRate.setLayout(new java.awt.GridBagLayout());
 
-        txtLoaderRates.setEditable(false);
-        txtLoaderRates.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.##"))));
-        txtLoaderRates.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtLoaderRates.setFont(new java.awt.Font("Tahoma", 1, 12));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 57;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        panelLoaderRate.add(txtLoaderRates, gridBagConstraints);
-
-        jLabel46.setText("Loader rate per box");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        panelLoaderRate.add(jLabel46, gridBagConstraints);
-
         btnPayslipAll.setText("Generate All Payslip");
         btnPayslipAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -379,7 +348,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         panelPayrollPeriod.add(jLabel45, gridBagConstraints);
 
-        comboPayrollPeriod.setFont(new java.awt.Font("Tahoma", 1, 12));
+        comboPayrollPeriod.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         comboPayrollPeriod.setForeground(java.awt.Color.blue);
         comboPayrollPeriod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -457,7 +426,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         panelPayrollPeriodInfo.add(jLabel7, gridBagConstraints);
 
         labelDatePrepared.setBackground(new java.awt.Color(255, 255, 255));
-        labelDatePrepared.setFont(new java.awt.Font("Tahoma", 1, 12));
+        labelDatePrepared.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelDatePrepared.setText(" ");
         labelDatePrepared.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         labelDatePrepared.setOpaque(true);
@@ -470,7 +439,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         panelPayrollPeriodInfo.add(labelDatePrepared, gridBagConstraints);
 
         labelType.setBackground(new java.awt.Color(255, 255, 255));
-        labelType.setFont(new java.awt.Font("Tahoma", 1, 12));
+        labelType.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelType.setText(" ");
         labelType.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         labelType.setOpaque(true);
@@ -483,7 +452,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         panelPayrollPeriodInfo.add(labelType, gridBagConstraints);
 
         comboStatus.setEditable(true);
-        comboStatus.setFont(new java.awt.Font("Tahoma", 1, 12));
+        comboStatus.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -492,7 +461,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         panelPayrollPeriodInfo.add(comboStatus, gridBagConstraints);
 
-        txtNotes.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txtNotes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -509,7 +478,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         jPanel2.add(jLabel3, gridBagConstraints);
 
         labelFrom.setBackground(new java.awt.Color(255, 255, 255));
-        labelFrom.setFont(new java.awt.Font("Tahoma", 1, 12));
+        labelFrom.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelFrom.setText(" ");
         labelFrom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         labelFrom.setOpaque(true);
@@ -525,7 +494,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         jPanel2.add(jLabel10, gridBagConstraints);
 
         labelTo.setBackground(new java.awt.Color(255, 255, 255));
-        labelTo.setFont(new java.awt.Font("Tahoma", 1, 12));
+        labelTo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelTo.setText(" ");
         labelTo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         labelTo.setOpaque(true);
@@ -589,7 +558,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         panelEmployeeInfo.add(jLabel1, gridBagConstraints);
 
         txtEmployeeID.setEditable(false);
-        txtEmployeeID.setFont(new java.awt.Font("Verdana", 1, 12));
+        txtEmployeeID.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         txtEmployeeID.setMinimumSize(new java.awt.Dimension(2, 22));
         txtEmployeeID.setPreferredSize(new java.awt.Dimension(55, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -618,7 +587,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelEmployeeInfo.add(labelName, gridBagConstraints);
 
-        labelCompleteName.setFont(new java.awt.Font("Tahoma", 1, 12));
+        labelCompleteName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelCompleteName.setForeground(java.awt.Color.blue);
         labelCompleteName.setText("Juan Dela Cruz");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -772,7 +741,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelEmployeeInfo.add(panelContactInfo4, gridBagConstraints);
 
-        labelPostion.setFont(new java.awt.Font("Tahoma", 1, 12));
+        labelPostion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelPostion.setForeground(java.awt.Color.blue);
         labelPostion.setText("jLabel2");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -858,7 +827,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
         jPanel13.setLayout(new java.awt.GridBagLayout());
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel17.setText("Total");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -871,7 +840,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         jPanel13.add(jLabel17, gridBagConstraints);
 
         txtTotal.setEditable(false);
-        txtTotal.setFont(new java.awt.Font("Tahoma", 1, 12));
+        txtTotal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTotal.setText(" ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1007,29 +976,29 @@ public class PaySlipInformation extends javax.swing.JPanel {
     }//GEN-LAST:event_tableEmployeesMouseClicked
 
     private void processEmployee(Employee v) {
-        try {
-            dbms.useNewDBInstance();
-            //ce = Employee.getEmployeeByTid(v.getTid());
-            KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
-            if (kv == null) {
-                return;
-            } else {
-            }
-            synchronized (this) {
-
-                ce = Employee.getEmployeeByTid(v.getId());
-            //    dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
-                System.out.println("payslipinformation 1");
-                PayslipReports.processPayslip((Long) kv.getValue(), ce);
-                System.out.println("payslipinformation 2");
-                initScreen();
-                System.out.println("payslipinformation 3");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            dbms.closeNewDB();
-        }
+//        try {
+//            dbms.useNewDBInstance();
+//            //ce = Employee.getEmployeeByTid(v.getTid());
+//            KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
+//            if (kv == null) {
+//                return;
+//            } else {
+//            }
+//            synchronized (this) {
+//
+//                ce = Employee.getEmployeeByTid(v.getId());
+//            //    dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
+//                System.out.println("payslipinformation 1");
+//                PayslipReports.processPayslip((Long) kv.getValue(), ce);
+//                System.out.println("payslipinformation 2");
+//                initScreen();
+//                System.out.println("payslipinformation 3");
+//            }
+//        } catch (Exception ex) {
+//            Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            dbms.closeNewDB();
+//        }
     }
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -1095,7 +1064,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         DateTableCellRenderer dtcr = new DateTableCellRenderer("MM/dd/yyyy");
 
         try {
-            dbms.useNewDBInstance();
+           
             List<Employee> employeeList = PaySlipProcess.preparePayslip((Long) kv.getValue(), null);
 
             dtm.setColumnIdentifiers(new String[]{"#","IDNo", "Position", "Name", "Amount"});
@@ -1116,7 +1085,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
 
         } finally {
-            dbms.closeNewDB();
+            //dbms.closeNewDB();
         }
 
         NumberTableCellRenderer ntcr = new NumberTableCellRenderer();
@@ -1191,7 +1160,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
 
         } finally {
-            dbms.closeNewDB();
+       //     dbms.closeNewDB();
         }
 
     }//GEN-LAST:event_btnFinalizedActionPerformed
@@ -1233,9 +1202,10 @@ public class PaySlipInformation extends javax.swing.JPanel {
             SimpleDateFormat _sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
 
             HashMap parameters = new HashMap();
-            CompanySetting cs = CompanySetting.companySetting();
+            //Company cs = CompanySetting.companySetting();
+            Company cs = new Company();
 
-            parameters.put("REPORT_TITLE", cs.getName());
+            parameters.put("REPORT_TITLE", cs.getDescription());
             String payroll_period = pp.getPayrollPeriodCode() + " - [" + _sdf.format(pp.getDateFrom()) + "-" + _sdf.format(pp.getDateTo()) + "]";
             parameters.put("PAYROLL_PERIOD", "Payroll Period: " + payroll_period);
             parameters.put("DATE_GENERATED", _sdf.format(pp.getDatePrepared()));
@@ -1281,7 +1251,6 @@ public class PaySlipInformation extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1329,7 +1298,6 @@ public class PaySlipInformation extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField textHourlyRate;
     private javax.swing.JFormattedTextField textMinuteRate;
     private javax.swing.JTextField txtEmployeeID;
-    private javax.swing.JFormattedTextField txtLoaderRates;
     private javax.swing.JTextField txtNotes;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
