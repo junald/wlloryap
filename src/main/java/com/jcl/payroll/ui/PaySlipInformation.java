@@ -16,7 +16,6 @@ import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
 import com.jcl.customizetable.TransactionNumberTableCellRenderer;
 import com.jcl.dbms.dbms;
-import com.jcl.model.Employee;
 import com.jcl.main.MainApp;
 import com.jcl.model.*;
 import com.jcl.observables.PanelMessage;
@@ -24,14 +23,13 @@ import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayslipDetailType;
 import com.jcl.payroll.transaction.PaySlipProcess;
-import com.jcl.reports.PayslipReports;
 import com.jcl.reports.ReportViewerFactory;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.MyNumberFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.utils.KeyValue;
-import com.jcl.verycommon.JOptionErrorMessage;
 import com.jcl.utils.SelectedButton;
+import com.jcl.verycommon.JOptionErrorMessage;
 import java.awt.Component;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1066,7 +1064,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         DateTableCellRenderer dtcr = new DateTableCellRenderer("MM/dd/yyyy");
 
         try {
-            dbms.useNewDBInstance();
+           
             List<Employee> employeeList = PaySlipProcess.preparePayslip((Long) kv.getValue(), null);
 
             dtm.setColumnIdentifiers(new String[]{"#","IDNo", "Position", "Name", "Amount"});
@@ -1087,7 +1085,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
 
         } finally {
-            dbms.closeNewDB();
+            //dbms.closeNewDB();
         }
 
         NumberTableCellRenderer ntcr = new NumberTableCellRenderer();
@@ -1162,7 +1160,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
 
         } finally {
-            dbms.closeNewDB();
+       //     dbms.closeNewDB();
         }
 
     }//GEN-LAST:event_btnFinalizedActionPerformed

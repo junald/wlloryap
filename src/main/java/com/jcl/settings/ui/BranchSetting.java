@@ -10,23 +10,17 @@
  */
 package com.jcl.settings.ui;
 
-import com.jcl.payroll.ui.*;
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.dao.BranchDao;
-import com.jcl.dbms.dbms;
-import com.jcl.model.Position;
 import com.jcl.main.MainApp;
 import com.jcl.model.Branch;
 import com.jcl.observables.PanelMessage;
 import com.jcl.verycommon.JOptionErrorMessage;
-import com.jcl.verycommon.MLogger;
 import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
  
 
