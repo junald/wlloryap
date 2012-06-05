@@ -1,24 +1,25 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.jcl</groupId>
-  <artifactId>wrollyap</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+    <groupId>com.jcl</groupId>
+    <artifactId>wrollyap</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-  <name>wrollyap</name>
-  <url>http://maven.apache.org</url>
+    <name>wrollyap</name>
+    <url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-     <spring.version>3.1.0.RELEASE</spring.version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.version>3.2.0.M1</spring.version>
         <spring-security.version>3.1.0.RELEASE</spring-security.version>
         <slf4j.version>1.5.10</slf4j.version>
         <java.version>1.6.0_14</java.version>
-  </properties>
+    </properties>
 
-  <dependencies>
+    <dependencies>
          <!-- Bean Validation Dependencies -->
 
         <dependency>
@@ -95,10 +96,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-	<groupId>commons-collections</groupId>
-	<artifactId>commons-collections</artifactId>
-	<version>3.2.1</version>
-</dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
             
 	 
         <dependency>
@@ -122,6 +123,21 @@
             <artifactId>spring-security-config</artifactId>
             <version>${spring-security.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>       
+            <version>${spring.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+            <type>jar</type>
+        </dependency>
+        
+        
+        
 		 
 <!-- logging -->
         <dependency>
@@ -166,9 +182,9 @@
         </dependency>
         
         <dependency>
-	     <groupId>org.swinglabs</groupId>
-	     <artifactId>swingx</artifactId>
-	     <version>1.6.1</version>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swingx</artifactId>
+            <version>1.6.1</version>
         </dependency>
         
         <dependency>
@@ -185,10 +201,10 @@
  
      
         <dependency>
-	<groupId>org.apache.poi</groupId>
-	<artifactId>poi</artifactId>
-	<version>3.8</version>
-</dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.8</version>
+        </dependency>
             
         
         <dependency>
@@ -196,25 +212,14 @@
             <artifactId>DynamicJasper</artifactId>
             <version>3.0.13</version>
         </dependency>
-    <dependency>
-      <groupId>org.modeshape</groupId>
-      <artifactId>modeshape-sequencer-msoffice</artifactId>
-      <version>2.8.1.Final</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-beans</artifactId>
-      <version>3.1.0.RELEASE</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-tx</artifactId>
-      <version>3.2.0.M1</version>
-      <type>jar</type>
-    </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>org.modeshape</groupId>
+            <artifactId>modeshape-sequencer-msoffice</artifactId>
+            <version>2.8.1.Final</version>
+            <type>jar</type>
+        </dependency>
+    
+    </dependencies>
     <repositories>
 		<!-- JBoss Repository used for Java EE 6 pieces -->
         <repository>
@@ -235,7 +240,7 @@
         
     </repositories>
 
- <build>
+    <build>
         <finalName>wlloryap</finalName>
         <plugins>
 
@@ -247,8 +252,8 @@
                     <archive>
                         <manifest>
                             <mainClass>com.jcl.main.MainApp</mainClass>   
-                             <addClasspath>true</addClasspath>
-                             <classpathPrefix>lib/</classpathPrefix>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
                         
                     </archive>
@@ -256,7 +261,7 @@
                 </configuration>
             </plugin>
  
-             <plugin>
+            <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
