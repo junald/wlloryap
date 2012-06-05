@@ -41,7 +41,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MainApp extends JFrame implements Observer {
 
-    String windowTitle = "Business Management System";
+    String windowTitle = "HRJ Internation Corp.";
     // static final Logger logger = Logger.getLogger("app_log");
     public static MessagePanelObservable messagePanelObservable;
     ArrayList<String> openPanels;
@@ -54,7 +54,7 @@ public class MainApp extends JFrame implements Observer {
 
 
         this.setTitle(windowTitle);
-        MLogger.init();
+       
 
 
         try {
@@ -336,7 +336,7 @@ public class MainApp extends JFrame implements Observer {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-
+        MLogger.init();
         context = new ClassPathXmlApplicationContext("/applicationContext.xml");
         java.awt.EventQueue.invokeLater(new Runnable() {
 

@@ -47,7 +47,7 @@ public class Employee {
     @Column(length = 15)
     private String maritalStatus = "Single";  //   MaritalStatus.  Single,Married,Widowed
     @Column
-    private Integer numberOfDependents;
+    private Integer numberOfDependents =0;
     //company info
     @OneToOne
     private Position position;
