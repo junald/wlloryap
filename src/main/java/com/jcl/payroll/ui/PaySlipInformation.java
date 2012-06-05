@@ -1371,9 +1371,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
             double total = 0.0;
             for (PaySlipDetail v : ce.getPayslip().getPayslipDetails()) {
                 String loadingDesc = v.getDescription();
-                if (v.getPaySlipDetailType().equals(DTRType.Loading.name())) {
-                    //loadingDesc = loadingDesc + " loaders=" + v.getNoOfLoader();
-                }
+               
                 double ntotal = v.isIsDeduction() ? (-1 * v.getTotal()) : v.getTotal();
                 Object[] o = new Object[]{rowCounter++, v, loadingDesc,
                     v.getAmount(), 0, ntotal};

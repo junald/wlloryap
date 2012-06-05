@@ -94,5 +94,8 @@ public class Company {
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
-
+    
+    public String toString(){
+        return description;
+    }
 }

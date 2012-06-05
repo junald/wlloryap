@@ -7,6 +7,7 @@ package com.jcl.dao;
 import com.jcl.model.Branch;
 import com.jcl.model.Position;
 import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -34,7 +35,7 @@ public class PositionDao {
         }
     }
     
-    public List<Position> getPositions(){
-        return (List<Position>) entityManager.createQuery("from Position order by description").getResultList();
+    public ArrayList<Position> getPositions(){
+        return (ArrayList<Position>) entityManager.createQuery("from Position order by description").getResultList();
     }
 }

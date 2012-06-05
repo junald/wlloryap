@@ -10,5 +10,6 @@ package com.jcl.payroll.enumtypes;
  */
 public enum PayrollPeriodType {
 
-    Variable, Monthly, SemiMonthly, Weekly, Daily, PerHour
+    Monthly, SemiMonthly, Weekly, Daily
+    //  Variable, Monthly, SemiMonthly, Weekly, Daily, PerHour
 }

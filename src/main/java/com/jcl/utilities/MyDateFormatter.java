@@ -126,15 +126,15 @@ public class MyDateFormatter {
         return time;
     }
 
-    public static int getNumberOfHours(DailyTimeRecord dtr){
-        int hours;
-        System.out.println(dtr.getTimeIn1() + " : " + dtr.getTimeOut1());
-        System.out.println(dtr.getTimeIn2() + " : " + dtr.getTimeOut2());
-        Interval morning = new Interval(dtr.getTimeIn1().getTime(), dtr.getTimeOut1().getTime());
-        Interval afternoon = new Interval(dtr.getTimeIn2().getTime(), dtr.getTimeOut2().getTime());
-        hours = morning.toPeriod().getHours() + afternoon.toPeriod().getHours() ;
-        System.out.println(morning.toPeriod().getHours()  + " : " +afternoon.toPeriod().getHours() );
-
-        return hours;
-    }
+//    public static int getNumberOfHours(DailyTimeRecord dtr){
+//        int hours;
+//        System.out.println(dtr.getTimeIn1() + " : " + dtr.getTimeOut1());
+//        System.out.println(dtr.getTimeIn2() + " : " + dtr.getTimeOut2());
+//        Interval morning = new Interval(dtr.getTimeIn1().getTime(), dtr.getTimeOut1().getTime());
+//        Interval afternoon = new Interval(dtr.getTimeIn2().getTime(), dtr.getTimeOut2().getTime());
+//        hours = morning.toPeriod().getHours() + afternoon.toPeriod().getHours() ;
+//        System.out.println(morning.toPeriod().getHours()  + " : " +afternoon.toPeriod().getHours() );
+//
+//        return hours;
+//    }
 }

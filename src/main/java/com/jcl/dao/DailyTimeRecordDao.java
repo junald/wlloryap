@@ -38,40 +38,72 @@ public class DailyTimeRecordDao {
             entityManager.merge(dtr);
         }
     }
+    
+    
+    @Transactional  
+     public List<DailyTimeRecord> getDailyTimeRecordsByEmployeeAndUprocess(Long employeeId, Boolean process) {
+
+        //DateTime lastNDays = DateTime.now().minusDays(HISTORY_LENGTH);
+        String queryString = "select d from DailyTimeRecord d where d.employee.id = ?1 and d.process = ?2 order by transactionDate ";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter(1, employeeId);
+        query.setParameter(2, process);
+        System.out.println(query.getResultList().size());
+        if(query.getResultList().size() >0){
+            DailyTimeRecord dtr = (DailyTimeRecord) query.getResultList().get(0);
+              System.out.println("xxxxxxxxxxxxxx: " + dtr.getDtrType());
+        }
+        List<DailyTimeRecord> list = (List<DailyTimeRecord>) query.getResultList();
+
+        return list;
+    }
 
     public List<DailyTimeRecord> getDailyTimeRecords() {
         return (List<DailyTimeRecord>) entityManager.createQuery("from DailyTimeRecord order by transactionDate").getResultList();
     }
-
-    public List<DailyTimeRecord> getDailyTimeRecordsByDateAndEmployee(Employee employee, PayrollPeriod pp, Boolean process) {
-
-        //DateTime lastNDays = DateTime.now().minusDays(HISTORY_LENGTH);
-        String queryString = "from DailyTimeRecord where employee.id = ?1 and transactionDate >= ?2 and transactionDate <= ?3 order by transactionDate ";
-        Query query = entityManager.createQuery(queryString);
-        query.setParameter(1, employee.getId());
-        query.setParameter(2, pp.getDateFrom());
-        query.setParameter(3, pp.getDateTo());
-
-        return (List<DailyTimeRecord>) query.getResultList();
-    }
-
-    public List<DailyTimeRecord> getMonthlyDailyTimeRecordsByEmployee(Employee employee, Integer month) {
+    
+      public List<DailyTimeRecord> getDailyTimeRecordsByDateAndEmployee(Employee employee, Date from, Date to, Boolean process) {
 
         //DateTime lastNDays = DateTime.now().minusDays(HISTORY_LENGTH);
         String queryString = "from DailyTimeRecord where employee.id = ?1 and transactionDate >= ?2 and transactionDate <= ?3 order by transactionDate ";
         Query query = entityManager.createQuery(queryString);
         query.setParameter(1, employee.getId());
-        
-//         em.createQuery("SELECT e " +
-//                       "FROM Professor e " +
-//                       "WHERE e.startDate BETWEEN :start AND :end")
-//          .setParameter("start", start, TemporalType.DATE)
-//          .setParameter("end", end, TemporalType.DATE)
-//          .getResultList();
-
+        query.setParameter(2, from);
+        query.setParameter(3, to);
 
         return (List<DailyTimeRecord>) query.getResultList();
     }
+      
+//
+//    public List<DailyTimeRecord> getDailyTimeRecordsByDateAndEmployee(Employee employee, PayrollPeriod pp, Boolean process) {
+//
+//        //DateTime lastNDays = DateTime.now().minusDays(HISTORY_LENGTH);
+//        String queryString = "from DailyTimeRecord where employee.id = ?1 and transactionDate >= ?2 and transactionDate <= ?3 order by transactionDate ";
+//        Query query = entityManager.createQuery(queryString);
+//        query.setParameter(1, employee.getId());
+//        query.setParameter(2, pp.getDateFrom());
+//        query.setParameter(3, pp.getDateTo());
+//
+//        return (List<DailyTimeRecord>) query.getResultList();
+//    }
+
+//    public List<DailyTimeRecord> getMonthlyDailyTimeRecordsByEmployee(Employee employee, Integer month) {
+//
+//        //DateTime lastNDays = DateTime.now().minusDays(HISTORY_LENGTH);
+//        String queryString = "from DailyTimeRecord where employee.id = ?1 and transactionDate >= ?2 and transactionDate <= ?3 order by transactionDate ";
+//        Query query = entityManager.createQuery(queryString);
+//        query.setParameter(1, employee.getId());
+//        
+////         em.createQuery("SELECT e " +
+////                       "FROM Professor e " +
+////                       "WHERE e.startDate BETWEEN :start AND :end")
+////          .setParameter("start", start, TemporalType.DATE)
+////          .setParameter("end", end, TemporalType.DATE)
+////          .getResultList();
+//
+//
+//        return (List<DailyTimeRecord>) query.getResultList();
+//    }
     
     
 }
