@@ -26,8 +26,9 @@ import org.springframework.stereotype.Component;
 public class SimpleCompanySettingInformation extends javax.swing.JPanel {
 
     @Autowired
-    CompanyDao cDao;
-    Company company;
+    private CompanyDao cDao;
+    
+    private Company company;
 
     /**
      * Creates new form CompanySetting
