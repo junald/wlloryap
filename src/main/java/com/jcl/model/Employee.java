@@ -37,7 +37,7 @@ public class Employee {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateOfBirth;
     @Column(length = 1)
-    private String gender;
+    private String gender = "M";
     @Column(length = 150)
     private String address;
     @Column(length = 15)
@@ -58,7 +58,7 @@ public class Employee {
     @OneToOne
     private Branch branch;
     @Column
-    private String status = "Probationary"; // EmploymentStatus. Contractual,Regular,Resigned,Probationary,Terminated
+    private String status = "Regular"; // EmploymentStatus. Contractual,Regular,Resigned,Probationary,Terminated
     @Column
     private String payCode = "Monthly";//Monthly, Daily
     @Column
@@ -73,15 +73,18 @@ public class Employee {
     @Column(length = 15)
     private String bankAccountNumber;
     @Column
-    private Double allowance;
+    private Double allowance =0d;
     @Column
-    private Double salary;
+    private Double salary=0d;
     @Column
-    private Double dailyRate;
+    private Double dailyRate=0d;
     @Column
-    private Double hourRate;
+    private Double hourRate=0d;
     @Column
-    private Double minuteRate;
+    private Double minuteRate=0d;
+    @Column
+    private Double benefits=0d;
+    
     //Goverment numbers
     @Column
     private String taxID;
@@ -94,13 +97,13 @@ public class Employee {
     @Column
     private String philhealthNo;
     @Column
-    private Double taxWithheld;
+    private Double taxWithheld=0d;
     @Column
-    private Double sssD;
+    private Double sssD=0d;
     @Column
-    private Double pagibigD;
+    private Double pagibigD=0d;
     @Column
-    private Double philhealthD;
+    private Double philhealthD=0d;
     @Column
     private Boolean active = true;
     @Column
@@ -112,9 +115,9 @@ public class Employee {
     @Column
     private Boolean tax = true;
     @Column
-    private Integer sickLeave;
+    private Integer sickLeave=0;
     @Column
-    private Integer vacationLeave;
+    private Integer vacationLeave=0;
     
     private transient String name;
     private transient ArrayList<DailyTimeRecord> dtrList;
@@ -554,6 +557,20 @@ public class Employee {
      */
     public void setMinuteRate(Double minuteRate) {
         this.minuteRate = minuteRate;
+    }
+
+    /**
+     * @return the benefits
+     */
+    public Double getBenefits() {
+        return benefits;
+    }
+
+    /**
+     * @param benefits the benefits to set
+     */
+    public void setBenefits(Double benefits) {
+        this.benefits = benefits;
     }
 
     /**

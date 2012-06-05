@@ -11,7 +11,7 @@ import javax.persistence.*;
  * @author JLavador
  */
 @Entity
-public class Company {
+public class CompanySetting {
         
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -94,8 +94,5 @@ public class Company {
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
-    
-    public String toString(){
-        return description;
-    }
+
 }

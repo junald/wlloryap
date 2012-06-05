@@ -25,7 +25,7 @@ public class DailyTimeRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne    
+    @OneToOne    
     private Employee employee;
     @Column(length = 15)
     private String dtrType;//DTRType. Present, Leave, Absence, Overtime, Undertime , holiday
@@ -566,5 +566,7 @@ public class DailyTimeRecord {
         this.reference = reference;
     }
     
-    
+    public String toString(){
+        return dtrType;
+    }
 }

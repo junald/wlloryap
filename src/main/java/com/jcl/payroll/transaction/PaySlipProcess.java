@@ -119,7 +119,7 @@ public class PaySlipProcess {
     }
 
     public static List<DailyTimeRecord> retreiveDTR(Date fromDate, Date toDate, Employee employee) throws TransactionException, Exception {
-
+            List<DailyTimeRecord> theList = new ArrayList<DailyTimeRecord>();
 //        int transCount = 0;
 //        SimpleDateFormat sdf = MyDateFormatter.getYearDateKeyFormatter();
 //        System.out.println("retrieving dtr.");
@@ -136,7 +136,7 @@ public class PaySlipProcess {
 //
 //        ObjectSet<DailyTimeRecord> list = query.execute();
 //
-//        List<DailyTimeRecord> theList = new ArrayList<DailyTimeRecord>();
+//       
 //        Set<Integer> truckingIDList = new HashSet<Integer>();
 //        for (DailyTimeRecord dtr : list) {
 //            theList.add(dtr);
@@ -176,8 +176,8 @@ public class PaySlipProcess {
 //
 //        String msg = "";
 //
-//        return theList;
-        return null;
+        return theList;
+
     }
 
 //    public static DailyTimeRecord createDTR(int employeeId, Trucking trucking, DTRType dtrtype) {

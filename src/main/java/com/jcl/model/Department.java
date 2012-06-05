@@ -46,4 +46,8 @@ public class Department {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    public String toString(){
+        return description;
+    }
 }

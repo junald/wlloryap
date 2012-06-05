@@ -12,42 +12,47 @@ package com.jcl.payroll.ui;
 
 
 import com.jcl.model.Employee;
+import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
-import com.jcl.model.PaySlipDetail;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.utils.SelectedButton;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
  * @author junald
  */
-public class PaySlipEntry extends javax.swing.JDialog {
+public class DTREntry_old extends javax.swing.JDialog {
 
     public SelectedButton selectedButton = SelectedButton.Cancel;
-    public PaySlipDetail psd;
+    public DailyTimeRecord dtr;
     public SimpleDateFormat sdf2;
     public SimpleDateFormat stf;
-    public Employee employee;
-
+    
     /** Creates new form Dependents */
-    public PaySlipEntry(java.awt.Frame parent, boolean modal, PaySlipDetail psd, Employee ee) {
+    public DTREntry_old(java.awt.Frame parent, boolean modal, DailyTimeRecord dtr) {
         super(parent, modal);
-        this.psd = psd;
+        this.dtr = dtr;
         initComponents();
-        employee = ee;
+      
         sdf2 = MyDateFormatter.getDateTimeFormatter();
         stf = MyDateFormatter.getTimeFormatter2();
-
-        for(DTRType dt: DTRType.values()){
-            comboDTRType.addItem(dt.name());
-        }
-        labelCompleteName.setText(ee.getName());
+        txtWorkingDate.setFormats("MM/dd/yyyy");
+        ComboBoxModel cbm = new DefaultComboBoxModel(DTRType.values());
+        comboDTRType.setModel(cbm);
+//        for(DTRType dt: DTRType.values()){
+//            comboDTRType.addItem(dt.name());
+//        }
+        labelCompleteName.setText(dtr.getEmployee().getName());
         initScreen();
-
 
     }
 
@@ -66,6 +71,8 @@ public class PaySlipEntry extends javax.swing.JDialog {
         btnSave = new javax.swing.JButton();
         panelDTR = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtWorkingDate = new org.jdesktop.swingx.JXDatePicker();
         comboDTRType = new javax.swing.JComboBox();
         labelName = new javax.swing.JLabel();
         labelCompleteName = new javax.swing.JLabel();
@@ -74,15 +81,19 @@ public class PaySlipEntry extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtAmount = new javax.swing.JFormattedTextField();
-        txtQuantity = new javax.swing.JFormattedTextField();
-        txtLoaderCount = new javax.swing.JFormattedTextField();
-        txtTotal = new javax.swing.JFormattedTextField();
+        txtTimeInAm = new javax.swing.JFormattedTextField();
+        txtTimeOutAm = new javax.swing.JFormattedTextField();
+        txtTimeInPM = new javax.swing.JFormattedTextField();
+        txtTimeOutPm = new javax.swing.JFormattedTextField();
         txtNotes = new javax.swing.JTextField();
-        checkIsDeductable = new javax.swing.JCheckBox();
+        labelHours = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jFormattedTextField2 = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("PaySlip Detail");
+        setTitle("Dependents");
         setMinimumSize(new java.awt.Dimension(50, 100));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -120,15 +131,31 @@ public class PaySlipEntry extends javax.swing.JDialog {
         jLabel5.setText("Type");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         panelDTR.add(jLabel5, gridBagConstraints);
 
-        comboDTRType.setNextFocusableComponent(txtAmount);
+        jLabel4.setText("Date");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        panelDTR.add(jLabel4, gridBagConstraints);
+
+        txtWorkingDate.setNextFocusableComponent(comboDTRType);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        panelDTR.add(txtWorkingDate, gridBagConstraints);
+
+        comboDTRType.setNextFocusableComponent(txtTimeInAm);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         panelDTR.add(comboDTRType, gridBagConstraints);
@@ -141,7 +168,7 @@ public class PaySlipEntry extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 3, 5);
         panelDTR.add(labelName, gridBagConstraints);
 
-        labelCompleteName.setFont(new java.awt.Font("Tahoma", 1, 12));
+        labelCompleteName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelCompleteName.setForeground(java.awt.Color.blue);
         labelCompleteName.setText("Lavador, Junald Conde");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -151,7 +178,7 @@ public class PaySlipEntry extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 5);
         panelDTR.add(labelCompleteName, gridBagConstraints);
 
-        jLabel1.setText("Amount");
+        jLabel1.setText("Time In AM");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -159,7 +186,7 @@ public class PaySlipEntry extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         panelDTR.add(jLabel1, gridBagConstraints);
 
-        jLabel2.setText("Quantity");
+        jLabel2.setText("Time Out AM");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -167,7 +194,7 @@ public class PaySlipEntry extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         panelDTR.add(jLabel2, gridBagConstraints);
 
-        jLabel3.setText("Loader Count");
+        jLabel3.setText("Time In PM");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -175,7 +202,7 @@ public class PaySlipEntry extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         panelDTR.add(jLabel3, gridBagConstraints);
 
-        jLabel6.setText("Total");
+        jLabel6.setText("Time Out PM");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -183,71 +210,90 @@ public class PaySlipEntry extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         panelDTR.add(jLabel6, gridBagConstraints);
 
-        jLabel7.setText("Description");
+        jLabel7.setText("Notes");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         panelDTR.add(jLabel7, gridBagConstraints);
 
-        txtAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####.##"))));
-        txtAmount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtAmount.setNextFocusableComponent(txtQuantity);
+        txtTimeInAm.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        txtTimeInAm.setNextFocusableComponent(txtTimeOutAm);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(txtAmount, gridBagConstraints);
+        panelDTR.add(txtTimeInAm, gridBagConstraints);
 
-        txtQuantity.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####.##"))));
-        txtQuantity.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtQuantity.setNextFocusableComponent(txtLoaderCount);
+        txtTimeOutAm.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        txtTimeOutAm.setNextFocusableComponent(txtTimeInPM);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(txtQuantity, gridBagConstraints);
+        panelDTR.add(txtTimeOutAm, gridBagConstraints);
 
-        txtLoaderCount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####.##"))));
-        txtLoaderCount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtLoaderCount.setNextFocusableComponent(txtTotal);
+        txtTimeInPM.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        txtTimeInPM.setNextFocusableComponent(txtTimeOutPm);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(txtLoaderCount, gridBagConstraints);
+        panelDTR.add(txtTimeInPM, gridBagConstraints);
 
-        txtTotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####.00"))));
-        txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtTotal.setNextFocusableComponent(txtNotes);
+        txtTimeOutPm.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        txtTimeOutPm.setNextFocusableComponent(txtNotes);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(txtTotal, gridBagConstraints);
+        panelDTR.add(txtTimeOutPm, gridBagConstraints);
 
         txtNotes.setText(" ");
         txtNotes.setNextFocusableComponent(btnSave);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         panelDTR.add(txtNotes, gridBagConstraints);
 
-        checkIsDeductable.setText("Deductable");
+        labelHours.setText(" ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        panelDTR.add(labelHours, gridBagConstraints);
+
+        jLabel8.setText("jLabel8");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        panelDTR.add(jLabel8, gridBagConstraints);
+
+        jFormattedTextField1.setText("jFormattedTextField1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        panelDTR.add(checkIsDeductable, gridBagConstraints);
+        panelDTR.add(jFormattedTextField1, gridBagConstraints);
+
+        jLabel9.setText("jLabel9");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        panelDTR.add(jLabel9, gridBagConstraints);
+
+        jFormattedTextField2.setText("jFormattedTextField2");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 7;
+        panelDTR.add(jFormattedTextField2, gridBagConstraints);
 
         getContentPane().add(panelDTR, java.awt.BorderLayout.CENTER);
 
@@ -260,10 +306,11 @@ public class PaySlipEntry extends javax.swing.JDialog {
             saveScreen();
             this.setVisible(false);
         } catch (TransactionException ex) {
-            Logger.getLogger(PaySlipEntry.class.getName()).log(Level.SEVERE, null, ex);
-        
+            Logger.getLogger(DTREntry_old.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (UniqueFieldValueConstraintViolationException ex) {
+//            Logger.getLogger(DTREntry.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(PaySlipEntry.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DTREntry_old.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -279,7 +326,7 @@ public class PaySlipEntry extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                PaySlipEntry dialog = new PaySlipEntry(new javax.swing.JFrame(), true, null, null);
+                DTREntry_old dialog = new DTREntry_old(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -293,63 +340,105 @@ public class PaySlipEntry extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
-    private javax.swing.JCheckBox checkIsDeductable;
     private javax.swing.JComboBox comboDTRType;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelCompleteName;
+    private javax.swing.JLabel labelHours;
     private javax.swing.JLabel labelName;
     private javax.swing.JPanel panelDTR;
-    private javax.swing.JFormattedTextField txtAmount;
-    private javax.swing.JFormattedTextField txtLoaderCount;
     private javax.swing.JTextField txtNotes;
-    private javax.swing.JFormattedTextField txtQuantity;
-    private javax.swing.JFormattedTextField txtTotal;
+    private javax.swing.JFormattedTextField txtTimeInAm;
+    private javax.swing.JFormattedTextField txtTimeInPM;
+    private javax.swing.JFormattedTextField txtTimeOutAm;
+    private javax.swing.JFormattedTextField txtTimeOutPm;
+    private org.jdesktop.swingx.JXDatePicker txtWorkingDate;
     // End of variables declaration//GEN-END:variables
 
     private void initScreen() {
 
-        if(psd.isIsGenerated()){
-            comboDTRType.setSelectedItem(psd.getPaySlipDetailType());
-            comboDTRType.setEnabled(false);
-            txtQuantity.setEditable(false);
-            txtAmount.setEditable(false);
-            txtLoaderCount.setEditable(false);
-            txtTotal.setEditable(false);
-            checkIsDeductable.setEnabled(false);
-             btnSave.setEnabled(false);
-        }
+//        if (dtr.getId() == -1 ) {            
+//            
+//        } else {
+//            System.out.println(dtr.getDtrType() + " : " + dtr.getSourceTid());
+//            comboDTRType.setSelectedItem(dtr.getDtrType());
+//        }
+        comboDTRType.setSelectedItem("Regular");
+        txtWorkingDate.setDate(dtr.getTransactionDate());
+        txtNotes.setText(dtr.getNotes());
+        txtTimeInAm.setText(stf.format(dtr.getTimeIn1()));
+        txtTimeOutAm.setText(stf.format(dtr.getTimeOut1()));
+        txtTimeInPM.setText(stf.format(dtr.getTimeIn2()));
+        txtTimeOutPm.setText(stf.format(dtr.getTimeOut2()));
 
+//        if (dtr.getSourceTid() != -1 || dtr.isProcess()) {
+//            btnSave.setEnabled(false);
+//        }
 
-
-        txtNotes.setText(psd.getDescription());
-        txtAmount.setValue(psd.getAmount());
-
-        txtTotal.setValue(psd.getTotal());
-        checkIsDeductable.setSelected(psd.isIsDeduction());
-
-        if(psd.isIsProcess()){
-             btnSave.setEnabled(false);
-        }
-        
-         
+        //labelHours.setText(MyDateFormatter.getNumberOfHours(dtr)+" hrs");
     }
 
     private void saveScreen() throws TransactionException,  Exception {
 
+         
+        dtr.setTransactionDate(txtWorkingDate.getDate());
+        dtr.setDtrType(comboDTRType.getSelectedItem().toString());
+        System.out.println(txtTimeInAm.getText());
+        //  System.out.println(txtTimeInAm.getValue().toString());
 
-        psd.setPaySlipDetailType(comboDTRType.getSelectedItem().toString());
-        psd.setDescription(txtNotes.getText());
-        psd.setAmount(Double.valueOf(txtAmount.getText()));        
-        psd.setTotal(Double.valueOf(txtTotal.getText()));
-        psd.setIsDeduction(checkIsDeductable.isSelected());
+        String wdate = MyDateFormatter.getDateDataFormatter().format(dtr.getTransactionDate());
+//
+//        Date t1 = sdf2.parse(wdate + " " + txtTimeInAm.getText() + ":00 AM");
+//        Date t2 = sdf2.parse(wdate + " " + txtTimeOutAm.getText() + ":00 PM");
+//        Date t3 = sdf2.parse(wdate + " " + txtTimeInPM.getText() + ":00 PM");
+//        Date t4 = sdf2.parse(wdate + " " + txtTimeOutPm.getText() + ":00 PM");
+//
 
-//        dbms.save(psd);
-//        dbms.getDBInstance().ext().refresh(psd, Integer.MAX_VALUE);
+
+        String in1 = txtTimeInAm.getText().replaceAll(" AM", ":00 AM");         
+        String out1 = txtTimeOutAm.getText().replaceAll(" AM", ":00 AM");
+        if(txtTimeInAm.getText().contains(" PM")){
+            in1 = txtTimeInAm.getText().replaceAll(" PM", ":00 PM");
+        }
+        if(txtTimeOutAm.getText().contains(" PM")){
+             out1 = txtTimeOutAm.getText().replaceAll(" PM", ":00 PM");
+        }
+
+
+        String in2=    txtTimeInPM.getText().replaceAll(" PM", ":00 PM");
+        String out2=     txtTimeOutPm.getText().replaceAll(" PM", ":00 PM");
+        if(txtTimeInPM.getText().contains(" AM")){
+            in1 = txtTimeInPM.getText().replaceAll(" AM", ":00 AM");
+        }
+        if(txtTimeOutPm.getText().contains(" AM")){
+             out1 = txtTimeOutPm.getText().replaceAll(" AM", ":00 AM");
+        }
+
+
+        Date t1 = sdf2.parse(wdate + " " + in1 );
+        Date t2 = sdf2.parse(wdate + " " + out1 );
+        Date t3 = sdf2.parse(wdate + " " + in2 );
+        Date t4 = sdf2.parse(wdate + " " + out2 );
+        System.out.println("t1:[" + t1 + "] t2:[" + t2 + "] t3:[" + t3 + "] t4:[" + t4 + "]");
+        dtr.setTimeIn1(t1);
+        dtr.setTimeOut1(t2);
+        dtr.setTimeIn2(t3);
+        dtr.setTimeOut2(t4);
+        dtr.setNotes(txtNotes.getText());
+
+          
+      //  dbms.save(dtr);
+
+
     }
 }

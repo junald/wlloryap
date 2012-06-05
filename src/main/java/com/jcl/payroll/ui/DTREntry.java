@@ -36,23 +36,19 @@ public class DTREntry extends javax.swing.JDialog {
     public DailyTimeRecord dtr;
     public SimpleDateFormat sdf2;
     public SimpleDateFormat stf;
-    public Employee employee;
-
+    
     /** Creates new form Dependents */
-    public DTREntry(java.awt.Frame parent, boolean modal, DailyTimeRecord dtr, Employee ee) {
+    public DTREntry(java.awt.Frame parent, boolean modal, DailyTimeRecord dtr) {
         super(parent, modal);
         this.dtr = dtr;
         initComponents();
-        employee = ee;
+      
         sdf2 = MyDateFormatter.getDateTimeFormatter();
         stf = MyDateFormatter.getTimeFormatter2();
         txtWorkingDate.setFormats("MM/dd/yyyy");
-//        ComboBoxModel cbm = new DefaultComboBoxModel(DTRType.values());
-//        comboDTRType.setModel(cbm);
-        for(DTRType dt: DTRType.values()){
-            comboDTRType.addItem(dt.name());
-        }
-        labelCompleteName.setText(ee.getName());
+        ComboBoxModel cbm = new DefaultComboBoxModel(DTRType.values());
+        comboDTRType.setModel(cbm);
+        labelCompleteName.setText(dtr.getEmployee().getName());
         initScreen();
 
     }
@@ -77,17 +73,13 @@ public class DTREntry extends javax.swing.JDialog {
         comboDTRType = new javax.swing.JComboBox();
         labelName = new javax.swing.JLabel();
         labelCompleteName = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtTimeInAm = new javax.swing.JFormattedTextField();
-        txtTimeOutAm = new javax.swing.JFormattedTextField();
-        txtTimeInPM = new javax.swing.JFormattedTextField();
-        txtTimeOutPm = new javax.swing.JFormattedTextField();
         txtNotes = new javax.swing.JTextField();
         labelHours = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtHours = new javax.swing.JFormattedTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtMinutes = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dependents");
@@ -145,14 +137,15 @@ public class DTREntry extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         panelDTR.add(txtWorkingDate, gridBagConstraints);
 
-        comboDTRType.setNextFocusableComponent(txtTimeInAm);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         panelDTR.add(comboDTRType, gridBagConstraints);
@@ -165,97 +158,31 @@ public class DTREntry extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 3, 5);
         panelDTR.add(labelName, gridBagConstraints);
 
-        labelCompleteName.setFont(new java.awt.Font("Tahoma", 1, 12));
+        labelCompleteName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelCompleteName.setForeground(java.awt.Color.blue);
         labelCompleteName.setText("Lavador, Junald Conde");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 5);
         panelDTR.add(labelCompleteName, gridBagConstraints);
 
-        jLabel1.setText("Time In AM");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(jLabel1, gridBagConstraints);
-
-        jLabel2.setText("Time Out AM");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(jLabel2, gridBagConstraints);
-
-        jLabel3.setText("Time In PM");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(jLabel3, gridBagConstraints);
-
-        jLabel6.setText("Time Out PM");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(jLabel6, gridBagConstraints);
-
         jLabel7.setText("Notes");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         panelDTR.add(jLabel7, gridBagConstraints);
-
-        txtTimeInAm.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        txtTimeInAm.setNextFocusableComponent(txtTimeOutAm);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(txtTimeInAm, gridBagConstraints);
-
-        txtTimeOutAm.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        txtTimeOutAm.setNextFocusableComponent(txtTimeInPM);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(txtTimeOutAm, gridBagConstraints);
-
-        txtTimeInPM.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        txtTimeInPM.setNextFocusableComponent(txtTimeOutPm);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(txtTimeInPM, gridBagConstraints);
-
-        txtTimeOutPm.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        txtTimeOutPm.setNextFocusableComponent(txtNotes);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        panelDTR.add(txtTimeOutPm, gridBagConstraints);
 
         txtNotes.setText(" ");
         txtNotes.setNextFocusableComponent(btnSave);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
@@ -268,6 +195,38 @@ public class DTREntry extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         panelDTR.add(labelHours, gridBagConstraints);
 
+        jLabel8.setText("Hrs");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        panelDTR.add(jLabel8, gridBagConstraints);
+
+        txtHours.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("00"))));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        panelDTR.add(txtHours, gridBagConstraints);
+
+        jLabel9.setText("Min");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        panelDTR.add(jLabel9, gridBagConstraints);
+
+        txtMinutes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        panelDTR.add(txtMinutes, gridBagConstraints);
+
         getContentPane().add(panelDTR, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -279,9 +238,7 @@ public class DTREntry extends javax.swing.JDialog {
             saveScreen();
             this.setVisible(false);
         } catch (TransactionException ex) {
-            Logger.getLogger(DTREntry.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (UniqueFieldValueConstraintViolationException ex) {
-//            Logger.getLogger(DTREntry.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DTREntry.class.getName()).log(Level.SEVERE, null, ex); 
         } catch (Exception ex) {
             Logger.getLogger(DTREntry.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -299,7 +256,7 @@ public class DTREntry extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                DTREntry dialog = new DTREntry(new javax.swing.JFrame(), true, null, null);
+                DTREntry dialog = new DTREntry(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -314,100 +271,46 @@ public class DTREntry extends javax.swing.JDialog {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox comboDTRType;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelCompleteName;
     private javax.swing.JLabel labelHours;
     private javax.swing.JLabel labelName;
     private javax.swing.JPanel panelDTR;
+    private javax.swing.JFormattedTextField txtHours;
+    private javax.swing.JFormattedTextField txtMinutes;
     private javax.swing.JTextField txtNotes;
-    private javax.swing.JFormattedTextField txtTimeInAm;
-    private javax.swing.JFormattedTextField txtTimeInPM;
-    private javax.swing.JFormattedTextField txtTimeOutAm;
-    private javax.swing.JFormattedTextField txtTimeOutPm;
     private org.jdesktop.swingx.JXDatePicker txtWorkingDate;
     // End of variables declaration//GEN-END:variables
 
     private void initScreen() {
 
-//        if (dtr.getId() == -1 ) {            
-//            
-//        } else {
-//            System.out.println(dtr.getDtrType() + " : " + dtr.getSourceTid());
-//            comboDTRType.setSelectedItem(dtr.getDtrType());
-//        }
         comboDTRType.setSelectedItem("Regular");
         txtWorkingDate.setDate(dtr.getTransactionDate());
         txtNotes.setText(dtr.getNotes());
-        txtTimeInAm.setText(stf.format(dtr.getTimeIn1()));
-        txtTimeOutAm.setText(stf.format(dtr.getTimeOut1()));
-        txtTimeInPM.setText(stf.format(dtr.getTimeIn2()));
-        txtTimeOutPm.setText(stf.format(dtr.getTimeOut2()));
+        txtMinutes.setValue(dtr.getActualMins());
+        txtHours.setValue(dtr.getActualHours());
+           
 
-//        if (dtr.getSourceTid() != -1 || dtr.isProcess()) {
-//            btnSave.setEnabled(false);
-//        }
+        if ( dtr.getProcess()) {
+            btnSave.setEnabled(false);
+        }
 
-        labelHours.setText(MyDateFormatter.getNumberOfHours(dtr)+" hrs");
+        //labelHours.setText(MyDateFormatter.getNumberOfHours(dtr)+" hrs");
     }
 
     private void saveScreen() throws TransactionException,  Exception {
 
-         
         dtr.setTransactionDate(txtWorkingDate.getDate());
-        dtr.setDtrType(comboDTRType.getSelectedItem().toString());
-        System.out.println(txtTimeInAm.getText());
-        //  System.out.println(txtTimeInAm.getValue().toString());
-
-        String wdate = MyDateFormatter.getDateDataFormatter().format(dtr.getTransactionDate());
-//
-//        Date t1 = sdf2.parse(wdate + " " + txtTimeInAm.getText() + ":00 AM");
-//        Date t2 = sdf2.parse(wdate + " " + txtTimeOutAm.getText() + ":00 PM");
-//        Date t3 = sdf2.parse(wdate + " " + txtTimeInPM.getText() + ":00 PM");
-//        Date t4 = sdf2.parse(wdate + " " + txtTimeOutPm.getText() + ":00 PM");
-//
-
-
-        String in1 = txtTimeInAm.getText().replaceAll(" AM", ":00 AM");         
-        String out1 = txtTimeOutAm.getText().replaceAll(" AM", ":00 AM");
-        if(txtTimeInAm.getText().contains(" PM")){
-            in1 = txtTimeInAm.getText().replaceAll(" PM", ":00 PM");
-        }
-        if(txtTimeOutAm.getText().contains(" PM")){
-             out1 = txtTimeOutAm.getText().replaceAll(" PM", ":00 PM");
-        }
-
-
-        String in2=    txtTimeInPM.getText().replaceAll(" PM", ":00 PM");
-        String out2=     txtTimeOutPm.getText().replaceAll(" PM", ":00 PM");
-        if(txtTimeInPM.getText().contains(" AM")){
-            in1 = txtTimeInPM.getText().replaceAll(" AM", ":00 AM");
-        }
-        if(txtTimeOutPm.getText().contains(" AM")){
-             out1 = txtTimeOutPm.getText().replaceAll(" AM", ":00 AM");
-        }
-
-
-        Date t1 = sdf2.parse(wdate + " " + in1 );
-        Date t2 = sdf2.parse(wdate + " " + out1 );
-        Date t3 = sdf2.parse(wdate + " " + in2 );
-        Date t4 = sdf2.parse(wdate + " " + out2 );
-        System.out.println("t1:[" + t1 + "] t2:[" + t2 + "] t3:[" + t3 + "] t4:[" + t4 + "]");
-        dtr.setTimeIn1(t1);
-        dtr.setTimeOut1(t2);
-        dtr.setTimeIn2(t3);
-        dtr.setTimeOut2(t4);
+        dtr.setDtrType(comboDTRType.getSelectedItem().toString()); 
         dtr.setNotes(txtNotes.getText());
-
-          
-      //  dbms.save(dtr);
-
-
+        dtr.setActualMins(Integer.valueOf(txtMinutes.getText()));
+        dtr.setActualHours(Integer.valueOf(txtHours.getText()));
+      
+ 
     }
 }

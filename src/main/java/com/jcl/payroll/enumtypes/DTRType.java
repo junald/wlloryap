@@ -10,5 +10,6 @@ package com.jcl.payroll.enumtypes;
  * @author junald
  */
 public enum DTRType {
-    Regular, Leave, Absence, Overtime, Undertime, Deliveries, Drive, Loading, Helper,Others
+    Regular, VL, SL, Overtime, Undertime, Holiday, Others
+    //Regular, Leave, Absence, Overtime, Undertime, Deliveries, Drive, Loading, Helper,Others
 }

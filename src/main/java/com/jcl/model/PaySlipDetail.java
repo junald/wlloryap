@@ -9,11 +9,7 @@ package com.jcl.model;
 //import com.jcl.dbms.dbms;
 //import com.jcl.payroll.businessRule.IBusinessRule;
 //import com.jcl.payroll.businessRule.BusinessRuleFactory;
-import com.jcl.dbms.dbms;
-import com.jcl.payroll.enumtypes.PayslipDetailType;
 import java.util.Date;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.*;
 
 /**

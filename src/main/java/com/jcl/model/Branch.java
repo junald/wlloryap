@@ -65,4 +65,8 @@ public class Branch {
         this.description = description;
     }
     
+    public String toString(){
+        return this.description;
+    }
+    
 }

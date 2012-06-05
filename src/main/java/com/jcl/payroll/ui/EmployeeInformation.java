@@ -10,27 +10,28 @@
  */
 package com.jcl.payroll.ui;
 
-
-
 import com.jcl.customizetable.DateTableCellRenderer;
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
+import com.jcl.dao.CompanyDao;
+import com.jcl.dao.DepartmentDao;
+import com.jcl.dao.EmployeeDao;
+import com.jcl.dao.PositionDao;
 //import com.jcl.dbms.dbms;
 import com.jcl.model.Employee;
 import com.jcl.model.Position;
 import com.jcl.main.MainApp;
+import com.jcl.model.*;
 import com.jcl.observables.PanelMessage;
-import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRDisplayType;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.EmploymentStatus;
 import com.jcl.payroll.enumtypes.MaritalStatus;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
-import com.jcl.model.PaySlipDetail;
 import com.jcl.payroll.transaction.PaySlipProcess;
 import com.jcl.payroll.transaction.PaySlipReportObject;
 import com.jcl.payroll.transaction.PaySlipReportRow;
-import com.jcl.model.PayrollPeriod;
+import com.jcl.payroll.enumtypes.*;
 import com.jcl.reports.ReportViewerFactory;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.MyNumberFormatter;
@@ -53,6 +54,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.swing.JRViewer;
 import org.apache.poi.ss.usermodel.ExcelStyleDateFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -61,15 +63,28 @@ import org.apache.poi.ss.usermodel.ExcelStyleDateFormatter;
 @org.springframework.stereotype.Component
 public class EmployeeInformation extends javax.swing.JPanel {
 
+    @Autowired
+    EmployeeDao eDao;
+    @Autowired
+    PositionDao pDao;
+    @Autowired
+    DepartmentDao dDao;
+    @Autowired
+    CompanyDao cDao;
     private Employee ce;
     private boolean isSelectionMade = false;
     private SimpleDateFormat sdf;
     private SimpleDateFormat stf;
 
-    /** Creates new form EmployeeInformation */
+    /**
+     * Creates new form EmployeeInformation
+     */
     public EmployeeInformation() {
+        initComponents();
+    }
+
+    public void setup() {
         try {
-            initComponents();
             sdf = MyDateFormatter.getSimpleDateTimeFormatter();
             stf = MyDateFormatter.getTimeFormatter();
             initTableView();
@@ -85,7 +100,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
         } catch (Exception ex) {
             Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private void initTableView() throws Exception {
@@ -98,23 +112,19 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         dtm.setColumnIdentifiers(new String[]{"#", "ID", "Position", "Name"});
 
-//        try {
-// 
-//            employeeList = Employee.getSortedEmployees();
-//            int counter = 1;
-//            for (Employee e : employeeList) {
-//
-//                if (e != null) {
-//                    Object[] o = new Object[]{counter++, e.getIdNumber(), e.getPosition(), e};
-//                    dtm.addRow(o);
-//                }
-//            }
-//
-//        } finally {
-//     
-//        }
+        try {
+            employeeList = eDao.getSortedEmployee();
+            int counter = 1;
+            for (Employee e : employeeList) {
 
+                if (e != null) {
+                    Object[] o = new Object[]{counter++, e.getIdNumber(), e.getPosition(), e};
+                    dtm.addRow(o);
+                }
+            }
 
+        } finally {
+        }
 
 
 
@@ -155,22 +165,27 @@ public class EmployeeInformation extends javax.swing.JPanel {
 //
 //    }
     private void disabledComponents() {
-        this.comboBranch.setVisible(false);
-        this.comboDepartment.setVisible(false);
-        this.jLabel33.setVisible(false);
-        this.jLabel36.setVisible(false);
+        this.comboCompany.setVisible(true);
+        this.comboDepartment.setVisible(true);
+        this.jLabel33.setVisible(true);
+        this.jLabel36.setVisible(true);
 
-        this.jLabel40.setVisible(false);
-        this.jLabel41.setVisible(false);
-        //    this.jLabel42.setVisible(false);
-        //  this.textAllowance.setVisible(false);
-        this.textMinuteRate.setVisible(false);
-        this.textHourlyRate.setVisible(false); //dailyRate
+        this.jLabel40.setVisible(true);
+        this.jLabel41.setVisible(true);
+        this.jLabel42.setVisible(true);
+        this.textAllowance.setVisible(true);
+        this.textBenefits.setVisible(true);
+        this.textHourlyRate.setVisible(true); //dailyRate
 
         this.jLabel25.setVisible(false);
         this.jLabel43.setVisible(false);
         this.textDLoan1.setVisible(false);
         this.textDLoan2.setVisible(false);
+
+//        panelDTR.setVisible(false);
+//        panelPayslip.setVisible(false);
+        jTabbedPane1.remove(panelDTR);
+        jTabbedPane1.remove(panelPayslip);
     }
 
     private void disabledComponents(boolean s) {
@@ -194,22 +209,15 @@ public class EmployeeInformation extends javax.swing.JPanel {
         for (Component c : panelContactInfo.getComponents()) {
             c.setEnabled(s);
         }
-        for (Component c : panelEmergencyContact.getComponents()) {
-            c.setEnabled(s);
-        }
-        for (Component c : jPanel3.getComponents()) {
-            c.setEnabled(s);
-        }
         for (Component c : jPanel1.getComponents()) {
             c.setEnabled(s);
         }
 
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
+     * content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -252,6 +260,8 @@ public class EmployeeInformation extends javax.swing.JPanel {
         labelCompleteName = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
         comboPosition = new javax.swing.JComboBox();
+        jLabel9 = new javax.swing.JLabel();
+        txtNumberOfDependents = new javax.swing.JFormattedTextField();
         panelOthers = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelEmployeeData = new javax.swing.JPanel();
@@ -290,9 +300,13 @@ public class EmployeeInformation extends javax.swing.JPanel {
         jLabel37 = new javax.swing.JLabel();
         comboEmploymentStatus = new javax.swing.JComboBox();
         comboDepartment = new javax.swing.JComboBox();
-        comboBranch = new javax.swing.JComboBox();
+        comboCompany = new javax.swing.JComboBox();
         txtDateHired = new org.jdesktop.swingx.JXDatePicker();
         txtDateEnd = new org.jdesktop.swingx.JXDatePicker();
+        jLabel47 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        textSickLeave = new javax.swing.JFormattedTextField();
+        textVacationLeave = new javax.swing.JFormattedTextField();
         panelContactInfo4 = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
@@ -303,37 +317,19 @@ public class EmployeeInformation extends javax.swing.JPanel {
         textBasicSalary = new javax.swing.JFormattedTextField();
         textDailyRate = new javax.swing.JFormattedTextField();
         textHourlyRate = new javax.swing.JFormattedTextField();
-        textMinuteRate = new javax.swing.JFormattedTextField();
+        textBenefits = new javax.swing.JFormattedTextField();
         textAllowance = new javax.swing.JFormattedTextField();
         jLabel16 = new javax.swing.JLabel();
         comboType = new javax.swing.JComboBox();
+        jLabel46 = new javax.swing.JLabel();
+        comboPayCode = new javax.swing.JComboBox();
         panelPersonalTab = new javax.swing.JPanel();
         panelContactInfo = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         textStreet = new javax.swing.JTextField();
-        textCity = new javax.swing.JTextField();
-        textProvince = new javax.swing.JTextField();
-        txtContactNo = new javax.swing.JTextField();
-        textEmaillAdd = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        panelEmergencyContact = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        textEStreet = new javax.swing.JTextField();
-        textEContactNo = new javax.swing.JTextField();
-        jLabel20 = new javax.swing.JLabel();
-        textEmergencyName = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        panelDependents = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        btnDependentNew = new javax.swing.JButton();
-        btnDependentDelete = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tableDependents = new javax.swing.JTable();
+        txtContactNo = new javax.swing.JFormattedTextField();
         panelDTR = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         btnInsertDetail = new javax.swing.JButton();
@@ -357,7 +353,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         jPanel16 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tableJob = new javax.swing.JTable();
-        jPanel17 = new javax.swing.JPanel();
+        panelPayslip = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         txtPayslip = new javax.swing.JTextArea();
         jPanel19 = new javax.swing.JPanel();
@@ -674,6 +670,22 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         panelEmployeeInfo.add(comboPosition, gridBagConstraints);
 
+        jLabel9.setText("No. Of Dependents");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        panelEmployeeInfo.add(jLabel9, gridBagConstraints);
+
+        txtNumberOfDependents.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("##"))));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        panelEmployeeInfo.add(txtNumberOfDependents, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -969,7 +981,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         panelContactInfo3.add(jPanel11, gridBagConstraints);
 
-        jLabel36.setText("Branch");
+        jLabel36.setText("Company");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -1003,7 +1015,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        panelContactInfo3.add(comboBranch, gridBagConstraints);
+        panelContactInfo3.add(comboCompany, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -1016,6 +1028,40 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         panelContactInfo3.add(txtDateEnd, gridBagConstraints);
+
+        jLabel47.setText("Sick Leave");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        panelContactInfo3.add(jLabel47, gridBagConstraints);
+
+        jLabel48.setText("Vacation Leave");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        panelContactInfo3.add(jLabel48, gridBagConstraints);
+
+        textSickLeave.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.##"))));
+        textSickLeave.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        panelContactInfo3.add(textSickLeave, gridBagConstraints);
+
+        textVacationLeave.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.##"))));
+        textVacationLeave.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        panelContactInfo3.add(textVacationLeave, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1052,7 +1098,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelContactInfo4.add(jLabel40, gridBagConstraints);
 
-        jLabel41.setText("Minute Rate");
+        jLabel41.setText("Benefits/others");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -1060,7 +1106,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelContactInfo4.add(jLabel41, gridBagConstraints);
 
-        jLabel42.setText("Helper Rate");
+        jLabel42.setText("Allowance");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -1085,7 +1131,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         panelContactInfo4.add(jPanel9, gridBagConstraints);
 
-        textBasicSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.##"))));
+        textBasicSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.00"))));
         textBasicSalary.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -1093,7 +1139,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         panelContactInfo4.add(textBasicSalary, gridBagConstraints);
 
-        textDailyRate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.##"))));
+        textDailyRate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
         textDailyRate.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1102,7 +1148,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         panelContactInfo4.add(textDailyRate, gridBagConstraints);
 
-        textHourlyRate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.##"))));
+        textHourlyRate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
         textHourlyRate.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1111,16 +1157,16 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         panelContactInfo4.add(textHourlyRate, gridBagConstraints);
 
-        textMinuteRate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.##"))));
-        textMinuteRate.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        textBenefits.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.00"))));
+        textBenefits.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        panelContactInfo4.add(textMinuteRate, gridBagConstraints);
+        panelContactInfo4.add(textBenefits, gridBagConstraints);
 
-        textAllowance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.##"))));
+        textAllowance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.00"))));
         textAllowance.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1144,6 +1190,21 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         panelContactInfo4.add(comboType, gridBagConstraints);
 
+        jLabel46.setText("Pay Code");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        panelContactInfo4.add(jLabel46, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        panelContactInfo4.add(comboPayCode, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1154,34 +1215,18 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Employee Data", panelEmployeeData);
 
-        panelPersonalTab.setLayout(new java.awt.GridBagLayout());
+        panelPersonalTab.setLayout(new java.awt.BorderLayout());
 
         panelContactInfo.setBorder(javax.swing.BorderFactory.createTitledBorder("Contact Information"));
         panelContactInfo.setLayout(new java.awt.GridBagLayout());
 
-        jLabel10.setText("Street");
+        jLabel10.setText("Address");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelContactInfo.add(jLabel10, gridBagConstraints);
-
-        jLabel11.setText("City");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panelContactInfo.add(jLabel11, gridBagConstraints);
-
-        jLabel12.setText("Province");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panelContactInfo.add(jLabel12, gridBagConstraints);
 
         jLabel13.setText("Contact No.");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1190,43 +1235,11 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelContactInfo.add(jLabel13, gridBagConstraints);
-
-        jLabel14.setText("Email add.");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panelContactInfo.add(jLabel14, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         panelContactInfo.add(textStreet, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        panelContactInfo.add(textCity, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        panelContactInfo.add(textProvince, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        panelContactInfo.add(txtContactNo, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        panelContactInfo.add(textEmaillAdd, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1245,142 +1258,19 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         panelContactInfo.add(jPanel6, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.5;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panelPersonalTab.add(panelContactInfo, gridBagConstraints);
-
-        panelEmergencyContact.setBorder(javax.swing.BorderFactory.createTitledBorder("Emergency Contact"));
-        panelEmergencyContact.setLayout(new java.awt.GridBagLayout());
-
-        jLabel15.setText("Address");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panelEmergencyContact.add(jLabel15, gridBagConstraints);
-
-        jLabel18.setText("Contact No.");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panelEmergencyContact.add(jLabel18, gridBagConstraints);
+        try {
+            txtContactNo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        panelEmergencyContact.add(textEStreet, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        panelEmergencyContact.add(textEContactNo, gridBagConstraints);
-
-        jLabel20.setText("Name");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panelEmergencyContact.add(jLabel20, gridBagConstraints);
-
-        textEmergencyName.setText(" ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        panelEmergencyContact.add(textEmergencyName, gridBagConstraints);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 63, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        panelEmergencyContact.add(jPanel2, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        panelPersonalTab.add(panelEmergencyContact, gridBagConstraints);
+        panelContactInfo.add(txtContactNo, gridBagConstraints);
 
-        panelDependents.setBorder(javax.swing.BorderFactory.createTitledBorder("Dependents"));
-        panelDependents.setLayout(new java.awt.GridBagLayout());
-
-        jPanel3.setMinimumSize(new java.awt.Dimension(100, 33));
-        jPanel3.setPreferredSize(new java.awt.Dimension(150, 33));
-
-        btnDependentNew.setMnemonic('A');
-        btnDependentNew.setText("Insert");
-        btnDependentNew.setPreferredSize(new java.awt.Dimension(83, 23));
-        btnDependentNew.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDependentNewActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnDependentNew);
-
-        btnDependentDelete.setText("Delete");
-        btnDependentDelete.setPreferredSize(new java.awt.Dimension(83, 23));
-        jPanel3.add(btnDependentDelete);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        panelDependents.add(jPanel3, gridBagConstraints);
-
-        tableDependents.setAutoCreateRowSorter(true);
-        tableDependents.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        tableDependents.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableDependentsMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tableDependents);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        panelDependents.add(jScrollPane2, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelPersonalTab.add(panelDependents, gridBagConstraints);
+        panelPersonalTab.add(panelContactInfo, java.awt.BorderLayout.CENTER);
 
         jTabbedPane1.addTab("Personal", panelPersonalTab);
 
@@ -1610,7 +1500,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Daily Time Record", panelDTR);
 
-        jPanel17.setLayout(new java.awt.GridBagLayout());
+        panelPayslip.setLayout(new java.awt.GridBagLayout());
 
         txtPayslip.setColumns(20);
         txtPayslip.setRows(5);
@@ -1623,7 +1513,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel17.add(jScrollPane6, gridBagConstraints);
+        panelPayslip.add(jScrollPane6, gridBagConstraints);
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
@@ -1636,7 +1526,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel17.add(jPanel19, gridBagConstraints);
+        panelPayslip.add(jPanel19, gridBagConstraints);
 
         jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
@@ -1660,9 +1550,9 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel17.add(jPanel20, gridBagConstraints);
+        panelPayslip.add(jPanel20, gridBagConstraints);
 
-        jTabbedPane1.addTab("PaySlip", jPanel17);
+        jTabbedPane1.addTab("PaySlip", panelPayslip);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1691,7 +1581,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
         MainApp.messagePanelObservable.callObserver(new PanelMessage("Employee", "remove"));
     }//GEN-LAST:event_btnCloseActionPerformed
 
-    
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         ce = new Employee();
         initScreen();
@@ -1702,12 +1591,12 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
             try {
                 saveScreen();
-         //       dbms.save(ce);
-                // TODO review the generated test code and remove the default call to fail.
+
+                eDao.save(ce);
 
                 initTableView();
                 JOptionPane.showMessageDialog(this, "Employee information save.", "Employee", JOptionPane.INFORMATION_MESSAGE);
-             
+
             } catch (Exception ex) {
                 JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
             }
@@ -1719,33 +1608,30 @@ public class EmployeeInformation extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void tableEmployeesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableEmployeesMouseClicked
-        // if (evt.getClickCount() > 1) {
+        if (evt.getClickCount() > 1) {
 
-//        JTable jTable = (JTable) evt.getSource();
-//        if (jTable.getRowCount() > 0) {
-//            int row = jTable.getSelectedRow();
-//            if (row < 0) {
-//                return;
-//            }
-//
-//            Employee v = (Employee) jTable.getValueAt(row, 3);
-//
-//            if (v != null) {
-//                try {
-//                    ce = Employee.getEmployeeByTid(v.getId());
-//      //              dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
-//                    initScreen();
-//                } catch (Exception ex) {
-//                    Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        }
-//        //  }
+            JTable jTable = (JTable) evt.getSource();
+            if (jTable.getRowCount() > 0) {
+                int row = jTable.getSelectedRow();
+                if (row < 0) {
+                    return;
+                }
+
+                Employee v = (Employee) jTable.getValueAt(row, 3);
+
+                if (v != null) {
+                    try {
+                        ce = eDao.find(v.getId());
+                        initScreen();
+                    } catch (Exception ex) {
+                        Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
     }//GEN-LAST:event_tableEmployeesMouseClicked
 
     private void btnPayslipAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayslipAllActionPerformed
-
-
 //        KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
 //        if (kv == null) {
 //            return;
@@ -1906,31 +1792,10 @@ public class EmployeeInformation extends javax.swing.JPanel {
         DailyTimeRecord dtr = new DailyTimeRecord(ce);
         openDTREntryDialog(dtr);
     }//GEN-LAST:event_btnInsertDetailActionPerformed
-
-    private void tableDependentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDependentsMouseClicked
-        if (evt.getClickCount() > 1) {
-
-            JTable jTable = (JTable) evt.getSource();
-            if (jTable.getRowCount() > 0) {
-                int row = jTable.getSelectedRow();
-//                com.jcl.hrm.Dependents d = (com.jcl.hrm.Dependents) jTable.getValueAt(row, 0);
-//                if (d != null) {
-//                    openDependentDialog(d);
-//                }
-            }
-        }
-    }//GEN-LAST:event_tableDependentsMouseClicked
-
-    private void btnDependentNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDependentNewActionPerformed
-
-   }//GEN-LAST:event_btnDependentNewActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnDependentDelete;
-    private javax.swing.JButton btnDependentNew;
     private javax.swing.JButton btnInsertDetail;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnPayslip;
@@ -1938,27 +1803,22 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JButton btnRefreshDTR;
     private javax.swing.JButton btnSave;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox comboBranch;
+    private javax.swing.JComboBox comboCompany;
     private javax.swing.JComboBox comboDepartment;
     private javax.swing.JComboBox comboDisplayType;
     private javax.swing.JComboBox comboEmploymentStatus;
     private javax.swing.JComboBox comboMaritalStatus;
+    private javax.swing.JComboBox comboPayCode;
     private javax.swing.JComboBox comboPayrollPeriod;
     private javax.swing.JComboBox comboPosition;
     private javax.swing.JComboBox comboType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -1986,10 +1846,14 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1998,19 +1862,15 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
@@ -2027,24 +1887,22 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JPanel panelContactInfo3;
     private javax.swing.JPanel panelContactInfo4;
     private javax.swing.JPanel panelDTR;
-    private javax.swing.JPanel panelDependents;
-    private javax.swing.JPanel panelEmergencyContact;
     private javax.swing.JPanel panelEmployeeData;
     private javax.swing.JPanel panelEmployeeInfo;
     private javax.swing.JPanel panelLeft;
     private javax.swing.JPanel panelOthers;
+    private javax.swing.JPanel panelPayslip;
     private javax.swing.JPanel panelPersonalTab;
     private javax.swing.JPanel panelTop;
     private javax.swing.JRadioButton rbFemale;
     private javax.swing.JRadioButton rbMale;
     private javax.swing.JTable tableDTR;
-    private javax.swing.JTable tableDependents;
     private javax.swing.JTable tableEmployees;
     private javax.swing.JTable tableJob;
     private javax.swing.JFormattedTextField textAllowance;
     private javax.swing.JTextField textBankAccountNo;
     private javax.swing.JFormattedTextField textBasicSalary;
-    private javax.swing.JTextField textCity;
+    private javax.swing.JFormattedTextField textBenefits;
     private javax.swing.JFormattedTextField textDLoan1;
     private javax.swing.JFormattedTextField textDLoan2;
     private javax.swing.JFormattedTextField textDPagIbig;
@@ -2052,19 +1910,15 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField textDSSS;
     private javax.swing.JFormattedTextField textDTax;
     private javax.swing.JFormattedTextField textDailyRate;
-    private javax.swing.JTextField textEContactNo;
-    private javax.swing.JTextField textEStreet;
-    private javax.swing.JTextField textEmaillAdd;
-    private javax.swing.JTextField textEmergencyName;
     private javax.swing.JFormattedTextField textHourlyRate;
-    private javax.swing.JFormattedTextField textMinuteRate;
     private javax.swing.JTextField textPagIbigNo;
     private javax.swing.JTextField textPhilHealthNo;
-    private javax.swing.JTextField textProvince;
     private javax.swing.JTextField textSSSNo;
+    private javax.swing.JFormattedTextField textSickLeave;
     private javax.swing.JTextField textStreet;
     private javax.swing.JTextField textTaxIdNo;
-    private javax.swing.JTextField txtContactNo;
+    private javax.swing.JFormattedTextField textVacationLeave;
+    private javax.swing.JFormattedTextField txtContactNo;
     private org.jdesktop.swingx.JXDatePicker txtDateEnd;
     private org.jdesktop.swingx.JXDatePicker txtDateFrom;
     private org.jdesktop.swingx.JXDatePicker txtDateHired;
@@ -2074,6 +1928,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtLastName;
     private javax.swing.JTextField txtMiddleName;
+    private javax.swing.JFormattedTextField txtNumberOfDependents;
     private javax.swing.JTextArea txtPayslip;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
@@ -2119,9 +1974,15 @@ public class EmployeeInformation extends javax.swing.JPanel {
 //
 //    }
     private void initComboBoxes() throws Exception {
-        ComboBoxModel cbmPostion = new DefaultComboBoxModel(Position.getAllPosition().toArray());
+
+        ComboBoxModel cbmPostion = new DefaultComboBoxModel(pDao.getPositions().toArray());
         comboPosition.setModel(cbmPostion);
 
+        ComboBoxModel cbmCompany = new DefaultComboBoxModel(cDao.getCompanies().toArray());
+        comboCompany.setModel(cbmCompany);
+
+        ComboBoxModel cbmDepartment = new DefaultComboBoxModel(dDao.getDepartments().toArray());
+        comboDepartment.setModel(cbmDepartment);
 
         for (MaritalStatus s : MaritalStatus.values()) {
             comboMaritalStatus.addItem(s.name());
@@ -2133,6 +1994,10 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         for (PayrollPeriodType ppt : PayrollPeriodType.values()) {
             comboType.addItem(ppt.name());
+        }
+
+        for (PayrollPeriodCode ppc : PayrollPeriodCode.values()) {
+            comboPayCode.addItem(ppc.name());
         }
 
         for (DTRDisplayType ddt : DTRDisplayType.values()) {
@@ -2161,11 +2026,11 @@ public class EmployeeInformation extends javax.swing.JPanel {
         txtLastName.setText(ce.getLastName());
         txtMiddleName.setText(ce.getMiddleName());
         txtDateOfBirth.setDate(ce.getDateOfBirth());
-
+        txtNumberOfDependents.setValue(ce.getNumberOfDependents());
         comboMaritalStatus.setSelectedItem(ce.getMaritalStatus());
 
         labelCompleteName.setText(ce.getName());
-        if (ce.getGender().equals("F") ){
+        if (ce.getGender().equals("F")) {
             rbFemale.setSelected(true);
         } else {
             rbMale.setSelected(true);
@@ -2173,6 +2038,8 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         comboEmploymentStatus.setSelectedItem(ce.getStatus());
         comboPosition.setSelectedItem(ce.getPosition());
+        comboDepartment.setSelectedItem(ce.getDepartment());
+        comboCompany.setSelectedItem(ce.getCompany());
         comboType.setSelectedItem(ce.getPayType() == null ? "Variable" : ce.getPayType());
 
         txtDateHired.setDate(ce.getDateHired());
@@ -2181,14 +2048,18 @@ public class EmployeeInformation extends javax.swing.JPanel {
         textBasicSalary.setValue(ce.getSalary());
         textDailyRate.setValue(ce.getDailyRate());
         textHourlyRate.setValue(ce.getHourRate());
-        textMinuteRate.setValue(ce.getMinuteRate());
+        textBenefits.setValue(ce.getBenefits());
         textAllowance.setValue(ce.getAllowance());
+
+        textSickLeave.setValue(ce.getSickLeave());
+        textVacationLeave.setValue(ce.getVacationLeave());
+
 
         textDTax.setValue(ce.getTaxWithheld());
         textDSSS.setValue(ce.getSssD());
         textDPagIbig.setValue(ce.getPagibigD());
         textDPhilHealth.setValue(ce.getPhilhealthD());
-       
+
         textBankAccountNo.setText(ce.getBankAccountNumber());
         textTaxIdNo.setText(ce.getTaxID());
         textSSSNo.setText(ce.getSssNo());
@@ -2197,23 +2068,20 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
 
         textStreet.setText(ce.getAddress());
-        
+
         txtContactNo.setText(ce.getTelephoneNo());
-        
+
 
         txtDateTo.setDate(new Date());
         txtDateFrom.setDate(new Date());
-        
+
         initLoanTableView();
         initDTR();
         initJOB();
 
-//comboDepartment
-//comboBranch
+
 
     }
-
-  
 
     private void saveScreen() {
 
@@ -2223,7 +2091,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setMiddleName(txtMiddleName.getText());
         ce.setDateOfBirth(txtDateOfBirth.getDate());
         ce.setMaritalStatus(comboMaritalStatus.getSelectedItem().toString());
-
+        ce.setNumberOfDependents(Integer.parseInt(txtNumberOfDependents.getText()));
         ce.setName(labelCompleteName.getText());
 
         if (rbFemale.isSelected()) {
@@ -2235,9 +2103,18 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setStatus(comboEmploymentStatus.getSelectedItem().toString());
 
         Position pp = (Position) comboPosition.getSelectedItem();
-//        ce.setPosition( pp==null?"":pp.getDescription());
         ce.setPosition(pp);
+
+        Department dt = (Department) comboDepartment.getSelectedItem();
+        ce.setDepartment(dt);
+
+
+        Company co = (Company) comboCompany.getSelectedItem();
+        ce.setCompany(co);
+
         ce.setPayType(comboType.getSelectedItem().toString());
+        ce.setPayCode(comboPayCode.getSelectedItem().toString());
+
         ce.setDateHired(txtDateHired.getDate());
         ce.setDateEnd(txtDateEnd.getDate());
 
@@ -2245,14 +2122,16 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setSalary(Double.valueOf(textBasicSalary.getText()));
         ce.setDailyRate(Double.valueOf(textDailyRate.getText()));
         ce.setHourRate(Double.valueOf(textHourlyRate.getText()));
-        ce.setMinuteRate(Double.valueOf(textMinuteRate.getText()));
+        ce.setBenefits(Double.valueOf(textBenefits.getText()));
         ce.setAllowance(Double.valueOf(textAllowance.getText()));
+        ce.setSickLeave(Integer.valueOf(textAllowance.getText()));
+        ce.setVacationLeave(Integer.valueOf(textAllowance.getText()));
 
         ce.setTaxWithheld(Double.valueOf(textDTax.getText()));
         ce.setSssD(Double.valueOf(textDSSS.getText()));
         ce.setPagibigD(Double.valueOf(textDPagIbig.getText()));
         ce.setPhilhealthD(Double.valueOf(textDPhilHealth.getText()));
-      
+
 
         ce.setBankAccountNumber(textBankAccountNo.getText());
         ce.setTaxID(textTaxIdNo.getText());
@@ -2261,8 +2140,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setPhilhealthNo(textPhilHealthNo.getText());
 
         ce.setAddress(textStreet.getText());
-        
-        ce.setTelephoneNo(txtContactNo.getText());        
+        ce.setTelephoneNo(txtContactNo.getText());
 
     }
 
@@ -2300,8 +2178,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
 //        } catch (Exception ex) {
 //            Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
-
     }
 
     private void initDTR() {
@@ -2372,7 +2248,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
     }
 
     private void processPayslip() {
-
 //        KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
 //        if (kv == null) {
 //            return;
@@ -2434,22 +2309,14 @@ public class EmployeeInformation extends javax.swing.JPanel {
 //        } catch (Exception ex) {
 //            Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
     }
 
     private void openDTREntryDialog(DailyTimeRecord d) {
-        DTREntry dui = new DTREntry(null, true, d, ce);
+        DTREntry dui = new DTREntry(null, true, d);
         dui.setLocationRelativeTo(this);
         dui.setVisible(true);
         if (dui.selectedButton == SelectedButton.Save) {
             try {
-//                if (dui.dependent.getId() == 0) {
-//                    if (ce.getDependents() == null) {
-//                        ce.setDependents(new ArrayList<com.jcl.hrm.Dependents>());
-//                    }
-//                    System.out.println("dependent: " + dui.dependent);
-//                    ce.getDependents().add(dui.dependent);
-//                }
                 initDTR();
             } catch (Exception ex) {
                 Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
