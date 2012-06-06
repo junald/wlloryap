@@ -28,6 +28,12 @@ public class ApplicationSetting extends javax.swing.JPanel {
     
      @Autowired
     BranchSetting bs;
+     
+     @Autowired
+     PositionSetting ps;
+     
+     @Autowired
+     DepartmentSetting depts;
     
     /** Creates new form ApplicationSetting */
     public ApplicationSetting() {
@@ -39,8 +45,11 @@ public class ApplicationSetting extends javax.swing.JPanel {
         panelUser.add(new UserInformation());
         csi.initScreen();        
         bs.setup();
+        ps.setup();
         panelSetting.add(csi);     
         panelBranch.add(bs);
+        panelPosition.add(ps);
+        panelDepartment.add(depts);
     }
 
     /** This method is called from within the constructor to
