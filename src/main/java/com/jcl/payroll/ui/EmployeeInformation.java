@@ -2124,8 +2124,8 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setHourRate(Double.valueOf(textHourlyRate.getText()));
         ce.setBenefits(Double.valueOf(textBenefits.getText()));
         ce.setAllowance(Double.valueOf(textAllowance.getText()));
-        ce.setSickLeave(Integer.valueOf(textAllowance.getText()));
-        ce.setVacationLeave(Integer.valueOf(textAllowance.getText()));
+        ce.setSickLeave(Integer.valueOf(textSickLeave.getText()));
+        ce.setVacationLeave(Integer.valueOf(textVacationLeave.getText()));
 
         ce.setTaxWithheld(Double.valueOf(textDTax.getText()));
         ce.setSssD(Double.valueOf(textDSSS.getText()));
