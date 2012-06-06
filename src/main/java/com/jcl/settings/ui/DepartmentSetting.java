@@ -330,7 +330,7 @@ public class DepartmentSetting extends javax.swing.JPanel {
 
                 deptDao.save(department);
                 initTableView();
-                JOptionPane.showMessageDialog(this, "Branch information save.", "Branch", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Department information save.", "Branch", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
             }
