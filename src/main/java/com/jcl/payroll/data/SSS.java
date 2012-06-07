@@ -13,10 +13,18 @@ public class SSS {
         private double monthlyCredit;
         private double er;
         private double ee;
-	/**
-	 * @return
-	 */
-	public double getEe() {
+	
+        public SSS(double range1,double range2, double monthlyCredit,double er,
+                double ee){
+            this.range1 = range1;
+            this.range2 = range2;
+            this.monthlyCredit = monthlyCredit;
+            this.er = er;
+            this.ee = ee;
+        }
+	 
+        
+	 	public double getEe() {
 		return ee;
 	}
 
