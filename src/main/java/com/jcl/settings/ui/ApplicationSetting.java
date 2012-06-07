@@ -50,6 +50,7 @@ public class ApplicationSetting extends javax.swing.JPanel {
         panelBranch.add(bs);
         panelPosition.add(ps);
         panelDepartment.add(depts);
+        panelAdjustment.add(adjust);
     }
 
     /** This method is called from within the constructor to
