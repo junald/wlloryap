@@ -12,6 +12,7 @@ package com.jcl.settings.ui;
 
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.dao.BranchDao;
+import com.jcl.dao.OtherAdjustmentDao;
 import com.jcl.main.MainApp;
 import com.jcl.model.OtherAdjustment;
 import com.jcl.observables.PanelMessage;
@@ -32,7 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AdjustmentSetting extends javax.swing.JPanel {
 
     @Autowired
-    BranchDao adjustDao;
+    OtherAdjustmentDao adjustDao;
+    
     OtherAdjustment adjustment;
 
     /**
@@ -411,14 +413,14 @@ public class AdjustmentSetting extends javax.swing.JPanel {
     private void initScreen() {
         disableAllControls(true);
         txtId.setText(adjustment.getId()==null? "": adjustment.getId()+"");
-        txtCode.setText(adjustment.getCode());
+       // txtCode.setText(adjustment.getCode());
         txtDescription.setText(adjustment.getDescription());
 
     }
 
     private void saveScreen() {
 
-        adjustment.setCode(txtCode.getText());
+       // adjustment.setCode(txtCode.getText());
         adjustment.setDescription(txtDescription.getText());
 
     }
