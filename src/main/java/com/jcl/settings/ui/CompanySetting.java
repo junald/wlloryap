@@ -11,10 +11,9 @@
 package com.jcl.settings.ui;
 
 import com.jcl.customizetable.NonEditableDefaultTableModel;
-import com.jcl.dao.BranchDao;
-import com.jcl.dao.OtherAdjustmentDao;
+import com.jcl.dao.CompanyDao;
 import com.jcl.main.MainApp;
-import com.jcl.model.OtherAdjustment;
+import com.jcl.model.Company;
 import com.jcl.observables.PanelMessage;
 import com.jcl.verycommon.JOptionErrorMessage;
 import java.awt.Component;
@@ -30,17 +29,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author junald
  */
 @org.springframework.stereotype.Component
-public class AdjustmentSetting extends javax.swing.JPanel {
+public class CompanySetting extends javax.swing.JPanel {
 
     @Autowired
-    OtherAdjustmentDao adjustDao;
-    
-    OtherAdjustment adjustment;
+    CompanyDao cDao;
+    Company company;
 
     /**
      * Creates new form ProductInformation
      */
-    public AdjustmentSetting() {
+    public CompanySetting() {
         initComponents();        
     }
     
@@ -295,7 +293,7 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+            .addGap(0, 352, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -326,13 +324,13 @@ public class AdjustmentSetting extends javax.swing.JPanel {
 }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (adjustment != null) {
+        if (company != null) {
             try {
                 saveScreen();
 
-                adjustDao.save(adjustment);
+                cDao.save(company);
                 initTableView();
-                JOptionPane.showMessageDialog(this, "Adjustment information save.", "Branch", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Company information save.", "Company", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
             }
@@ -341,7 +339,7 @@ public class AdjustmentSetting extends javax.swing.JPanel {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
 
-        adjustment = new OtherAdjustment();
+        company = new Company();
         disableAllControls(true);
         initScreen();
 
@@ -357,13 +355,13 @@ public class AdjustmentSetting extends javax.swing.JPanel {
             JTable jTable = (JTable) evt.getSource();
             if (jTable.getRowCount() > 0) {
                 int row = jTable.getSelectedRow();
-               OtherAdjustment b = (OtherAdjustment) jTable.getValueAt(row, 1);
+                Company b = (Company) jTable.getValueAt(row, 1);
                 if (b != null) {
                     try {
-                        adjustment = adjustDao.find(b.getId());
+                        company = cDao.find(b.getId());
                         initScreen();
                     } catch (Exception ex) {
-                        Logger.getLogger(AdjustmentSetting.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(CompanySetting.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -399,29 +397,29 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         try {
             NonEditableDefaultTableModel dtm = new NonEditableDefaultTableModel();
             dtm.setColumnIdentifiers(new String[]{"Id", "Description"});
-            for (OtherAdjustment b : adjustDao.getAdjustments()) {
+            for (Company b : cDao.getCompanies()) {
                 Object[] o = new Object[]{b.getId(), b};
                 dtm.addRow(o);
             }
             tableData.setModel(dtm);
         } catch (Exception ex) {
-            Logger.getLogger(AdjustmentSetting.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CompanySetting.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
     private void initScreen() {
         disableAllControls(true);
-        txtId.setText(adjustment.getId()==null? "": adjustment.getId()+"");
-       // txtCode.setText(adjustment.getCode());
-        txtDescription.setText(adjustment.getDescription());
+        txtId.setText(company.getId()==null? "": company.getId()+"");
+        //txtCode.setText(company.getCode());
+        txtDescription.setText(company.getDescription());
 
     }
 
     private void saveScreen() {
 
-       // adjustment.setCode(txtCode.getText());
-        adjustment.setDescription(txtDescription.getText());
+      //  company.setCode(txtCode.getText());
+        company.setDescription(txtDescription.getText());
 
     }
 

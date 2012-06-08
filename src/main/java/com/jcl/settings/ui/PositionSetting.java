@@ -330,7 +330,7 @@ public class PositionSetting extends javax.swing.JPanel {
 
                 pDao.save(position);
                 initTableView();
-                JOptionPane.showMessageDialog(this, "Position information save.", "Branch", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Position information save.", "Position", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
             }
