@@ -33,9 +33,9 @@ public class PaySlipDetail {
     @Column(length = 150)
     private String description;
     @Column
-    private Boolean isTaxable = false;
+    private Boolean taxable = false;
     @Column
-    private Boolean isDeduction = false;
+    private Boolean deduction = false;
   
     @Column
     private Integer rowNumber;
@@ -55,9 +55,9 @@ public class PaySlipDetail {
     @Column
     private Double total;
     @Column
-    private boolean isGenerated = true;
+    private Boolean generated = true;
     @Column
-    private boolean isProcess = false;
+    private Boolean process = false;
     @Column
     private Double employeeContribution;
     
@@ -121,42 +121,42 @@ public class PaySlipDetail {
     /**
      * @return the isTaxable
      */
-    public boolean isIsTaxable() {
-        return isTaxable;
+    public Boolean getTaxable() {
+        return taxable;
     }
 
     /**
      * @param isTaxable the isTaxable to set
      */
-    public void setIsTaxable(boolean isTaxable) {
-        this.isTaxable = isTaxable;
+    public void setTaxable(Boolean isTaxable) {
+        this.taxable = isTaxable;
     }
 
     /**
      * @return the isDeduction
      */
-    public boolean isIsDeduction() {
-        return isDeduction;
+    public Boolean getDeduction() {
+        return deduction;
     }
 
     /**
      * @param isDeduction the isDeduction to set
      */
-    public void setIsDeduction(boolean isDeduction) {
-        this.isDeduction = isDeduction;
+    public void setDeduction(Boolean isDeduction) {
+        this.deduction = isDeduction;
     }
 
     /**
      * @return the total
      */
-    public double getTotal() {
+    public Double getTotal() {
         return total;
     }
 
     /**
      * @param total the total to set
      */
-    public void setTotal(double total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 
@@ -233,14 +233,14 @@ public class PaySlipDetail {
     /**
      * @return the amount
      */
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
     /**
      * @param amount the amount to set
      */
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -262,29 +262,29 @@ public class PaySlipDetail {
     /**
      * @return the isGenerated
      */
-    public boolean isIsGenerated() {
-        return isGenerated;
+    public Boolean getGenerated() {
+        return generated;
     }
 
     /**
      * @param isGenerated the isGenerated to set
      */
-    public void setIsGenerated(boolean isGenerated) {
-        this.isGenerated = isGenerated;
+    public void setGenerated(Boolean isGenerated) {
+        this.generated = isGenerated;
     }
 
     /**
      * @return the isProcess
      */
-    public boolean isIsProcess() {
-        return isProcess;
+    public Boolean getProcess() {
+        return process;
     }
 
     /**
      * @param isProcess the isProcess to set
      */
-    public void setIsProcess(boolean isProcess) {
-        this.isProcess = isProcess;
+    public void setProcess(Boolean isProcess) {
+        this.process = isProcess;
     }
 
     /**
@@ -316,7 +316,7 @@ public class PaySlipDetail {
         this.paySlipDetailType = psdt;
         //   this.businessRule = BusinessRuleFactory.getBusinessRuleType(this.paySlipDetailType, this.paySlip.getEmployee());
         this.description = this.paySlipDetailType.toString();
-        this.isGenerated = isGen;
+        this.generated = isGen;
 
     }
 

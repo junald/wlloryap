@@ -7,12 +7,14 @@ package com.jcl.dao;
 import com.jcl.model.PaySlipDetail;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author junald
  */
+@Repository
 public class PaySlipDetailDao {
 
     @PersistenceContext
@@ -24,6 +26,8 @@ public class PaySlipDetailDao {
 
     @Transactional
     public void save(PaySlipDetail payslipDetail) {
+        
+        System.out.println("saving payslipDetail");
         if (payslipDetail.getId() == null) {
             entityManager.persist(payslipDetail);
         } else {

@@ -146,21 +146,22 @@ public class PaySlipProcess2 {
                     psd.setAmount(emp.getHourRate());
                     psd.setTotal(Double.valueOf(totalAmount.toPlainString()));
                     System.out.println("psd.description: " + psd.getDescription());
-                    psd.setIsTaxable(true);
+                    psd.setTaxable(true);
                     if(dtrType == DTRType.Absent || dtrType == DTRType.Undertime){
-                        psd.setIsDeduction(true);
+                        psd.setDeduction(true);
                     }else if(dtrType == DTRType.SL && emp.getSickLeave() >=0) {                        
-                        psd.setIsDeduction(true);                       
+                        psd.setDeduction(true);                       
                     }else if(dtrType == DTRType.VL && emp.getVacationLeave() >=0) {                        
-                        psd.setIsDeduction(true);                       
+                        psd.setDeduction(true);                       
                     }else{
-                        psd.setIsDeduction(false);                       
+                        psd.setDeduction(false);                       
                     }     
                     int rowNumber = 1;
                     if(ps.getPayslipDetails()!= null ){
                         rowNumber = ps.getPayslipDetails().size() + 1 ;
                     }
                     psd.setRowNumber(rowNumber);     
+                    psd.setGenerated(true);
                     ps.getPayslipDetails().add(psd);
                     
                 }
@@ -245,20 +246,20 @@ public class PaySlipProcess2 {
               psdSSS.setAmount(0d);
               SSS sss = SSSProvider.getSSSContribution(emp.getSalary());
               psdSSS.setTotal(sss.getEe());
-              psdSSS.setIsDeduction(true);
+              psdSSS.setDeduction(true);
               psdSSS.setEmployeeContribution(sss.getEr());
-              
+              psdSSS.setGenerated(true);
               emp.getPayslip().getPayslipDetails().add(psdSSS);
               
               PaySlipDetail psdPH = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.PhilHealth.toString());
               psdPH.setDescription("PhilHealth");
               psdPH.setQuantity(0d);
               psdPH.setAmount(0d);
-              psdPH.setIsDeduction(true);
+              psdPH.setDeduction(true);
               Philhealth ph = PhilhealthProvider.getPhilhealthContribution(emp.getSalary());
               psdPH.setTotal(ph.getEe());
               psdPH.setEmployeeContribution(ph.getEr());
-              
+              psdPH.setGenerated(true);
               emp.getPayslip().getPayslipDetails().add(psdPH);
               
               PaySlipDetail psdPag = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.PagIbig.toString());
@@ -267,20 +268,20 @@ public class PaySlipProcess2 {
               psdPag.setAmount(0d);
               //SSS sss = SSSProvider.getSSSContribution(emp.getSalary());
               psdPag.setTotal(10d);
-              psdPag.setIsDeduction(true);
+              psdPag.setDeduction(true);
               psdPag.setEmployeeContribution(10d);
-              
+              psdPag.setGenerated(true);
               emp.getPayslip().getPayslipDetails().add(psdPag);
               
               PaySlipDetail psdTax = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.WTax.toString());
               psdTax.setDescription("Withholding Tax");
               psdTax.setQuantity(0d);
               psdTax.setAmount(0d);
-              psdTax.setIsDeduction(true);
+              psdTax.setDeduction(true);
               //Philhealth ph = PhilhealthProvider.getPhilhealthContribution(emp.getSalary());
               psdTax.setTotal(10d);
               psdTax.setEmployeeContribution(10d);
-              
+              psdTax.setGenerated(true);
               emp.getPayslip().getPayslipDetails().add(psdTax);
               
               

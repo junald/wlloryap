@@ -216,7 +216,7 @@ public class PaySlip {
      public List<PaySlipDetail> getCompensations() {
         List<PaySlipDetail> list = new ArrayList<PaySlipDetail>();
         for (PaySlipDetail psd : payslipDetails) {
-            if (!psd.isIsDeduction()) {
+            if (!psd.getDeduction()) {
                 list.add(psd);
             }
         }
@@ -226,7 +226,7 @@ public class PaySlip {
     public List<PaySlipDetail> getDeductions() {
         List<PaySlipDetail> list = new ArrayList<PaySlipDetail>();
         for (PaySlipDetail psd : payslipDetails) {
-            if (psd.isIsDeduction()) {
+            if (psd.getDeduction()) {
                 list.add(psd);
             }
         }

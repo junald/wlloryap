@@ -14,6 +14,7 @@ import com.jcl.customizetable.DateTableCellRenderer;
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
 import com.jcl.customizetable.TransactionNumberTableCellRenderer;
+import com.jcl.dao.PaySlipDetailDao;
 import com.jcl.dao.PayrollPeriodDao;
 import com.jcl.dbms.dbms;
 import com.jcl.main.MainApp;
@@ -58,6 +59,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
     @Autowired
     PaySlipProcess2 ppService;
     
+    @Autowired
+    PaySlipDetailDao psdDao;
     
     private Employee ce;
     
@@ -1353,11 +1356,10 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
             int rowCounter = 1;
             double total = 0.0;
-            for (PaySlipDetail v : ce.getPayslip().getPayslipDetails()) {
-                String loadingDesc = v.getDescription();
+            for (PaySlipDetail v : ce.getPayslip().getPayslipDetails()) {                
                 //double ntotal = v.isIsDeduction() ? (-1 * v.getTotal()) : v.getTotal();                
                 Object[] o = new Object[]{rowCounter++, v, v.getDescription(),v.getOtherDescription(),
-                    v.getAmount(), v.getTotal()};
+                      (double)v.getAmount(),   (double)v.getTotal()};
                 //total = total + ntotal;
                 dtm.addRow(o);
             }
@@ -1365,7 +1367,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
             tableDTR.setModel(dtm);
             NumberTableCellRenderer ntcr = new NumberTableCellRenderer();
             NumberTableCellRenderer ntcr2 = new NumberTableCellRenderer("#.##");
-            tableDTR.getColumn("Rates").setCellRenderer(ntcr2);
+            tableDTR.getColumn("Rates").setCellRenderer(ntcr);
             tableDTR.getColumn("Total").setCellRenderer(ntcr);
             //tableDTR.getColumn("Quantity").setCellRenderer(ntcr2);
             // tableDTR.getColumn("Loader Count").setCellRenderer(ntcr2);
@@ -1390,40 +1392,31 @@ public class PaySlipInformation extends javax.swing.JPanel {
     }
 
     private void openPaySlipDialog(PaySlipDetail d) {
-//        try {
-//            PaySlipDetail psd = d;
-//            if (d.getId() != -1) {
-//                psd = PaySlipDetail.getPaySlipDetailByTid(d.getId());
-//                psd.setPaySlip(d.getPaySlip());
-//
-//            }
-//
-//            PaySlipEntry dui = new PaySlipEntry(null, true, psd, ce);
-//            dui.setLocationRelativeTo(this);
-//            dui.setVisible(true);
-//            if (dui.selectedButton == SelectedButton.Save) {
-//                try {
-//                    if (dui.psd.getId() != -1) {
-//                        boolean found = false;
-//                        for (PaySlipDetail psdd : ce.getPayslip().getPayslipDetails()) {
-//                            if (psdd.getId() == dui.psd.getId()) {
-//                                found = true;
-//                                break;
-//                            }
-//                        }
-//                        if (!found) {
-//                            ce.getPayslip().getPayslipDetails().add(d);
-//                        }
-//                    }
-//                    d = dui.psd;
-//                  //  processEmployee(ce);
-//                    //initPayslipDetail();
-//                } catch (Exception ex) {
-//                    Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        } catch (Exception ex) {
-//            Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            
+
+            PaySlipEntry dui = new PaySlipEntry(null, true, d);
+            dui.setLocationRelativeTo(this);
+            dui.setVisible(true);
+            if (dui.selectedButton == SelectedButton.Save) {
+                try {
+                    boolean isnew = false;
+                    if(dui.psd.getId() == null){                        
+                        isnew = true;
+                    }
+                    
+                    psdDao.save(dui.psd);     
+                    if(isnew){
+                        ce.getPayslip().getPayslipDetails().add(dui.psd);
+                    }
+                    
+                    initPayslipDetail();
+                } catch (Exception ex) {
+                    Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
