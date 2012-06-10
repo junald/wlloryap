@@ -1365,7 +1365,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
             tableDTR.setModel(dtm);
             NumberTableCellRenderer ntcr = new NumberTableCellRenderer();
             NumberTableCellRenderer ntcr2 = new NumberTableCellRenderer("#.##");
-            tableDTR.getColumn("Rates").setCellRenderer(ntcr);
+            tableDTR.getColumn("Rates").setCellRenderer(ntcr2);
             tableDTR.getColumn("Total").setCellRenderer(ntcr);
             //tableDTR.getColumn("Quantity").setCellRenderer(ntcr2);
             // tableDTR.getColumn("Loader Count").setCellRenderer(ntcr2);

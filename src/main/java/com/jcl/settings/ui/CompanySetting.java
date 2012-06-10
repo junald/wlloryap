@@ -75,9 +75,13 @@ public class CompanySetting extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
-        txtDescription = new javax.swing.JTextField();
+        txtAddress = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtCode = new javax.swing.JTextField();
+        txtDescription = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtTelephoneNO = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtZipcode = new javax.swing.JTextField();
         panelDataCenter = new javax.swing.JPanel();
         panelBottom = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
@@ -162,7 +166,7 @@ public class CompanySetting extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelInformation.add(jLabel1, gridBagConstraints);
 
-        jLabel2.setText("Description");
+        jLabel2.setText("Address");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -172,6 +176,7 @@ public class CompanySetting extends javax.swing.JPanel {
 
         txtId.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -179,12 +184,13 @@ public class CompanySetting extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelInformation.add(txtDescription, gridBagConstraints);
+        panelInformation.add(txtAddress, gridBagConstraints);
 
-        jLabel3.setText("Code");
+        jLabel3.setText("Company Name");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -194,9 +200,43 @@ public class CompanySetting extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelInformation.add(txtCode, gridBagConstraints);
+        panelInformation.add(txtDescription, gridBagConstraints);
+
+        jLabel5.setText("Telephone No.");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        panelInformation.add(jLabel5, gridBagConstraints);
+
+        txtTelephoneNO.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelInformation.add(txtTelephoneNO, gridBagConstraints);
+
+        jLabel7.setText("Zipcode");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        panelInformation.add(jLabel7, gridBagConstraints);
+
+        txtZipcode.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelInformation.add(txtZipcode, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -289,11 +329,11 @@ public class CompanySetting extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 312, Short.MAX_VALUE)
+            .addGap(0, 738, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 352, Short.MAX_VALUE)
+            .addGap(0, 287, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -367,6 +407,7 @@ public class CompanySetting extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_tableDataMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClose;
@@ -375,6 +416,8 @@ public class CompanySetting extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
@@ -388,9 +431,11 @@ public class CompanySetting extends javax.swing.JPanel {
     private javax.swing.JPanel panelRight;
     private javax.swing.JPanel panelTop;
     private javax.swing.JTable tableData;
-    private javax.swing.JTextField txtCode;
+    private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtTelephoneNO;
+    private javax.swing.JTextField txtZipcode;
     // End of variables declaration//GEN-END:variables
 
     private void initTableView() {
@@ -411,15 +456,19 @@ public class CompanySetting extends javax.swing.JPanel {
     private void initScreen() {
         disableAllControls(true);
         txtId.setText(company.getId()==null? "": company.getId()+"");
-        //txtCode.setText(company.getCode());
-        txtDescription.setText(company.getDescription());
+        txtDescription.setText(company.getDescription());        
+        txtAddress.setText(company.getAddress());
+        txtTelephoneNO.setText(company.getTelephoneNo());
+        txtZipcode.setText(company.getZipcode());
 
     }
 
     private void saveScreen() {
-
-      //  company.setCode(txtCode.getText());
+      
+        company.setAddress(txtAddress.getText());
         company.setDescription(txtDescription.getText());
+        company.setTelephoneNo(txtTelephoneNO.getText());
+        company.setZipcode(txtZipcode.getText());
 
     }
 

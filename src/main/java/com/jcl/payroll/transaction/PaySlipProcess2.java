@@ -14,6 +14,7 @@ import com.jcl.model.PaySlip;
 import com.jcl.model.PaySlipDetail;
 import com.jcl.model.Employee;
 import com.jcl.model.DailyTimeRecord;
+import com.jcl.payroll.data.Philhealth;
 import com.jcl.payroll.data.SSS;
 import com.jcl.payroll.enumtypes.*;
 import com.jcl.utilities.MyDateFormatter;
@@ -244,9 +245,45 @@ public class PaySlipProcess2 {
               psdSSS.setAmount(0d);
               SSS sss = SSSProvider.getSSSContribution(emp.getSalary());
               psdSSS.setTotal(sss.getEe());
+              psdSSS.setIsDeduction(true);
               psdSSS.setEmployeeContribution(sss.getEr());
               
               emp.getPayslip().getPayslipDetails().add(psdSSS);
+              
+              PaySlipDetail psdPH = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.PhilHealth.toString());
+              psdPH.setDescription("PhilHealth");
+              psdPH.setQuantity(0d);
+              psdPH.setAmount(0d);
+              psdPH.setIsDeduction(true);
+              Philhealth ph = PhilhealthProvider.getPhilhealthContribution(emp.getSalary());
+              psdPH.setTotal(ph.getEe());
+              psdPH.setEmployeeContribution(ph.getEr());
+              
+              emp.getPayslip().getPayslipDetails().add(psdPH);
+              
+              PaySlipDetail psdPag = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.PagIbig.toString());
+              psdPag.setDescription("Pag-ibig");
+              psdPag.setQuantity(0d);
+              psdPag.setAmount(0d);
+              //SSS sss = SSSProvider.getSSSContribution(emp.getSalary());
+              psdPag.setTotal(10d);
+              psdPag.setIsDeduction(true);
+              psdPag.setEmployeeContribution(10d);
+              
+              emp.getPayslip().getPayslipDetails().add(psdPag);
+              
+              PaySlipDetail psdTax = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.WTax.toString());
+              psdTax.setDescription("Withholding Tax");
+              psdTax.setQuantity(0d);
+              psdTax.setAmount(0d);
+              psdTax.setIsDeduction(true);
+              //Philhealth ph = PhilhealthProvider.getPhilhealthContribution(emp.getSalary());
+              psdTax.setTotal(10d);
+              psdTax.setEmployeeContribution(10d);
+              
+              emp.getPayslip().getPayslipDetails().add(psdTax);
+              
+              
           }
     }
 }

@@ -18,7 +18,7 @@ public class PhilhealthProvider {
 
     private static List<Philhealth> philHealthList = null;
     
-    public Philhealth getPhilhealthContribution(Double salary){
+    public static Philhealth getPhilhealthContribution(Double salary){
         
         if(philHealthList == null){
             init();
@@ -36,7 +36,7 @@ public class PhilhealthProvider {
         return ph;    
     }
     
-    public void init(){
+    public static void init(){
         philHealthList = new ArrayList<Philhealth>();
         philHealthList.add(new Philhealth(0,4999.99,4000,100,50,50));
         philHealthList.add(new Philhealth(5000,5999.99,5000,125,62.5,62.5));
