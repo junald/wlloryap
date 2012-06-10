@@ -8,10 +8,7 @@ package com.jcl.model;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
 import com.jcl.payroll.transaction.PaySlipReportObject;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import javax.persistence.*;
 
 /**
@@ -121,6 +118,7 @@ public class Employee {
     
     private transient String name;
     private transient ArrayList<DailyTimeRecord> dtrList;
+    private transient LinkedHashMap<String,List<DailyTimeRecord>> dtrTypeList;
     private transient PaySlipReportObject payslipReport;
     private transient PaySlip payslip;
 
@@ -711,6 +709,20 @@ public class Employee {
      */
     public void setDtrList(ArrayList<DailyTimeRecord> dtrList) {
         this.dtrList = dtrList;
+    }
+
+    /**
+     * @return the dtrTypeList
+     */
+    public LinkedHashMap<String,List<DailyTimeRecord>> getDtrTypeList() {
+        return dtrTypeList;
+    }
+
+    /**
+     * @param dtrTypeList the dtrTypeList to set
+     */
+    public void setDtrTypeList(LinkedHashMap<String,List<DailyTimeRecord>> dtrTypeList) {
+        this.dtrTypeList = dtrTypeList;
     }
 
     /**

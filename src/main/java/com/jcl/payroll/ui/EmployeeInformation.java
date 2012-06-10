@@ -2181,65 +2181,65 @@ public class EmployeeInformation extends javax.swing.JPanel {
     }
 
     private void initDTR() {
-        try {
-
-            NonEditableDefaultTableModel dtm = new NonEditableDefaultTableModel();
-            DateTableCellRenderer dtcr = new DateTableCellRenderer("MM/dd/yy");
-            dtm.setColumnIdentifiers(new String[]{"#", "Date", "Type", "In 1", "Out 1", "In 2", "Out 2", "Notes", "Process", "DTR"});
-
-
-            List<DailyTimeRecord> list = new ArrayList<DailyTimeRecord>();
-
-            Date fDate = txtDateFrom.getDate();
-            Date tDate = txtDateTo.getDate();
-
-            boolean withDate = false;
-
-            if (fDate != null && tDate != null) {
-                withDate = true;
-            } else if (fDate != null || tDate != null) {
-                JOptionPane.showMessageDialog(null, "Please enter both date or remove both date");
-                System.out.println(fDate);
-                System.out.println(tDate);
-            }
-
-            list = PaySlipProcess.retreiveDTR(fDate, tDate, ce);
-
-            int rowCounter = 1;
-
-            for (DailyTimeRecord v : list) {
-
-                if (v != null && v.getEmployee().getId() == ce.getId()) {
-
-                    Object[] o = new Object[]{rowCounter++, v.getTransactionDate(), v,
-                        stf.format(v.getTimeIn1()), stf.format(v.getTimeOut1()),
-                        stf.format(v.getTimeIn2()), stf.format(v.getTimeOut2()),
-                        v.getNotes(), v.getProcess(), v.getIsDTR()};
-                    dtm.addRow(o);
-                }
-            }
-
-
-            tableDTR.setModel(dtm);
-            NumberTableCellRenderer ntcr = new NumberTableCellRenderer();
-            tableDTR.getColumn("Date").setCellRenderer(dtcr);
-
-
-            tableDTR.getColumn("Type").setMaxWidth(110);
-            tableDTR.getColumn("Date").setMaxWidth(80);
-            tableDTR.getColumn("#").setMaxWidth(30);
-            tableDTR.getColumn("In 1").setMaxWidth(50);
-            tableDTR.getColumn("Out 1").setMaxWidth(50);
-            tableDTR.getColumn("In 2").setMaxWidth(50);
-            tableDTR.getColumn("Out 2").setMaxWidth(50);
-            tableDTR.getColumn("Process").setMaxWidth(50);
-            tableDTR.getColumn("DTR").setMaxWidth(50);
-
-
-        } catch (Exception ex) {
-            Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+//        try {
+//
+//            NonEditableDefaultTableModel dtm = new NonEditableDefaultTableModel();
+//            DateTableCellRenderer dtcr = new DateTableCellRenderer("MM/dd/yy");
+//            dtm.setColumnIdentifiers(new String[]{"#", "Date", "Type", "In 1", "Out 1", "In 2", "Out 2", "Notes", "Process", "DTR"});
+//
+//
+//            List<DailyTimeRecord> list = new ArrayList<DailyTimeRecord>();
+//
+//            Date fDate = txtDateFrom.getDate();
+//            Date tDate = txtDateTo.getDate();
+//
+//            boolean withDate = false;
+//
+//            if (fDate != null && tDate != null) {
+//                withDate = true;
+//            } else if (fDate != null || tDate != null) {
+//                JOptionPane.showMessageDialog(null, "Please enter both date or remove both date");
+//                System.out.println(fDate);
+//                System.out.println(tDate);
+//            }
+//
+//            list = PaySlipProcess.retreiveDTR(fDate, tDate, ce);
+//
+//            int rowCounter = 1;
+//
+//            for (DailyTimeRecord v : list) {
+//
+//                if (v != null && v.getEmployee().getId() == ce.getId()) {
+//
+//                    Object[] o = new Object[]{rowCounter++, v.getTransactionDate(), v,
+//                        stf.format(v.getTimeIn1()), stf.format(v.getTimeOut1()),
+//                        stf.format(v.getTimeIn2()), stf.format(v.getTimeOut2()),
+//                        v.getNotes(), v.getProcess(), v.getIsDTR()};
+//                    dtm.addRow(o);
+//                }
+//            }
+//
+//
+//            tableDTR.setModel(dtm);
+//            NumberTableCellRenderer ntcr = new NumberTableCellRenderer();
+//            tableDTR.getColumn("Date").setCellRenderer(dtcr);
+//
+//
+//            tableDTR.getColumn("Type").setMaxWidth(110);
+//            tableDTR.getColumn("Date").setMaxWidth(80);
+//            tableDTR.getColumn("#").setMaxWidth(30);
+//            tableDTR.getColumn("In 1").setMaxWidth(50);
+//            tableDTR.getColumn("Out 1").setMaxWidth(50);
+//            tableDTR.getColumn("In 2").setMaxWidth(50);
+//            tableDTR.getColumn("Out 2").setMaxWidth(50);
+//            tableDTR.getColumn("Process").setMaxWidth(50);
+//            tableDTR.getColumn("DTR").setMaxWidth(50);
+//
+//
+//        } catch (Exception ex) {
+//            Logger.getLogger(EmployeeInformation.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
 
     }
 

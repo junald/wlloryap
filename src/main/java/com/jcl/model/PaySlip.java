@@ -23,6 +23,7 @@ public class PaySlip {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @ManyToOne    
     private Employee employee;
     @ManyToOne    
@@ -31,6 +32,7 @@ public class PaySlip {
     private String description;
     @Column(length = 150)
     private String others;
+    
     @OneToMany(mappedBy="paySlip")
     private List<PaySlipDetail> payslipDetails;
     @Column(length = 15)
@@ -44,14 +46,16 @@ public class PaySlip {
     private Date modifiedDate;
     @Column
     private Long rowCounter;
+    
+     
 
     public PaySlip() {
     }
 
     public PaySlip(Employee emp, PayrollPeriod pp) {
         this.employee = emp;
-        this.payrollPeriod = pp;
-        this.employee = emp;       
+        this.payrollPeriod = pp;      
+        this.payslipDetails = new ArrayList<PaySlipDetail>();
     }
  
     /**
@@ -227,5 +231,19 @@ public class PaySlip {
             }
         }
         return list;
+    }
+    
+   
+    public Double netTotal(){
+        double totalCompensations = 0.0d;
+        double totalDeductions =0.0d;
+        for(PaySlipDetail psd: getCompensations() ){
+            totalCompensations = totalCompensations + psd.getAmount();
+        }
+        for(PaySlipDetail psd: getDeductions() ){
+            totalDeductions = totalDeductions + psd.getAmount();
+        }
+        
+        return totalCompensations - totalDeductions;
     }
 }

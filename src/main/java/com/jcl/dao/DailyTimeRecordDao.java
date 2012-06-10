@@ -7,6 +7,7 @@ package com.jcl.dao;
 import com.jcl.model.DailyTimeRecord;
 import com.jcl.model.Employee;
 import com.jcl.model.PayrollPeriod;
+import com.jcl.payroll.enumtypes.DTRDisplayTypeStatus;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -62,10 +63,18 @@ public class DailyTimeRecordDao {
         return (List<DailyTimeRecord>) entityManager.createQuery("from DailyTimeRecord order by transactionDate").getResultList();
     }
     
-      public List<DailyTimeRecord> getDailyTimeRecordsByDateAndEmployee(Employee employee, Date from, Date to, Boolean process) {
+      public List<DailyTimeRecord> getDailyTimeRecordsByDateAndEmployee(Employee employee, Date from, Date to, DTRDisplayTypeStatus process) {
 
         //DateTime lastNDays = DateTime.now().minusDays(HISTORY_LENGTH);
-        String queryString = "from DailyTimeRecord where employee.id = ?1 and transactionDate >= ?2 and transactionDate <= ?3 order by transactionDate ";
+          String queryString = "from DailyTimeRecord where employee.id = ?1 and transactionDate >= ?2 and transactionDate <= ?3 ";
+          if(process == DTRDisplayTypeStatus.Closed){
+              queryString= queryString + " and process = true order by transactionDate ";
+          }else if(process == DTRDisplayTypeStatus.Opened){
+              queryString= queryString + " and process = false order by transactionDate ";
+          }else{
+              queryString= queryString + " order by transactionDate ";
+          }
+             
         Query query = entityManager.createQuery(queryString);
         query.setParameter(1, employee.getId());
         query.setParameter(2, from);

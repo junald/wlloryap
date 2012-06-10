@@ -14,9 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author junald
  */
 public class PaySlipDetailDao {
-    
-    
-      @PersistenceContext
+
+    @PersistenceContext
     private EntityManager entityManager;
 
     public PaySlipDetail find(Long id) {

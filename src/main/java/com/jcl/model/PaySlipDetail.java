@@ -23,11 +23,13 @@ public class PaySlipDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToOne(optional = false)    
+    @ManyToOne(optional = true)    
     private PaySlip paySlip;
     
     @Column(length = 15)
-    private String paySlipDetailType; //// Absent, Adjustment,Holiday,IncomeTax,Lates,Leave,OverTime,PagIbig,PhilHealth,SSS,UnderTime,WorkedHours,Others
+    private String paySlipDetailType; // WorkedHours, VL, SL, Overtime, Undertime, Holiday, Absent, OthersDtr, Adjustment,IncomeTax,
+                                      // PagIbig,PhilHealth,SSS, Others, Loans, CashAdvanced
+                                      //from dtr: WorkedHours, VL, SL, Overtime, Undertime, Holiday, Absent, OthersDtr 
     @Column(length = 150)
     private String description;
     @Column

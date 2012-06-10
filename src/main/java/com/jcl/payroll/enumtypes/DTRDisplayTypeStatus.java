@@ -7,8 +7,8 @@ package com.jcl.payroll.enumtypes;
 
 /**
  *
- * @author junald
+ * @author jlavador
  */
-public enum DTRType {
-    WorkedHours, VL, SL, Overtime, Undertime, Holiday, Absent, OthersDtr     
+public enum DTRDisplayTypeStatus {
+    Opened, Closed, ALL
 }

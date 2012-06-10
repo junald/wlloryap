@@ -28,7 +28,7 @@ public class DailyTimeRecord {
     @OneToOne    
     private Employee employee;
     @Column(length = 15)
-    private String dtrType;//DTRType. Present, Leave, Absence, Overtime, Undertime , holiday
+    private String dtrType;//DTRType.  WorkedHours, VL, SL, Overtime, Undertime, Holiday, Absent, Others 
     @Column
     @Temporal(TemporalType.DATE)
     private Date transactionDate;
@@ -100,7 +100,9 @@ public class DailyTimeRecord {
     @Column
     private Boolean isDTR = true;
     @Column
-    private Boolean withPay = true;
+    private Boolean withPay = true;    
+    @Column    
+    private Boolean deduction = false;
     @Column(length = 150)
     private String reference = "";
     
@@ -109,7 +111,8 @@ public class DailyTimeRecord {
 
     public DailyTimeRecord(Employee employee) {
         this.employee = employee;
-        setDefualtTime(new Date());
+        this.transactionDate = new Date();
+       //setDefualtTime(new Date());
     }
 
     public void businessRuleDelete() throws Exception {
@@ -550,6 +553,20 @@ public class DailyTimeRecord {
      */
     public void setWithPay(Boolean withPay) {
         this.withPay = withPay;
+    }
+
+    /**
+     * @return the deduction
+     */
+    public Boolean getDeduction() {
+        return deduction;
+    }
+
+    /**
+     * @param deduction the deduction to set
+     */
+    public void setDeduction(Boolean deduction) {
+        this.deduction = deduction;
     }
 
     /**

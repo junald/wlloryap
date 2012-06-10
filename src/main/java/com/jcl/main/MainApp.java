@@ -317,13 +317,17 @@ public class MainApp extends JFrame implements Observer {
             applicationSettingUI.setup();
             tabbedPaneMain.add(panel, applicationSettingUI);
         } else if (panel.equals("Payroll Period")) {
-            tabbedPaneMain.add(panel, new com.jcl.payroll.ui.PayrollPeriodInformation());
+            com.jcl.payroll.ui.PayrollPeriodInformation ppi = context.getBean(com.jcl.payroll.ui.PayrollPeriodInformation.class);
+            ppi.setup();
+            tabbedPaneMain.add(panel, ppi);
         } else if (panel.equals("Daily Time Record")) {
              com.jcl.payroll.ui.DTRInformation  dtrInformationUI = context.getBean( com.jcl.payroll.ui.DTRInformation.class);
              dtrInformationUI.setup();
             tabbedPaneMain.add(panel,  dtrInformationUI);
         } else if (panel.equals("Payslip")) {
-            tabbedPaneMain.add(panel, new com.jcl.payroll.ui.PaySlipInformation());
+            com.jcl.payroll.ui.PaySlipInformation psi = context.getBean( com.jcl.payroll.ui.PaySlipInformation.class);
+            psi.setup();
+            tabbedPaneMain.add(panel, psi);
         }
 
 

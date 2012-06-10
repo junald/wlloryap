@@ -40,25 +40,72 @@ public class PaySlipDao {
         }
     }
     
-    public PaySlip getPayslipByPayPeriodAndEmployee(Employee employee, String payperiodCode){
+     public void save2(PaySlip payslip) {
+        if (payslip.getId() == null) {
+            entityManager.persist(payslip);
+        } else {
+            entityManager.merge(payslip);
+        }
+    }
+     
+     
+
+    public PaySlip getPayslipByPayPeriodAndEmployee(Employee employee, String payperiodCode) {
         Query query = entityManager.createQuery("select s from PaySlip s where s.employee.id = ?1 and s.payrollPeriod.payrollPeriodCode = ?2 ");
         query.setParameter(1, employee.getId());
         query.setParameter(2, payperiodCode);
-        
-        PaySlip paySlip = (PaySlip) query.getSingleResult();
-        return paySlip;
-    }
-    
-      public PaySlip getOpenedPayslipByEmployee(Employee employee){
-        Query query = entityManager.createQuery("select s from PaySlip s where s.employee.id = ?1 and s.status = ?2 ");
-        query.setParameter(1, employee.getId());
-        query.setParameter(2, "open");
-        
-        PaySlip paySlip = (PaySlip) query.getSingleResult();
+
+         PaySlip paySlip = null;
+         List<PaySlip> list = (List<PaySlip>) query.getResultList();
+        if (list.size() > 0) {
+            paySlip = (PaySlip) list.get(0);
+        }
         return paySlip;
     }
 
- 
+     
+    @Transactional
+    public PaySlip getPayslipByPayPeriodAndEmployee(Employee employee, Long payrollPeriodId) {
+        Query query = entityManager.createQuery("select s from PaySlip s where s.employee.id = ?1 and s.payrollPeriod.id = ?2 ");
+        query.setParameter(1, employee.getId());
+        query.setParameter(2, payrollPeriodId);
+        PaySlip paySlip = null;
+         List<PaySlip> list = (List<PaySlip>) query.getResultList();
+        if (list.size() > 0) {
+            paySlip = (PaySlip) list.get(0);
+        }
+
+        return paySlip;
+    }
+
+    public PaySlip getOpenedPayslipByEmployee(Employee employee) {
+        Query query = entityManager.createQuery("select s from PaySlip s where s.employee.id = ?1 and s.status = ?2 ");
+        query.setParameter(1, employee.getId());
+        query.setParameter(2, "open");
+
+          PaySlip paySlip = null;
+         List<PaySlip> list = (List<PaySlip>) query.getResultList();
+        if (list.size() > 0) {
+            paySlip = (PaySlip) list.get(0);
+        }
+        return paySlip;
+    }
+
+    public List<PaySlip> getAllPayslipByPayrollPeriod(PayrollPeriod pp) {
+        Query query = entityManager.createQuery("select s from PaySlip s where s.payrollPeriod.id = ?1 ");
+        query.setParameter(1, pp.getId());
+
+        List<PaySlip> list = (List<PaySlip>) query.getResultList();
+        return list;
+    }
+
+    public List<Employee> getAllPayslipBaseOnEmployee(PayrollPeriod pp) {
+        Query query = entityManager.createQuery("select s.employee from PaySlip s where s.payrollPeriod.id = ?1 ");
+        query.setParameter(1, pp.getId());
+
+        List<Employee> list = (List<Employee>) query.getResultList();
+        return list;
+    }
 
     //TODO: please check it is using payrollperiodtid as a key
     // in which it should use payslip id.
@@ -84,10 +131,6 @@ public class PaySlipDao {
 
         return paySlipList;
     }
-
-  
- 
-
 //    public List<PaySlipDetail> getPayables() {
 //        List<PaySlipDetail> list = new ArrayList<PaySlipDetail>();
 //        for (PaySlipDetail psd : payslipDetails) {

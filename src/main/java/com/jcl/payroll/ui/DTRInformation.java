@@ -29,6 +29,8 @@ import com.jcl.payroll.enumtypes.PayrollPeriodType;
 import com.jcl.model.PaySlipDetail;
 import com.jcl.payroll.transaction.PaySlipProcess;
 import com.jcl.model.PayrollPeriod;
+import com.jcl.payroll.enumtypes.*;
+import com.jcl.payroll.transaction.PaySlipProcess2;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.utils.KeyValue;
@@ -36,10 +38,7 @@ import com.jcl.verycommon.JOptionErrorMessage;
 import com.jcl.utils.SelectedButton;
 import java.awt.Component;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
@@ -48,8 +47,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.ExcelStyleDateFormatter;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
- 
 
 /**
  *
@@ -60,16 +59,15 @@ public class DTRInformation extends javax.swing.JPanel {
 
     @Autowired
     EmployeeDao eDao;
-    
     @Autowired
     DailyTimeRecordDao dDao;
-    
+    @Autowired
+    PaySlipProcess2 ppService;
     
     private Employee ce;
     private boolean isSelectionMade = false;
     private SimpleDateFormat sdf;
     private SimpleDateFormat stf;
-    
     private Date lastEnteredDate;
 
     /**
@@ -94,8 +92,16 @@ public class DTRInformation extends javax.swing.JPanel {
             initComboBoxes();
             txtDateTo.setFormats("MM/dd/yyyy");
             txtDateFrom.setFormats("MM/dd/yyyy");
-            txtDateTo.setDate(new Date());
-            txtDateFrom.setDate(new Date());
+            DateTime dt = new DateTime(new Date());
+
+            Calendar calendar = Calendar.getInstance();
+
+
+            DateTime ft = dt.minusDays(calendar.get(Calendar.DAY_OF_MONTH) - 1);
+            DateTime tt = ft.plusDays(calendar.getMaximum(Calendar.DAY_OF_MONTH) - 2);
+            txtDateFrom.setDate(ft.toDate());
+            txtDateTo.setDate(tt.toDate());
+
         } catch (Exception ex) {
             Logger.getLogger(DTRInformation.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -135,8 +141,6 @@ public class DTRInformation extends javax.swing.JPanel {
     }
 
     private void disabledComponents() {
-
-
     }
 
     private void disabledComponents(boolean s) {
@@ -148,7 +152,7 @@ public class DTRInformation extends javax.swing.JPanel {
             c.setEnabled(s);
         }
 
-       
+
 
     }
 
@@ -207,7 +211,7 @@ public class DTRInformation extends javax.swing.JPanel {
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        txtTotal = new javax.swing.JTextField();
+        txtTotal = new javax.swing.JFormattedTextField();
         jPanel14 = new javax.swing.JPanel();
         txtDateTo = new org.jdesktop.swingx.JXDatePicker();
         jLabel19 = new javax.swing.JLabel();
@@ -255,6 +259,7 @@ public class DTRInformation extends javax.swing.JPanel {
 
         btnSave.setMnemonic('S');
         btnSave.setText("Save");
+        btnSave.setEnabled(false);
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -287,6 +292,7 @@ public class DTRInformation extends javax.swing.JPanel {
 
         btnNew.setMnemonic('N');
         btnNew.setText("New");
+        btnNew.setEnabled(false);
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewActionPerformed(evt);
@@ -299,6 +305,7 @@ public class DTRInformation extends javax.swing.JPanel {
         panelBottom.add(btnNew, gridBagConstraints);
 
         btnCancel.setText("Cancel");
+        btnCancel.setEnabled(false);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -651,14 +658,10 @@ public class DTRInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         jPanel13.add(jLabel17, gridBagConstraints);
 
-        txtTotal.setEditable(false);
-        txtTotal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtTotal.setColumns(10);
+        txtTotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("hh:mm"))));
         txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtTotal.setText(" ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.2;
-        jPanel13.add(txtTotal, gridBagConstraints);
+        jPanel13.add(txtTotal, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -813,11 +816,7 @@ public class DTRInformation extends javax.swing.JPanel {
         if (ce != null) {
 
             try {
-
-
                 JOptionPane.showMessageDialog(this, "Employee information save.", "Employee", JOptionPane.INFORMATION_MESSAGE);
-//            } catch (UniqueFieldValueConstraintViolationException ex) {
-//                JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
             } catch (Exception ex) {
                 JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
             }
@@ -835,10 +834,8 @@ public class DTRInformation extends javax.swing.JPanel {
             if (jTable.getRowCount() > 0) {
                 int row = jTable.getSelectedRow();
                 Employee v = (Employee) jTable.getValueAt(row, 2);
-
                 if (v != null) {
                     try {
-                        
                         ce = eDao.find(v.getId());
                         initScreen();
                     } catch (Exception ex) {
@@ -882,6 +879,9 @@ public class DTRInformation extends javax.swing.JPanel {
 }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnInsertDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertDetailActionPerformed
+        if (ce == null) {
+            JOptionPane.showMessageDialog(null, "Please enter select employee from the list.");
+        }
         DailyTimeRecord dtr = new DailyTimeRecord(ce);
         openDTREntryDialog(dtr);
 }//GEN-LAST:event_btnInsertDetailActionPerformed
@@ -963,12 +963,12 @@ public class DTRInformation extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXDatePicker txtDateFrom;
     private org.jdesktop.swingx.JXDatePicker txtDateTo;
     private javax.swing.JTextField txtEmployeeID;
-    private javax.swing.JTextField txtTotal;
+    private javax.swing.JFormattedTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
     private void initComboBoxes() throws Exception {
 
-        for (DTRDisplayType ddt : DTRDisplayType.values()) {
+        for (DTRDisplayTypeStatus ddt : DTRDisplayTypeStatus.values()) {
             comboDisplayType.addItem(ddt.name());
         }
 
@@ -987,7 +987,7 @@ public class DTRInformation extends javax.swing.JPanel {
 
         labelCompleteName.setText(ce.getName());
 
-        labelPostion.setText(ce.getCompany().getDescription()+", " + ce.getDepartment().getDescription() +", " + ce.getPosition().getDescription());
+        labelPostion.setText(ce.getCompany().getDescription() + ", " + ce.getDepartment().getDescription() + ", " + ce.getPosition().getDescription());
 
         labelPayType.setText(ce.getPayType() == null ? "please defined" : ce.getPayType());
         labelPayCode.setText(ce.getPayCode());
@@ -997,13 +997,12 @@ public class DTRInformation extends javax.swing.JPanel {
         textHourlyRate.setValue(ce.getHourRate());
         textBenefits.setValue(ce.getBenefits());
         textAllowance.setValue(ce.getAllowance());
+        comboDisplayType.setSelectedItem(DTRDisplayTypeStatus.ALL);
 
 //        txtDateTo.setDate(new Date());
 //        txtDateFrom.setDate(new Date());
 
         initDTR();
-
-
 //comboDepartment
 //comboBranch
 
@@ -1015,9 +1014,8 @@ public class DTRInformation extends javax.swing.JPanel {
             NonEditableDefaultTableModel dtm = new NonEditableDefaultTableModel();
             DateTableCellRenderer dtcr = new DateTableCellRenderer("MM/dd/yy");
 //            dtm.setColumnIdentifiers(new String[]{"#", "Date", "Type", "In 1", "Out 1", "In 2", "Out 2", "Notes", "Process", "DTR"});
-            dtm.setColumnIdentifiers(new String[]{"#", "Date", "Type", "Hours", "Minutes",  "Notes", "Process", "DTR"});
+            dtm.setColumnIdentifiers(new String[]{"#", "Date", "Type", "Hours", "Minutes", "Notes", "Process", "DTR"});
 
-         
 
             Date fDate = txtDateFrom.getDate();
             Date tDate = txtDateTo.getDate();
@@ -1034,32 +1032,50 @@ public class DTRInformation extends javax.swing.JPanel {
 
             //list = PaySlipProcess.retreiveDTR(fDate, tDate, ce);
             //List<DailyTimeRecord>  list = dDao.getDailyTimeRecordsByEmployeeAndUprocess(ce.getId(),false);
- List<DailyTimeRecord>  list =  dDao.getDailyTimeRecordsByDateAndEmployee(ce,fDate,tDate,false);
-            int rowCounter = 1;
 
+            DTRDisplayTypeStatus ddts = DTRDisplayTypeStatus.valueOf(comboDisplayType.getSelectedItem().toString());
+
+            // ce.setStatus(comboEmploymentStatus.getSelectedItem().toString());
+            List<DailyTimeRecord> list = dDao.getDailyTimeRecordsByDateAndEmployee(ce, fDate, tDate, ddts);
+            int rowCounter = 1;
+//            int totalHours = 0;
+//            int totalMinutes = 0;
             for (DailyTimeRecord v : list) {
 
                 if (v != null && v.getEmployee().getId() == ce.getId()) {
 
                     Object[] o = new Object[]{rowCounter++, v.getTransactionDate(), v,
-                        v.getActualHours(), v.getActualMins(),                     
+                        v.getActualHours(), v.getActualMins(),
                         v.getNotes(), v.getProcess(), v.getIsDTR()};
                     dtm.addRow(o);
+//                    totalHours = totalHours + v.getActualHours();
+//                    totalMinutes = totalMinutes + v.getActualMins();
+
                 }
             }
 
+//            String tm = "";
+//            if (totalMinutes >= 60) {
+//                int _hm = totalMinutes >= 60 ? (totalMinutes / 60) : totalMinutes;
+//                int _rm = totalMinutes % (totalMinutes >= 60 ? 60 : totalMinutes);
+//                tm = (totalHours + _hm) + ":" + _rm;
+//            } else {
+//                tm = totalHours + ":" + totalMinutes;
+//            }
+            
+            String tm =ppService.computeTotalHoursInString(list);
 
+            txtTotal.setText(tm);
             tableDTR.setModel(dtm);
             NumberTableCellRenderer ntcr = new NumberTableCellRenderer();
             tableDTR.getColumn("Date").setCellRenderer(dtcr);
 
-            
 
             tableDTR.getColumn("Type").setMaxWidth(110);
             tableDTR.getColumn("Date").setMaxWidth(80);
             tableDTR.getColumn("#").setMaxWidth(30);
             tableDTR.getColumn("Hours").setMaxWidth(40);
-            tableDTR.getColumn("Minutes").setMaxWidth(40);            
+            tableDTR.getColumn("Minutes").setMaxWidth(40);
             tableDTR.getColumn("Process").setMaxWidth(50);
             tableDTR.getColumn("DTR").setMaxWidth(50);
 
@@ -1070,7 +1086,7 @@ public class DTRInformation extends javax.swing.JPanel {
 
 
     }
- 
+
     private void openDTREntryDialog(DailyTimeRecord d) {
         DTREntry dui = new DTREntry(null, true, d);
         dui.setLocationRelativeTo(this);

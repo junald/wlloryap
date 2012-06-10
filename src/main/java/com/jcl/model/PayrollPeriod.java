@@ -4,11 +4,14 @@
  */
 package com.jcl.model;
 
+import com.jcl.utilities.TransactionException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import org.joda.time.DateTime;
+import org.modeshape.graph.property.basic.JodaDateTime;
 
 /**
  *
@@ -20,7 +23,7 @@ public class PayrollPeriod {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column
+    @Column(unique = true)
     private String payrollPeriodCode;
     @Column
     @Temporal(TemporalType.DATE)
@@ -35,7 +38,11 @@ public class PayrollPeriod {
     private String notes;
     @Column(length = 15)
     private String status = "Prepared"; // prepared, generated, updated, closed, cancelled
+    @Column(length = 15)
     private String payrollPeriodType = "SemiMonthly"; //monthly, semi monthly, weekly, daily
+    @Column
+    private Boolean process = false;
+    
     @Column
     private String modifiedBy;
     @Column
@@ -49,37 +56,26 @@ public class PayrollPeriod {
         return getPayrollPeriodCode();
     }
 
-    public static PayrollPeriod getPayrollPeriodByTid(Long id) throws Exception {
-        PayrollPeriod emp = null;
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(PayrollPeriod.class);
-//        query.descend("tid").constrain(id);
-//
-//        ObjectSet result = query.execute();
-//        if (result.hasNext()) {
-//            emp = (PayrollPeriod) result.next();
-//        }
-        return emp;
+    public PayrollPeriod(){
+        this.datePrepared = new Date();       
     }
-
-    public static List<PayrollPeriod> getAllPayrollPeriod(boolean includeOthers) throws Exception {
-        List<PayrollPeriod> list = new ArrayList<PayrollPeriod>();
-//         Query query = dbms.getDBInstance().query();
-//        query.constrain(PayrollPeriod.class);
-//        if(!includeOthers){
-//               query.descend("status").constrain("Opened");
-//        }
-//
-//        list = query.execute();
-
-        return list;
-
-    }
+    
 
     /**
-     * format N-DDMMYY
+     * format YYYYMM-NN
      */
     public void createPayrollPeriodCode() {
+        DateTime jdt = new DateTime(this.datePrepared);
+        int number = 1;
+        if(jdt.getDayOfMonth()<=15){
+            number =1;
+        }else{
+            number =2;            
+        }
+       
+        String pcode = jdt.toString("yyyyMM") + "-" + number;
+        this.payrollPeriodCode = pcode;
+        System.out.println("pcode: " + pcode);
     }
 
     /**
@@ -195,6 +191,20 @@ public class PayrollPeriod {
     }
 
     /**
+     * @return the process
+     */
+    public Boolean getProcess() {
+        return process;
+    }
+
+    /**
+     * @param process the process to set
+     */
+    public void setProcess(Boolean process) {
+        this.process = process;
+    }
+
+    /**
      * @return the modifiedBy
      */
     public String getModifiedBy() {
@@ -234,5 +244,13 @@ public class PayrollPeriod {
      */
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+    
+      public void businessRule() throws Exception {
+        if (this.dateFrom == null || this.dateTo == null) {
+            throw new TransactionException("To and From date cannot be empty");
+        } else if (this.dateFrom.compareTo(this.dateTo) > 0) {
+            throw new TransactionException("(from) date must be less than (to)");
+        }
     }
 }

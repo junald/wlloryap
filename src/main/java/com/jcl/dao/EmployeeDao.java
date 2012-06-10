@@ -38,6 +38,11 @@ public class EmployeeDao {
     public List<Employee> getAll() {
         return (List<Employee>) entityManager.createQuery("from Employee").getResultList();
     }
+    
+    public List<Employee> getAllActiveEmployes() {
+        return (List<Employee>) entityManager.createQuery("from Employee where status <> 'Terminated' and status <> 'Resigned' ").getResultList();
+    }
+    
 
     public List<Employee> getSortedEmployee(String filterBy, String value) {
 
