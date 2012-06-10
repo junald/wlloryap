@@ -96,4 +96,12 @@ public class OtherAdjustment {
     public void setEveryPayroll(Boolean everyPayroll) {
         this.everyPayroll = everyPayroll;
     }
+    
+    public Double getAmount() {
+        return amount;
+    }
+    
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
 }
