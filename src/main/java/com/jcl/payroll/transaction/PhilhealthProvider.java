@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jcl.consoleapps;
+package com.jcl.payroll.transaction;
 
 import com.jcl.payroll.data.Philhealth;
 import java.util.ArrayList;
@@ -14,11 +14,15 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Li
  */
-public class philhealth {
+public class PhilhealthProvider {
 
-    public List<Philhealth> philHealthList = new ArrayList<Philhealth>();
+    private static List<Philhealth> philHealthList = null;
     
     public Philhealth getPhilhealthContribution(Double salary){
+        
+        if(philHealthList == null){
+            init();
+        }
         
         Philhealth ph = null;
         
@@ -33,6 +37,7 @@ public class philhealth {
     }
     
     public void init(){
+        philHealthList = new ArrayList<Philhealth>();
         philHealthList.add(new Philhealth(0,4999.99,4000,100,50,50));
         philHealthList.add(new Philhealth(5000,5999.99,5000,125,62.5,62.5));
         philHealthList.add(new Philhealth(6000,6999.99,6000,150,75,75));
@@ -65,7 +70,7 @@ public class philhealth {
             
     public static void main(String[] args){
             System.out.println("philhealth contribution.");
-            philhealth ph =new philhealth();
+            PhilhealthProvider ph =new PhilhealthProvider();
             ph.init();
             
             Philhealth phe = ph.getPhilhealthContribution(4000d);

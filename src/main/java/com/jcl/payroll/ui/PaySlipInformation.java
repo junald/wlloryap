@@ -57,6 +57,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
     
     @Autowired
     PaySlipProcess2 ppService;
+    
+    
     private Employee ce;
     
     
@@ -980,40 +982,13 @@ public class PaySlipInformation extends javax.swing.JPanel {
                     return;
                 }
 
-                Employee v = (Employee) jTable.getValueAt(row, 3);
-
-                if (v != null) {
-                    processEmployee(v);
-                }
+                ce = (Employee) jTable.getValueAt(row, 3);
+                initScreen();
             }
         }
     }//GEN-LAST:event_tableEmployeesMouseClicked
 
-    private void processEmployee(Employee v) {
-//        try {
-//            dbms.useNewDBInstance();
-//            //ce = Employee.getEmployeeByTid(v.getTid());
-//            KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
-//            if (kv == null) {
-//                return;
-//            } else {
-//            }
-//            synchronized (this) {
-//
-//                ce = Employee.getEmployeeByTid(v.getId());
-//            //    dbms.getDBInstance().ext().refresh(ce, Integer.MAX_VALUE);
-//                System.out.println("payslipinformation 1");
-//                PayslipReports.processPayslip((Long) kv.getValue(), ce);
-//                System.out.println("payslipinformation 2");
-//                initScreen();
-//                System.out.println("payslipinformation 3");
-//            }
-//        } catch (Exception ex) {
-//            Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            dbms.closeNewDB();
-//        }
-    }
+   
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this transaction.", "Confirm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -1374,37 +1349,36 @@ public class PaySlipInformation extends javax.swing.JPanel {
             NonEditableDefaultTableModel dtm = new NonEditableDefaultTableModel();
             TransactionNumberTableCellRenderer tntcr = new TransactionNumberTableCellRenderer(1);
             DateTableCellRenderer dtcr = new DateTableCellRenderer("MM/dd/yy");
-            dtm.setColumnIdentifiers(new String[]{"#", "Type", "Description", "Amount", "Quantity", "Total"});
+            dtm.setColumnIdentifiers(new String[]{"#", "Type", "Description", "hh:mm.-others", "Rates", "Total"});
 
             int rowCounter = 1;
             double total = 0.0;
             for (PaySlipDetail v : ce.getPayslip().getPayslipDetails()) {
                 String loadingDesc = v.getDescription();
-
-                double ntotal = v.isIsDeduction() ? (-1 * v.getTotal()) : v.getTotal();
-                Object[] o = new Object[]{rowCounter++, v, loadingDesc,
-                    v.getAmount(), 0, ntotal};
-                total = total + ntotal;
+                //double ntotal = v.isIsDeduction() ? (-1 * v.getTotal()) : v.getTotal();                
+                Object[] o = new Object[]{rowCounter++, v, v.getDescription(),v.getOtherDescription(),
+                    v.getAmount(), v.getTotal()};
+                //total = total + ntotal;
                 dtm.addRow(o);
             }
 
             tableDTR.setModel(dtm);
             NumberTableCellRenderer ntcr = new NumberTableCellRenderer();
             NumberTableCellRenderer ntcr2 = new NumberTableCellRenderer("#.##");
-            tableDTR.getColumn("Amount").setCellRenderer(ntcr);
-            tableDTR.getColumn("Total").setCellRenderer(tntcr);
-            tableDTR.getColumn("Quantity").setCellRenderer(ntcr2);
+            tableDTR.getColumn("Rates").setCellRenderer(ntcr);
+            tableDTR.getColumn("Total").setCellRenderer(ntcr);
+            //tableDTR.getColumn("Quantity").setCellRenderer(ntcr2);
             // tableDTR.getColumn("Loader Count").setCellRenderer(ntcr2);
             tableDTR.getColumn("Type").setMaxWidth(110);
             //  tableDTR.getColumn("Description").setMaxWidth(140);
             tableDTR.getColumn("#").setMaxWidth(30);
-            tableDTR.getColumn("Amount").setMaxWidth(80);
-            tableDTR.getColumn("Quantity").setMaxWidth(80);
+            tableDTR.getColumn("Rates").setMaxWidth(80);
+            tableDTR.getColumn("hh:mm.-others").setMaxWidth(80);
             //  tableDTR.getColumn("Loader Count").setMaxWidth(80);
             tableDTR.getColumn("Total").setMaxWidth(80);
             tableDTR.getColumn("Total").setMinWidth(80);
 
-            txtTotal.setText(MyNumberFormatter.formatAmount(total));
+            txtTotal.setText(MyNumberFormatter.formatAmount(ce.getPayslip().netTotal()));
 
         } catch (Exception ex) {
             Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
@@ -1416,40 +1390,40 @@ public class PaySlipInformation extends javax.swing.JPanel {
     }
 
     private void openPaySlipDialog(PaySlipDetail d) {
-        try {
-            PaySlipDetail psd = d;
-            if (d.getId() != -1) {
-                psd = PaySlipDetail.getPaySlipDetailByTid(d.getId());
-                psd.setPaySlip(d.getPaySlip());
-
-            }
-
-            PaySlipEntry dui = new PaySlipEntry(null, true, psd, ce);
-            dui.setLocationRelativeTo(this);
-            dui.setVisible(true);
-            if (dui.selectedButton == SelectedButton.Save) {
-                try {
-                    if (dui.psd.getId() != -1) {
-                        boolean found = false;
-                        for (PaySlipDetail psdd : ce.getPayslip().getPayslipDetails()) {
-                            if (psdd.getId() == dui.psd.getId()) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            ce.getPayslip().getPayslipDetails().add(d);
-                        }
-                    }
-                    d = dui.psd;
-                    processEmployee(ce);
-                    //initPayslipDetail();
-                } catch (Exception ex) {
-                    Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            PaySlipDetail psd = d;
+//            if (d.getId() != -1) {
+//                psd = PaySlipDetail.getPaySlipDetailByTid(d.getId());
+//                psd.setPaySlip(d.getPaySlip());
+//
+//            }
+//
+//            PaySlipEntry dui = new PaySlipEntry(null, true, psd, ce);
+//            dui.setLocationRelativeTo(this);
+//            dui.setVisible(true);
+//            if (dui.selectedButton == SelectedButton.Save) {
+//                try {
+//                    if (dui.psd.getId() != -1) {
+//                        boolean found = false;
+//                        for (PaySlipDetail psdd : ce.getPayslip().getPayslipDetails()) {
+//                            if (psdd.getId() == dui.psd.getId()) {
+//                                found = true;
+//                                break;
+//                            }
+//                        }
+//                        if (!found) {
+//                            ce.getPayslip().getPayslipDetails().add(d);
+//                        }
+//                    }
+//                    d = dui.psd;
+//                  //  processEmployee(ce);
+//                    //initPayslipDetail();
+//                } catch (Exception ex) {
+//                    Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        } catch (Exception ex) {
+//            Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

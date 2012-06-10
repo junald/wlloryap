@@ -36,8 +36,7 @@ public class PaySlipDetail {
     private Boolean isTaxable = false;
     @Column
     private Boolean isDeduction = false;
-    @Column
-    private Double total;
+  
     @Column
     private Integer rowNumber;
     @Column
@@ -47,12 +46,21 @@ public class PaySlipDetail {
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
+    @Column(length = 15)
+    private String otherDescription;
     @Column
-    private Double amount;
+    private Double quantity;  //time  to decimal
+    @Column
+    private Double amount;   //rate
+    @Column
+    private Double total;
     @Column
     private boolean isGenerated = true;
     @Column
     private boolean isProcess = false;
+    @Column
+    private Double employeeContribution;
+    
 
     /**
      * @return the id
@@ -209,6 +217,20 @@ public class PaySlipDetail {
     }
 
     /**
+     * @return the otherDescription
+     */
+    public String getOtherDescription() {
+        return otherDescription;
+    }
+
+    /**
+     * @param otherDescription the otherDescription to set
+     */
+    public void setOtherDescription(String otherDescription) {
+        this.otherDescription = otherDescription;
+    }
+
+    /**
      * @return the amount
      */
     public double getAmount() {
@@ -222,6 +244,21 @@ public class PaySlipDetail {
         this.amount = amount;
     }
 
+    /**
+     * @return the quantity
+     */
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * @param quantity the quantity to set
+     */
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+ 
     /**
      * @return the isGenerated
      */
@@ -250,6 +287,20 @@ public class PaySlipDetail {
         this.isProcess = isProcess;
     }
 
+    /**
+     * @return the employeeContribution
+     */
+    public Double getEmployeeContribution() {
+        return employeeContribution;
+    }
+
+    /**
+     * @param employeeContribution the employeeContribution to set
+     */
+    public void setEmployeeContribution(Double employeeContribution) {
+        this.employeeContribution = employeeContribution;
+    }
+
     public PaySlipDetail() {
     }
 
@@ -269,16 +320,8 @@ public class PaySlipDetail {
 
     }
 
-    public static PaySlipDetail getPaySlipDetailByTid(Long key) throws Exception {
-        PaySlipDetail ps = null;
-//        Query query = dbms.getDBInstance().query();
-//        query.constrain(PaySlipDetail.class);
-//        query.descend("tid").constrain(key);
-//
-//        ObjectSet result = query.execute();
-//        if (result.hasNext()) {
-//            ps = (PaySlipDetail) result.next();
-//        }
-        return ps;
+    public String toString(){
+        return this.paySlipDetailType;
     }
+  
 }

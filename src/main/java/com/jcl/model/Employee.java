@@ -116,6 +116,9 @@ public class Employee {
     @Column
     private Integer vacationLeave=0;
     
+    @Column(length=5)
+    private String taxCode;
+
     private transient String name;
     private transient ArrayList<DailyTimeRecord> dtrList;
     private transient LinkedHashMap<String,List<DailyTimeRecord>> dtrTypeList;
@@ -835,5 +838,19 @@ public class Employee {
      */
     public void setVacationLeave(Integer vacationLeave) {
         this.vacationLeave = vacationLeave;
+    }
+
+    /**
+     * @return the taxCode
+     */
+    public String getTaxCode() {
+        return taxCode;
+    }
+
+    /**
+     * @param taxCode the taxCode to set
+     */
+    public void setTaxCode(String taxCode) {
+        this.taxCode = taxCode;
     }
 }

@@ -14,6 +14,7 @@ import com.jcl.model.PaySlip;
 import com.jcl.model.PaySlipDetail;
 import com.jcl.model.Employee;
 import com.jcl.model.DailyTimeRecord;
+import com.jcl.payroll.data.SSS;
 import com.jcl.payroll.enumtypes.*;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.MyNumberFormatter;
@@ -87,7 +88,8 @@ public class PaySlipProcess2 {
             emp.setPayslip(ps);
         }
         processDTRs(employeeList, pp);
-        processPayslip(employeeList, pp);
+        processPayslipDTR(employeeList, pp);
+        processPayslipGoverment(employeeList, pp);
         for(Employee eep: employeeList){
             eep.getPayslip().getPayslipDetails().size();
         }
@@ -95,8 +97,7 @@ public class PaySlipProcess2 {
 
     public void processDTRs(List<Employee> employeeList, PayrollPeriod pp) {
         for (Employee emp : employeeList) {
-            processIndividualDTR(emp, pp, DTRDisplayTypeStatus.Opened);
-            
+            processIndividualDTR(emp, pp, DTRDisplayTypeStatus.Opened);            
         }
     }
 
@@ -117,7 +118,7 @@ public class PaySlipProcess2 {
         employee.setDtrTypeList(dtrTypeList);
     }
 
-    private void processPayslip(List<Employee> employeeList, PayrollPeriod pp) {
+    private void processPayslipDTR(List<Employee> employeeList, PayrollPeriod pp) {
         //create payslip detail from dtr
         for (Employee emp : employeeList) {
             LinkedHashMap<String, List<DailyTimeRecord>> dtrTypeList = emp.getDtrTypeList();
@@ -125,17 +126,24 @@ public class PaySlipProcess2 {
                 if (dtrTypeList.containsKey(dtrType.toString())) {
                     List<DailyTimeRecord> dtrs = dtrTypeList.get(dtrType.toString());
                     String totalHours = computeTotalHoursInString(dtrs);
-                    Integer minutes = computeTotalHoursInMinutes(totalHours);
+                    
+                    
+                    BigDecimal timeToDecimal = computeTimeToDecimal(totalHours);
                     
                     PayslipDetailType psdt = PayslipDetailType.valueOf(dtrType.toString());
                     
                     PaySlip ps = emp.getPayslip();
                     
                     PaySlipDetail psd = new PaySlipDetail(ps, psdt.toString());
-                    psd.setDescription(psdt.toString() +" " + totalHours);     
-                    BigDecimal totalAmount = computeHotalHours(minutes,emp.getHourRate());
+                    psd.setDescription(psdt.toString() +" " + totalHours);                         
+                    psd.setOtherDescription(timeToDecimal.toString());
+                    
+                    BigDecimal totalAmount =timeToDecimal.multiply(new BigDecimal(emp.getHourRate())) ;
+                    psd.setQuantity(Double.valueOf(timeToDecimal.toPlainString()));
+                    
                     System.out.println("totalAmount: " + totalAmount.toPlainString());
-                    psd.setAmount(Double.valueOf(totalAmount.toPlainString()));
+                    psd.setAmount(emp.getHourRate());
+                    psd.setTotal(Double.valueOf(totalAmount.toPlainString()));
                     System.out.println("psd.description: " + psd.getDescription());
                     psd.setIsTaxable(true);
                     if(dtrType == DTRType.Absent || dtrType == DTRType.Undertime){
@@ -175,6 +183,16 @@ public class PaySlipProcess2 {
         return status;
     }
     
+    public BigDecimal computeTimeToDecimal(String totalHours){
+        
+        String[] splitTime = totalHours.split(":");
+        BigDecimal splitMinute = new BigDecimal(splitTime[1]);
+        BigDecimal minutes = new BigDecimal("60");
+        BigDecimal decimalMinute =  splitMinute.divide(minutes, 2, RoundingMode.HALF_UP);
+        BigDecimal splitHour = new BigDecimal(splitTime[0]);
+        return splitHour.add(decimalMinute);
+    }
+    //not used
     public BigDecimal computeHotalHours(int time, double hourlyRate){
       //  DecimalFormat df = new DecimalFormat("#,##0.00;(#,##0.00)");
        // BigDecimal hourRate = new BigDecimal(df.format(hourlyRate).toString());
@@ -189,7 +207,7 @@ public class PaySlipProcess2 {
         BigDecimal netAmount = minuteRate.multiply(totalMinute);
         return  netAmount;
     }
-    
+    //not used
     public Integer computeTotalHoursInMinutes(String totalHours){
         String[] splitTime = totalHours.split(":");
         Integer minutes = Integer.valueOf(splitTime[0]) * 60;
@@ -216,5 +234,19 @@ public class PaySlipProcess2 {
         }
 
         return tm;
+    }
+
+    private void processPayslipGoverment(List<Employee> employeeList, PayrollPeriod pp) {
+          for (Employee emp : employeeList) {
+              PaySlipDetail psdSSS = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.SSS.toString());
+              psdSSS.setDescription("SSS");
+              psdSSS.setQuantity(0d);
+              psdSSS.setAmount(0d);
+              SSS sss = SSSProvider.getSSSContribution(emp.getSalary());
+              psdSSS.setTotal(sss.getEe());
+              psdSSS.setEmployeeContribution(sss.getEr());
+              
+              emp.getPayslip().getPayslipDetails().add(psdSSS);
+          }
     }
 }

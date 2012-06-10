@@ -2,18 +2,23 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jcl.consoleapps;
+package com.jcl.payroll.transaction;
 
 import com.jcl.payroll.data.Philhealth;
 import com.jcl.payroll.data.SSS;
 import java.util.ArrayList;
 import java.util.List;
 
-public class sss {
+public class SSSProvider {
 
-    public List<SSS> sssList = new ArrayList<SSS>();
+    private static List<SSS> sssList = null;
+    
 
-    public SSS getSSSContribution(Double salary) {
+    public static SSS getSSSContribution(Double salary) {
+        
+        if(sssList == null){
+            init();
+        }
 
         SSS ss = null;
 
@@ -26,7 +31,8 @@ public class sss {
         return ss;
     }
 
-    public void init() {
+    public static void init() {
+        sssList = new ArrayList<SSS>();
         sssList.add(new SSS(1000, 1249.99, 1000, 70.7, 33.3));
         sssList.add(new SSS(1250, 1749.99, 1500, 106, 50));
         sssList.add(new SSS(1750, 2249.99, 2000, 141.3, 66.7));
@@ -64,7 +70,7 @@ public class sss {
      */
     public static void main(String[] args) {
         System.out.println("SSS contribution.");
-        sss ss = new sss();
+        SSSProvider ss = new SSSProvider();
         ss.init();
 
         SSS sse = ss.getSSSContribution(4000d);

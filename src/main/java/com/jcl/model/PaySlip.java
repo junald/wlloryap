@@ -238,10 +238,10 @@ public class PaySlip {
         double totalCompensations = 0.0d;
         double totalDeductions =0.0d;
         for(PaySlipDetail psd: getCompensations() ){
-            totalCompensations = totalCompensations + psd.getAmount();
+            totalCompensations = totalCompensations + psd.getTotal();
         }
         for(PaySlipDetail psd: getDeductions() ){
-            totalDeductions = totalDeductions + psd.getAmount();
+            totalDeductions = totalDeductions + psd.getTotal();
         }
         
         return totalCompensations - totalDeductions;
