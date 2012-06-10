@@ -32,6 +32,8 @@ public class ApplicationSetting extends javax.swing.JPanel {
     DepartmentSetting depts;
     @Autowired
     AdjustmentSetting as;
+    @Autowired
+    CompanySetting cs;
 
     /**
      * Creates new form ApplicationSetting
@@ -53,7 +55,7 @@ public class ApplicationSetting extends javax.swing.JPanel {
         panelPosition.add(ps);
         panelDepartment.add(depts);
         panelAdjustment.add(as);
-        panelCompanies.add(cs)
+        panelCompanies.add(cs);
     }
 
     /**
