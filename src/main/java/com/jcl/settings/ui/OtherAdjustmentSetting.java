@@ -11,7 +11,6 @@
 package com.jcl.settings.ui;
 
 import com.jcl.customizetable.NonEditableDefaultTableModel;
-import com.jcl.dao.BranchDao;
 import com.jcl.dao.OtherAdjustmentDao;
 import com.jcl.main.MainApp;
 import com.jcl.model.OtherAdjustment;
@@ -30,17 +29,17 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author junald
  */
 @org.springframework.stereotype.Component
-public class AdjustmentSetting extends javax.swing.JPanel {
+public class OtherAdjustmentSetting extends javax.swing.JPanel {
 
     @Autowired
-    OtherAdjustmentDao adjustDao;
+    OtherAdjustmentDao adjustmentDao;
     
     OtherAdjustment adjustment;
 
     /**
      * Creates new form ProductInformation
      */
-    public AdjustmentSetting() {
+    public OtherAdjustmentSetting() {
         initComponents();        
     }
     
@@ -86,13 +85,11 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         txtAmount = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtCode = new javax.swing.JTextField();
         adjustmentTypeLess = new javax.swing.JRadioButton();
         adjustmentTypeDeduction = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        taxable = new javax.swing.JCheckBox();
+        everyPayroll = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
         txtDescription1 = new javax.swing.JTextField();
 
@@ -102,7 +99,7 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         panelTop.setLayout(panelTopLayout);
         panelTopLayout.setHorizontalGroup(
             panelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 768, Short.MAX_VALUE)
+            .addGap(0, 774, Short.MAX_VALUE)
         );
         panelTopLayout.setVerticalGroup(
             panelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,20 +270,6 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panelInformation.add(txtAmount, gridBagConstraints);
 
-        jLabel3.setText("Code");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        panelInformation.add(jLabel3, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelInformation.add(txtCode, gridBagConstraints);
-
         adjustmentTypeLess.setText("Less");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -308,18 +291,18 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         panelInformation.add(jLabel4, gridBagConstraints);
 
-        jCheckBox1.setText("Taxable");
+        taxable.setText("Taxable");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        panelInformation.add(jCheckBox1, gridBagConstraints);
+        panelInformation.add(taxable, gridBagConstraints);
 
-        jCheckBox2.setText("Payroll");
+        everyPayroll.setText("Payroll");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
-        panelInformation.add(jCheckBox2, gridBagConstraints);
+        panelInformation.add(everyPayroll, gridBagConstraints);
 
         jLabel5.setText("Amount");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -339,18 +322,20 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelInformation, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addComponent(panelInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(270, Short.MAX_VALUE))
         );
+
+        panelInformation.getAccessibleContext().setAccessibleParent(panelCenter);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -384,9 +369,9 @@ public class AdjustmentSetting extends javax.swing.JPanel {
             try {
                 saveScreen();
 
-                adjustDao.save(adjustment);
+                adjustmentDao.save(adjustment);
                 initTableView();
-                JOptionPane.showMessageDialog(this, "Adjustment information save.", "OtherAdjustment", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Other Adjustment information save.", "OtherAdjustment", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
             }
@@ -414,10 +399,10 @@ public class AdjustmentSetting extends javax.swing.JPanel {
                OtherAdjustment b = (OtherAdjustment) jTable.getValueAt(row, 1);
                 if (b != null) {
                     try {
-                        adjustment = adjustDao.find(b.getId());
+                        adjustment = adjustmentDao.find(b.getId());
                         initScreen();
                     } catch (Exception ex) {
-                        Logger.getLogger(AdjustmentSetting.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(OtherAdjustmentSetting.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -430,11 +415,9 @@ public class AdjustmentSetting extends javax.swing.JPanel {
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox everyPayroll;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
@@ -450,8 +433,8 @@ public class AdjustmentSetting extends javax.swing.JPanel {
     private javax.swing.JPanel panelRight;
     private javax.swing.JPanel panelTop;
     private javax.swing.JTable tableData;
+    private javax.swing.JCheckBox taxable;
     private javax.swing.JTextField txtAmount;
-    private javax.swing.JTextField txtCode;
     private javax.swing.JTextField txtDescription1;
     private javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables
@@ -460,13 +443,13 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         try {
             NonEditableDefaultTableModel dtm = new NonEditableDefaultTableModel();
             dtm.setColumnIdentifiers(new String[]{"Id", "Description"});
-            for (OtherAdjustment b : adjustDao.getAdjustments()) {
+            for (OtherAdjustment b : adjustmentDao.getAdjustments()) {
                 Object[] o = new Object[]{b.getId(), b};
                 dtm.addRow(o);
             }
             tableData.setModel(dtm);
         } catch (Exception ex) {
-            Logger.getLogger(AdjustmentSetting.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OtherAdjustmentSetting.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
