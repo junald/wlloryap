@@ -11,10 +11,9 @@
 package com.jcl.settings.ui;
 
 import com.jcl.customizetable.NonEditableDefaultTableModel;
-import com.jcl.dao.BranchDao;
-import com.jcl.dao.OtherAdjustmentDao;
+import com.jcl.dao.CompanyDao;
 import com.jcl.main.MainApp;
-import com.jcl.model.OtherAdjustment;
+import com.jcl.model.Company;
 import com.jcl.observables.PanelMessage;
 import com.jcl.verycommon.JOptionErrorMessage;
 import java.awt.Component;
@@ -30,17 +29,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author junald
  */
 @org.springframework.stereotype.Component
-public class AdjustmentSetting extends javax.swing.JPanel {
+public class CompanySetting extends javax.swing.JPanel {
 
     @Autowired
-    OtherAdjustmentDao adjustDao;
-    
-    OtherAdjustment adjustment;
+    CompanyDao cDao;
+    Company company;
 
     /**
      * Creates new form ProductInformation
      */
-    public AdjustmentSetting() {
+    public CompanySetting() {
         initComponents();        
     }
     
@@ -73,6 +71,13 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableData = new javax.swing.JTable();
         panelCenter = new javax.swing.JPanel();
+        panelInformation = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
+        txtDescription = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtCode = new javax.swing.JTextField();
         panelDataCenter = new javax.swing.JPanel();
         panelBottom = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
@@ -81,20 +86,6 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         btnNew = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        panelInformation = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
-        txtAmount = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtCode = new javax.swing.JTextField();
-        adjustmentTypeLess = new javax.swing.JRadioButton();
-        adjustmentTypeDeduction = new javax.swing.JRadioButton();
-        jLabel4 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jLabel5 = new javax.swing.JLabel();
-        txtDescription1 = new javax.swing.JTextField();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -159,6 +150,60 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         jSplitPane1.setLeftComponent(panelLeft);
 
         panelCenter.setLayout(new java.awt.GridBagLayout());
+
+        panelInformation.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelInformation.setLayout(new java.awt.GridBagLayout());
+
+        jLabel1.setText("Id");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        panelInformation.add(jLabel1, gridBagConstraints);
+
+        jLabel2.setText("Description");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        panelInformation.add(jLabel2, gridBagConstraints);
+
+        txtId.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelInformation.add(txtId, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelInformation.add(txtDescription, gridBagConstraints);
+
+        jLabel3.setText("Code");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        panelInformation.add(jLabel3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelInformation.add(txtCode, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelCenter.add(panelInformation, gridBagConstraints);
 
         panelDataCenter.setLayout(new java.awt.GridBagLayout());
 
@@ -240,116 +285,15 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         panelDataCenter.add(panelBottom, gridBagConstraints);
 
-        panelInformation.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        panelInformation.setLayout(new java.awt.GridBagLayout());
-
-        jLabel1.setText("Id");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panelInformation.add(jLabel1, gridBagConstraints);
-
-        jLabel2.setText("Description");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        panelInformation.add(jLabel2, gridBagConstraints);
-
-        txtId.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelInformation.add(txtId, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelInformation.add(txtAmount, gridBagConstraints);
-
-        jLabel3.setText("Code");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        panelInformation.add(jLabel3, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelInformation.add(txtCode, gridBagConstraints);
-
-        adjustmentTypeLess.setText("Less");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        panelInformation.add(adjustmentTypeLess, gridBagConstraints);
-
-        adjustmentTypeDeduction.setText("Deduction");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        panelInformation.add(adjustmentTypeDeduction, gridBagConstraints);
-
-        jLabel4.setText("Adjustment");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        panelInformation.add(jLabel4, gridBagConstraints);
-
-        jCheckBox1.setText("Taxable");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        panelInformation.add(jCheckBox1, gridBagConstraints);
-
-        jCheckBox2.setText("Payroll");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        panelInformation.add(jCheckBox2, gridBagConstraints);
-
-        jLabel5.setText("Amount");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        panelInformation.add(jLabel5, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelInformation.add(txtDescription1, gridBagConstraints);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGap(0, 312, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(196, Short.MAX_VALUE))
+            .addGap(0, 352, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -380,13 +324,13 @@ public class AdjustmentSetting extends javax.swing.JPanel {
 }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (adjustment != null) {
+        if (company != null) {
             try {
                 saveScreen();
 
-                adjustDao.save(adjustment);
+                cDao.save(company);
                 initTableView();
-                JOptionPane.showMessageDialog(this, "Adjustment information save.", "OtherAdjustment", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Company information save.", "Company", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
             }
@@ -395,7 +339,7 @@ public class AdjustmentSetting extends javax.swing.JPanel {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
 
-        adjustment = new OtherAdjustment();
+        company = new Company();
         disableAllControls(true);
         initScreen();
 
@@ -411,32 +355,26 @@ public class AdjustmentSetting extends javax.swing.JPanel {
             JTable jTable = (JTable) evt.getSource();
             if (jTable.getRowCount() > 0) {
                 int row = jTable.getSelectedRow();
-               OtherAdjustment b = (OtherAdjustment) jTable.getValueAt(row, 1);
+                Company b = (Company) jTable.getValueAt(row, 1);
                 if (b != null) {
                     try {
-                        adjustment = adjustDao.find(b.getId());
+                        company = cDao.find(b.getId());
                         initScreen();
                     } catch (Exception ex) {
-                        Logger.getLogger(AdjustmentSetting.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(CompanySetting.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
         }
     }//GEN-LAST:event_tableDataMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton adjustmentTypeDeduction;
-    private javax.swing.JRadioButton adjustmentTypeLess;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
@@ -450,9 +388,8 @@ public class AdjustmentSetting extends javax.swing.JPanel {
     private javax.swing.JPanel panelRight;
     private javax.swing.JPanel panelTop;
     private javax.swing.JTable tableData;
-    private javax.swing.JTextField txtAmount;
     private javax.swing.JTextField txtCode;
-    private javax.swing.JTextField txtDescription1;
+    private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables
 
@@ -460,29 +397,29 @@ public class AdjustmentSetting extends javax.swing.JPanel {
         try {
             NonEditableDefaultTableModel dtm = new NonEditableDefaultTableModel();
             dtm.setColumnIdentifiers(new String[]{"Id", "Description"});
-            for (OtherAdjustment b : adjustDao.getAdjustments()) {
+            for (Company b : cDao.getCompanies()) {
                 Object[] o = new Object[]{b.getId(), b};
                 dtm.addRow(o);
             }
             tableData.setModel(dtm);
         } catch (Exception ex) {
-            Logger.getLogger(AdjustmentSetting.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CompanySetting.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
     private void initScreen() {
         disableAllControls(true);
-        txtId.setText(adjustment.getId()==null? "": adjustment.getId()+"");
-       // txtCode.setText(adjustment.getCode());
-        txtAmount.setText(adjustment.getDescription());
+        txtId.setText(company.getId()==null? "": company.getId()+"");
+        //txtCode.setText(company.getCode());
+        txtDescription.setText(company.getDescription());
 
     }
 
     private void saveScreen() {
 
-       // adjustment.setCode(txtCode.getText());
-        adjustment.setDescription(txtAmount.getText());
+      //  company.setCode(txtCode.getText());
+        company.setDescription(txtDescription.getText());
 
     }
 
