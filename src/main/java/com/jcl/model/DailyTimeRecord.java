@@ -105,6 +105,9 @@ public class DailyTimeRecord {
     private Boolean deduction = false;
     @Column(length = 150)
     private String reference = "";
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modifiedDate;
     
     public DailyTimeRecord() {
     }
@@ -112,6 +115,7 @@ public class DailyTimeRecord {
     public DailyTimeRecord(Employee employee) {
         this.employee = employee;
         this.transactionDate = new Date();
+        this.modifiedDate = new Date();
        //setDefualtTime(new Date());
     }
 
@@ -581,6 +585,20 @@ public class DailyTimeRecord {
      */
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    /**
+     * @return the modifiedDate
+     */
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    /**
+     * @param modifiedDate the modifiedDate to set
+     */
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
     
     public String toString(){

@@ -50,12 +50,14 @@ public class PaySlip {
      
 
     public PaySlip() {
+        this.modifiedDate = new Date();
     }
 
     public PaySlip(Employee emp, PayrollPeriod pp) {
         this.employee = emp;
         this.payrollPeriod = pp;      
         this.payslipDetails = new ArrayList<PaySlipDetail>();
+        this.modifiedDate = new Date();
     }
  
     /**

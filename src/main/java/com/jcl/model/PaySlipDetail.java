@@ -309,6 +309,7 @@ public class PaySlipDetail {
         this.paySlipDetailType = psdt;
         //    this.businessRule = BusinessRuleFactory.getBusinessRuleType(this.paySlipDetailType, this.paySlip.getEmployee());
         this.description = this.paySlipDetailType.toString();
+        this.modifiedDate = new Date();
     }
 
     public PaySlipDetail(PaySlip paySlip, String psdt, boolean isGen) {
@@ -317,6 +318,7 @@ public class PaySlipDetail {
         //   this.businessRule = BusinessRuleFactory.getBusinessRuleType(this.paySlipDetailType, this.paySlip.getEmployee());
         this.description = this.paySlipDetailType.toString();
         this.generated = isGen;
+        this.modifiedDate = new Date();
 
     }
 
