@@ -76,8 +76,6 @@ public class PositionSetting extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         txtDescription = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtCode = new javax.swing.JTextField();
         panelDataCenter = new javax.swing.JPanel();
         panelBottom = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
@@ -184,20 +182,6 @@ public class PositionSetting extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panelInformation.add(txtDescription, gridBagConstraints);
 
-        jLabel3.setText("Code");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        panelInformation.add(jLabel3, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelInformation.add(txtCode, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -293,7 +277,7 @@ public class PositionSetting extends javax.swing.JPanel {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 352, Short.MAX_VALUE)
+            .addGap(0, 347, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -374,7 +358,6 @@ public class PositionSetting extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
@@ -388,7 +371,6 @@ public class PositionSetting extends javax.swing.JPanel {
     private javax.swing.JPanel panelRight;
     private javax.swing.JPanel panelTop;
     private javax.swing.JTable tableData;
-    private javax.swing.JTextField txtCode;
     private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables

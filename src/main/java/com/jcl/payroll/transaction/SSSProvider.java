@@ -4,7 +4,6 @@
  */
 package com.jcl.payroll.transaction;
 
-import com.jcl.payroll.data.Philhealth;
 import com.jcl.payroll.data.SSS;
 import java.util.ArrayList;
 import java.util.List;

@@ -381,6 +381,8 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
 
         adjustment = new OtherAdjustment();
+        //clear description
+   //     textDescription
         disableAllControls(true);
         initScreen();
 
@@ -459,6 +461,7 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
         txtId.setText(adjustment.getId()==null? "": adjustment.getId()+"");
        // txtCode.setText(adjustment.getCode());
         txtAmount.setText(adjustment.getDescription());
+        txtDescription1.setText(adjustment.getDescription());
 
     }
 

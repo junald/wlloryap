@@ -85,13 +85,10 @@ public class HolidaySetting extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         txtAmount = new javax.swing.JTextField();
-        adjustmentTypeLess = new javax.swing.JRadioButton();
-        adjustmentTypeDeduction = new javax.swing.JRadioButton();
-        jLabel4 = new javax.swing.JLabel();
-        taxable = new javax.swing.JCheckBox();
-        everyPayroll = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
         txtDescription1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtDescription2 = new javax.swing.JTextField();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -270,41 +267,7 @@ public class HolidaySetting extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panelInformation.add(txtAmount, gridBagConstraints);
 
-        adjustmentTypeLess.setText("Less");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        panelInformation.add(adjustmentTypeLess, gridBagConstraints);
-
-        adjustmentTypeDeduction.setText("Deduction");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        panelInformation.add(adjustmentTypeDeduction, gridBagConstraints);
-
-        jLabel4.setText("Adjustment");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        panelInformation.add(jLabel4, gridBagConstraints);
-
-        taxable.setText("Taxable");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        panelInformation.add(taxable, gridBagConstraints);
-
-        everyPayroll.setText("Payroll");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        panelInformation.add(everyPayroll, gridBagConstraints);
-
-        jLabel5.setText("Amount");
+        jLabel5.setText("Rate");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -312,11 +275,24 @@ public class HolidaySetting extends javax.swing.JPanel {
         panelInformation.add(jLabel5, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelInformation.add(txtDescription1, gridBagConstraints);
+
+        jLabel3.setText("Special Date");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelInformation.add(jLabel3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelInformation.add(txtDescription1, gridBagConstraints);
+        panelInformation.add(txtDescription2, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -331,8 +307,8 @@ public class HolidaySetting extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addComponent(panelInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(247, Short.MAX_VALUE))
         );
 
         panelInformation.getAccessibleContext().setAccessibleParent(panelCenter);
@@ -409,16 +385,13 @@ public class HolidaySetting extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tableDataMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton adjustmentTypeDeduction;
-    private javax.swing.JRadioButton adjustmentTypeLess;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
-    private javax.swing.JCheckBox everyPayroll;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
@@ -433,9 +406,9 @@ public class HolidaySetting extends javax.swing.JPanel {
     private javax.swing.JPanel panelRight;
     private javax.swing.JPanel panelTop;
     private javax.swing.JTable tableData;
-    private javax.swing.JCheckBox taxable;
     private javax.swing.JTextField txtAmount;
     private javax.swing.JTextField txtDescription1;
+    private javax.swing.JTextField txtDescription2;
     private javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables
 

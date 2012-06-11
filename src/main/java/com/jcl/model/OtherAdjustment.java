@@ -54,7 +54,9 @@ public class OtherAdjustment {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    public String toString() {
+        return description;
+    }
     /**
      * @return the adjustmentType
      */
@@ -104,4 +106,7 @@ public class OtherAdjustment {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
+    
+    
+    
 }
