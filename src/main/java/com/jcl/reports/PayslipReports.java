@@ -117,7 +117,6 @@ public class PayslipReports {
 //
 //        return employeeList;
 //    }
-
     public static List<Employee> processPayslip(List<Employee> employeeList, PayrollPeriod pp) throws Exception {
 
 
@@ -138,7 +137,18 @@ public class PayslipReports {
             for (PaySlipDetail psd : emp.getPayslip().getCompensations()) {
                 PaySlipReportRow psrr = new PaySlipReportRow();
                 psrr.setRow(row++);
-                String psdString = psd.getDescription() + " (" + 0 + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + 1;
+                String psdString = psd.getDescription();
+                if (psd.getPaySlipDetailType().equals("WorkedHours")
+                        || psd.getPaySlipDetailType().equals("VL")
+                        || psd.getPaySlipDetailType().equals("SL")
+                        || psd.getPaySlipDetailType().equals("Overtime")
+                        || psd.getPaySlipDetailType().equals("Undertime")
+                        || psd.getPaySlipDetailType().equals("Holiday")
+                        || psd.getPaySlipDetailType().equals("Absent")) {
+                    psdString = psd.getDescription() + " (" + MyNumberFormatter.formatAmount(psd.getQuantity()) + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
+
+                }
+
                 psrr.setDescription(psdString);
                 psrr.setEmployeeName("Name: " + emp.getName());
 
@@ -146,7 +156,7 @@ public class PayslipReports {
                 psrr.setAmount(psd.getTotal());
                 psro.getList().add(psrr);
                 totalAdd = totalAdd + psd.getTotal();
-                System.out.println(psd.getRowNumber().toString() + "     " + psd.getDescription() + " " + psd.getTotal());
+                System.out.println(psd.getRowNumber().toString() + "  "+psd.getPaySlipDetailType() +"     " + psd.getDescription() + " " + psd.getTotal());
             }
 //
             double totalLess = 0;
@@ -154,15 +164,30 @@ public class PayslipReports {
 
                 PaySlipReportRow psrr = new PaySlipReportRow();
                 psrr.setRow(row++);
-                psrr.setDescription(psd.getDescription());
+
+                String psdString = psd.getDescription();
+                if (psd.getPaySlipDetailType().equals("WorkedHours")
+                        || psd.getPaySlipDetailType().equals("VL")
+                        || psd.getPaySlipDetailType().equals("SL")
+                        || psd.getPaySlipDetailType().equals("Overtime")
+                        || psd.getPaySlipDetailType().equals("Undertime")
+                        || psd.getPaySlipDetailType().equals("Holiday")
+                        || psd.getPaySlipDetailType().equals("Absent")) {
+                    psdString = psd.getDescription() + " (" + MyNumberFormatter.formatAmount(psd.getQuantity()) + " X " 
+                            + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
+
+                }
+                psrr.setDescription(psdString);
+
                 psrr.setEmployeeName(emp.getName());
                 psrr.setPosition(emp.getPosition().getDescription());
-                psrr.setAmount(psd.getTotal());
+                psrr.setAmount(psd.getTotal() * -1);
                 psro.getList().add(psrr);
 
                 totalLess = totalLess + psd.getTotal();
-
-              //  System.out.println(psd.getRowNumber().toString() + "     " + psd.getDescription() + " " + psd.getTotal());
+                System.out.println(psd.getRowNumber().toString() + "  "+psd.getPaySlipDetailType() +"     " +
+                        psd.getDescription() + " " + psd.getTotal());
+                
             }
 
             psro.setNetTotal(totalAdd - totalLess);

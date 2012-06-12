@@ -24,7 +24,7 @@ public class PaySlipDetailSort implements Comparator {
         int c = row1.compareTo(row2);
         if( c == 0){
             
-            c = ((Integer)other1.getRowNumber()).compareTo(other2.getRowNumber());
+            c = ((Integer)other1.getRowNumber()).compareTo((Integer)other2.getRowNumber());
         }
         return c;
     }

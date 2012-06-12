@@ -128,7 +128,7 @@ public class PaySlipProcess2 {
                     
                     BigDecimal totalAmount =timeToDecimal.multiply(new BigDecimal(emp.getHourRate())) ;
                     psd.setQuantity(Double.valueOf(timeToDecimal.toPlainString()));
-                    
+                  
                     System.out.println("totalAmount: " + totalAmount.toPlainString());
                     psd.setAmount(emp.getHourRate());
                     psd.setTotal(Double.valueOf(totalAmount.toPlainString()));

@@ -72,7 +72,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
     CompanySettingDao csDao;
     
     private Employee ce;
-    
+    private List<Employee> currentEmployeeList;
+    private PayrollPeriod payrollPeriod;
     
     private boolean isSelectionMade = false;
     private SimpleDateFormat sdf;
@@ -1051,12 +1052,12 @@ public class PaySlipInformation extends javax.swing.JPanel {
         DateTableCellRenderer dtcr = new DateTableCellRenderer("MM/dd/yyyy");
 
         try {
-
-            List<Employee> employeeList = ppService.employeeListForPayslip((Long) kv.getValue());
+            payrollPeriod  = ppDao.find((Long) kv.getValue());
+            currentEmployeeList = ppService.employeeListForPayslip((Long) kv.getValue());
 
             dtm.setColumnIdentifiers(new String[]{"#", "IDNo", "Position", "Name", "Amount"});
             int row = 1;
-            for (Employee e : employeeList) {
+            for (Employee e : currentEmployeeList) {
 
                 if (e != null) {
                     //Object[] o = new Object[]{row++, e.getIdNumber(), e.getPosition(), e, e.getPayslipReport().getNetTotal()};
@@ -1205,6 +1206,42 @@ public class PaySlipInformation extends javax.swing.JPanel {
 //        } catch (Exception ex) {
 //            Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+        
+         try {
+          
+            List list = new ArrayList();
+          
+            prService.processPayslip(currentEmployeeList, payrollPeriod);
+            
+            for (Employee eep : currentEmployeeList) {
+                if (eep.getPayslipReport() != null && eep.getPayslipReport().getList().size() > 0) {
+                    list.add(eep.getPayslipReport());
+                }
+            }
+
+            SimpleDateFormat _sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
+
+            HashMap parameters = new HashMap();
+            //Company cs = CompanySetting.companySetting();
+            CompanySetting cs = csDao.find(1L);            
+
+            parameters.put("REPORT_TITLE", cs.getDescription());
+            String payroll_period =payrollPeriod.getPayrollPeriodCode() + " - [" + _sdf.format(payrollPeriod.getDateFrom()) + "-" + _sdf.format(payrollPeriod.getDateTo()) + "]";
+            parameters.put("PAYROLL_PERIOD", "Payroll Period: " + payroll_period);
+            parameters.put("DATE_GENERATED", _sdf.format(payrollPeriod.getDatePrepared()));
+            parameters.put("PREPARED_BY", "admin");
+            parameters.put("SUBREPORT_DIR", dbms.codebaseReports);
+
+            System.out.println("payslip count: " + list.size());
+            ReportViewerFactory rvf = new ReportViewerFactory("Payroll", parameters, list);
+
+            JRViewer jrv = rvf.getReport(false);
+
+            rvf.showReport(jrv);
+
+        } catch (Exception ex) {
+            Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
+        }
 }//GEN-LAST:event_btnPayslipAllActionPerformed
 
     private void btnPaySlipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaySlipActionPerformed
@@ -1393,18 +1430,18 @@ public class PaySlipInformation extends javax.swing.JPanel {
             double total = 0.0;
             Collections.sort(ce.getPayslip().getPayslipDetails(), new PaySlipDetailSort());
             for (PaySlipDetail v : ce.getPayslip().getPayslipDetails()) {                
-                //double ntotal = v.isIsDeduction() ? (-1 * v.getTotal()) : v.getTotal();                
+                double ntotal = v.getDeduction() ? (-1 * v.getTotal()) : v.getTotal();                
                 Object[] o = new Object[]{rowCounter++, v, v.getDescription(),v.getOtherDescription(),
-                      (double)v.getAmount(),   (double)v.getTotal()};
+                      (double)v.getAmount(),   ntotal};
                 //total = total + ntotal;
                 dtm.addRow(o);
             }
 
             tableDTR.setModel(dtm);
             NumberTableCellRenderer ntcr = new NumberTableCellRenderer();
-            NumberTableCellRenderer ntcr2 = new NumberTableCellRenderer("#.##");
+            NumberTableCellRenderer ntcr2 = new NumberTableCellRenderer("#,##0.00;(#,##0.00)"); //#,##0.0#;(#,##0.0#)
             tableDTR.getColumn("Rates").setCellRenderer(ntcr);
-            tableDTR.getColumn("Total").setCellRenderer(ntcr);
+            tableDTR.getColumn("Total").setCellRenderer(ntcr2);
             //tableDTR.getColumn("Quantity").setCellRenderer(ntcr2);
             // tableDTR.getColumn("Loader Count").setCellRenderer(ntcr2);
             tableDTR.getColumn("Type").setMaxWidth(110);
@@ -1439,6 +1476,10 @@ public class PaySlipInformation extends javax.swing.JPanel {
                     boolean isnew = false;
                     if(dui.psd.getId() == null){                        
                         isnew = true;
+                        if( ce.getPayslip().getPayslipDetails().size() > 0){
+                            Integer newRow = ce.getPayslip().getPayslipDetails().size() + 1 ;
+                            dui.psd.setRowNumber(newRow);
+                        }
                     }
                     
                     psdDao.save(dui.psd);     

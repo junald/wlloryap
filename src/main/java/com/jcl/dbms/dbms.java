@@ -30,7 +30,7 @@ import java.util.logging.Level;
 public class dbms    {
 
     //final static String DB4OFILENAME = System.getProperty("user.home") + "c:/testdb/mydb.db4o";
-    public final static String DB4OFILENAME = "c:/testdb/mydb2.db4o";
+  
     public final static String PROPERTYNAME = "application.properties";
     public static String LOCALFILENAE = "db4odb.db4o";
     public static String LOCALHOST = "localhost";
