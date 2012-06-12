@@ -14,6 +14,7 @@ import com.jcl.customizetable.DateTableCellRenderer;
 import com.jcl.customizetable.NonEditableDefaultTableModel;
 import com.jcl.customizetable.NumberTableCellRenderer;
 import com.jcl.customizetable.TransactionNumberTableCellRenderer;
+import com.jcl.dao.CompanySettingDao;
 import com.jcl.dao.PaySlipDetailDao;
 import com.jcl.dao.PayrollPeriodDao;
 import com.jcl.dbms.dbms;
@@ -23,8 +24,10 @@ import com.jcl.observables.PanelMessage;
 import com.jcl.payroll.enumtypes.DTRType;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayslipDetailType;
+import com.jcl.payroll.transaction.PaySlipDetailSort;
 import com.jcl.payroll.transaction.PaySlipProcess;
 import com.jcl.payroll.transaction.PaySlipProcess2;
+import com.jcl.reports.PayslipReports;
 import com.jcl.reports.ReportViewerFactory;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.MyNumberFormatter;
@@ -35,6 +38,7 @@ import com.jcl.verycommon.JOptionErrorMessage;
 import java.awt.Component;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -58,9 +62,14 @@ public class PaySlipInformation extends javax.swing.JPanel {
     
     @Autowired
     PaySlipProcess2 ppService;
+    @Autowired
+    PayslipReports prService;
     
     @Autowired
     PaySlipDetailDao psdDao;
+    
+    @Autowired
+    CompanySettingDao csDao;
     
     private Employee ce;
     
@@ -194,7 +203,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         btnInsertDetail = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        jPanel12 = new javax.swing.JPanel();
+        btnPaySlip = new javax.swing.JButton();
         jPanel13 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
@@ -788,7 +797,6 @@ public class PaySlipInformation extends javax.swing.JPanel {
         jPanel7.setMaximumSize(new java.awt.Dimension(150, 33));
         jPanel7.setMinimumSize(new java.awt.Dimension(150, 33));
         jPanel7.setPreferredSize(new java.awt.Dimension(150, 33));
-        jPanel7.setLayout(new java.awt.GridBagLayout());
 
         btnInsertDetail.setMnemonic('I');
         btnInsertDetail.setText("Insert New Detail");
@@ -800,42 +808,29 @@ public class PaySlipInformation extends javax.swing.JPanel {
                 btnInsertDetailActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(21, 5, 0, 5);
-        jPanel7.add(btnInsertDetail, gridBagConstraints);
+        jPanel7.add(btnInsertDetail);
 
         btnDelete.setText("Delete");
+        btnDelete.setMaximumSize(new java.awt.Dimension(140, 23));
+        btnDelete.setMinimumSize(new java.awt.Dimension(140, 23));
+        btnDelete.setPreferredSize(new java.awt.Dimension(140, 23));
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel7.add(btnDelete, gridBagConstraints);
+        jPanel7.add(btnDelete);
 
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 1.0;
-        jPanel7.add(jPanel12, gridBagConstraints);
+        btnPaySlip.setText("Print PaySlip");
+        btnPaySlip.setMaximumSize(new java.awt.Dimension(140, 23));
+        btnPaySlip.setMinimumSize(new java.awt.Dimension(140, 23));
+        btnPaySlip.setPreferredSize(new java.awt.Dimension(140, 23));
+        btnPaySlip.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPaySlipActionPerformed(evt);
+            }
+        });
+        jPanel7.add(btnPaySlip);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1211,6 +1206,46 @@ public class PaySlipInformation extends javax.swing.JPanel {
 //            Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 }//GEN-LAST:event_btnPayslipAllActionPerformed
+
+    private void btnPaySlipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaySlipActionPerformed
+          try {
+            PayrollPeriod pp = ce.getPayslip().getPayrollPeriod();
+            List list = new ArrayList();
+            List<Employee> emplist = new ArrayList<Employee>();
+            emplist.add(ce);
+            prService.processPayslip(emplist, ce.getPayslip().getPayrollPeriod());
+            
+            for (Employee eep : emplist) {
+                if (eep.getPayslipReport() != null && eep.getPayslipReport().getList().size() > 0) {
+                    list.add(eep.getPayslipReport());
+                }
+            }
+
+            SimpleDateFormat _sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
+
+            HashMap parameters = new HashMap();
+            //Company cs = CompanySetting.companySetting();
+            CompanySetting cs = csDao.find(1L);            
+
+            parameters.put("REPORT_TITLE", cs.getDescription());
+            String payroll_period =pp.getPayrollPeriodCode() + " - [" + _sdf.format(pp.getDateFrom()) + "-" + _sdf.format(pp.getDateTo()) + "]";
+            parameters.put("PAYROLL_PERIOD", "Payroll Period: " + payroll_period);
+            parameters.put("DATE_GENERATED", _sdf.format(pp.getDatePrepared()));
+            parameters.put("PREPARED_BY", "admin");
+            parameters.put("SUBREPORT_DIR", dbms.codebaseReports);
+
+            System.out.println("payslip count: " + list.size());
+            ReportViewerFactory rvf = new ReportViewerFactory("Payroll", parameters, list);
+
+            JRViewer jrv = rvf.getReport(false);
+
+            rvf.showReport(jrv);
+
+        } catch (Exception ex) {
+            Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnPaySlipActionPerformed
+ // TODO add your handling code here:
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClose;
@@ -1218,6 +1253,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
     private javax.swing.JButton btnFinalized;
     private javax.swing.JButton btnInsertDetail;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnPaySlip;
     private javax.swing.JButton btnPayslipAll;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSave;
@@ -1244,7 +1280,6 @@ public class PaySlipInformation extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1356,6 +1391,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
             int rowCounter = 1;
             double total = 0.0;
+            Collections.sort(ce.getPayslip().getPayslipDetails(), new PaySlipDetailSort());
             for (PaySlipDetail v : ce.getPayslip().getPayslipDetails()) {                
                 //double ntotal = v.isIsDeduction() ? (-1 * v.getTotal()) : v.getTotal();                
                 Object[] o = new Object[]{rowCounter++, v, v.getDescription(),v.getOtherDescription(),

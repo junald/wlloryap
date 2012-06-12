@@ -163,14 +163,14 @@ public class PaySlipDetail {
     /**
      * @return the rowNumber
      */
-    public int getRowNumber() {
+    public Integer getRowNumber() {
         return rowNumber;
     }
 
     /**
      * @param rowNumber the rowNumber to set
      */
-    public void setRowNumber(int rowNumber) {
+    public void setRowNumber(Integer rowNumber) {
         this.rowNumber = rowNumber;
     }
 

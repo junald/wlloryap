@@ -10,6 +10,7 @@
  */
 package com.jcl.main;
 
+import com.jcl.dbms.dbms;
 import com.jcl.login.LoginDialog;
 import com.jcl.verycommon.MLogger;
 import com.jcl.observables.MessagePanelObservable;
@@ -55,7 +56,8 @@ public class MainApp extends JFrame implements Observer {
 
         this.setTitle(windowTitle);
        
-
+        dbms.setProperties();
+        System.out.println(dbms.codebaseReports);
 
         try {
 

@@ -109,6 +109,7 @@ public class PaySlipProcess2 {
         //create payslip detail from dtr
         for (Employee emp : employeeList) {
             LinkedHashMap<String, List<DailyTimeRecord>> dtrTypeList = emp.getDtrTypeList();
+            int rowNumber = 1;
             for (DTRType dtrType : DTRType.values()) {
                 if (dtrTypeList.containsKey(dtrType.toString())) {
                     List<DailyTimeRecord> dtrs = dtrTypeList.get(dtrType.toString());
@@ -142,11 +143,11 @@ public class PaySlipProcess2 {
                     }else{
                         psd.setDeduction(false);                       
                     }     
-                    int rowNumber = 1;
-                    if(ps.getPayslipDetails()!= null ){
-                        rowNumber = ps.getPayslipDetails().size() + 1 ;
-                    }
-                    psd.setRowNumber(rowNumber);     
+                   
+//                    if(ps.getPayslipDetails()!= null ){
+//                        rowNumber = ps.getPayslipDetails().size() + 1 ;
+//                    }
+                    psd.setRowNumber(Integer.valueOf(rowNumber++));     
                     psd.setGenerated(true);
                     ps.getPayslipDetails().add(psd);
                     
@@ -225,7 +226,9 @@ public class PaySlipProcess2 {
     }
 
     private void processPayslipGoverment(List<Employee> employeeList, PayrollPeriod pp) {
-          for (Employee emp : employeeList) {
+        
+        for (Employee emp : employeeList) {
+              Integer row = 1;
               PaySlipDetail psdSSS = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.SSS.toString());
               psdSSS.setDescription("SSS");
               psdSSS.setQuantity(0d);
@@ -235,17 +238,20 @@ public class PaySlipProcess2 {
               psdSSS.setDeduction(true);
               psdSSS.setEmployeeContribution(sss.getEr());
               psdSSS.setGenerated(true);
+              psdSSS.setRowNumber(row++);
               emp.getPayslip().getPayslipDetails().add(psdSSS);
               
               PaySlipDetail psdPH = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.PhilHealth.toString());
               psdPH.setDescription("PhilHealth");
               psdPH.setQuantity(0d);
               psdPH.setAmount(0d);
+              psdPH.setRowNumber(row++);
               psdPH.setDeduction(true);
               Philhealth ph = PhilhealthProvider.getPhilhealthContribution(emp.getSalary());
               psdPH.setTotal(ph.getEe());
               psdPH.setEmployeeContribution(ph.getEr());
               psdPH.setGenerated(true);
+              psdPH.setRowNumber(row++);
               emp.getPayslip().getPayslipDetails().add(psdPH);
               
               PaySlipDetail psdPag = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.PagIbig.toString());
@@ -253,6 +259,7 @@ public class PaySlipProcess2 {
               psdPag.setQuantity(0d);
               psdPag.setAmount(0d);
               //SSS sss = SSSProvider.getSSSContribution(emp.getSalary());
+              psdPag.setRowNumber(row++);
               psdPag.setTotal(10d);
               psdPag.setDeduction(true);
               psdPag.setEmployeeContribution(10d);
@@ -264,6 +271,7 @@ public class PaySlipProcess2 {
               psdTax.setQuantity(0d);
               psdTax.setAmount(0d);
               psdTax.setDeduction(true);
+              psdTax.setRowNumber(row++);
               //Philhealth ph = PhilhealthProvider.getPhilhealthContribution(emp.getSalary());
               psdTax.setTotal(10d);
               psdTax.setEmployeeContribution(10d);

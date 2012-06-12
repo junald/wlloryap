@@ -4,31 +4,34 @@
  */
 package com.jcl.reports;
 
-import com.jcl.model.Employee;
+import com.jcl.dbms.dbms;
+import com.jcl.model.*;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
-import com.jcl.model.PaySlip;
-import com.jcl.model.PaySlipDetail;
 import com.jcl.payroll.transaction.PaySlipProcess;
 import com.jcl.payroll.transaction.PaySlipReportObject;
 import com.jcl.payroll.transaction.PaySlipReportRow;
-import com.jcl.model.PayrollPeriod;
+import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.MyNumberFormatter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author junald
  */
+@Service
 public class PayslipReports {
 
-    public static ArrayList<Employee> processPayslip(Long payrollPeriodID, Employee eep) throws Exception {
-
-        System.out.println("processPayslip: " + payrollPeriodID + " employee: " + eep);
-        ArrayList<Employee> employeeList = new ArrayList<Employee>();
-
+//    public static ArrayList<Employee> processPayslip(Long payrollPeriodID, Employee eep) throws Exception {
+//
+//        System.out.println("processPayslip: " + payrollPeriodID + " employee: " + eep);
+//        ArrayList<Employee> employeeList = new ArrayList<Employee>();
+//
 //        PayrollPeriod pp = PayrollPeriod.getPayrollPeriodByTid(payrollPeriodID);
 //        LinkedHashMap<Long, Employee> emplist = new LinkedHashMap<Long, Employee>();
 //        System.out.println("payslipinformation x.1");
@@ -110,6 +113,61 @@ public class PayslipReports {
 //
 //        }
 //
+//
+//
+//        return employeeList;
+//    }
+
+    public static List<Employee> processPayslip(List<Employee> employeeList, PayrollPeriod pp) throws Exception {
+
+
+        SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
+
+        for (Employee emp : employeeList) {
+
+            if (emp.getPayslip() == null || emp.getPayslip().getPayslipDetails().size() == 0) {
+                continue;
+            }
+
+            PaySlipReportObject psro = new PaySlipReportObject();
+            psro.setEmployeeTid(emp.getId());
+            System.out.println(emp.getPayslip().getPayrollPeriod().getPayrollPeriodCode());
+
+            double totalAdd = 0;
+            int row = 1;
+            for (PaySlipDetail psd : emp.getPayslip().getCompensations()) {
+                PaySlipReportRow psrr = new PaySlipReportRow();
+                psrr.setRow(row++);
+                String psdString = psd.getDescription() + " (" + 0 + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ") / " + 1;
+                psrr.setDescription(psdString);
+                psrr.setEmployeeName("Name: " + emp.getName());
+
+                psrr.setPosition(emp.getPosition().getDescription());
+                psrr.setAmount(psd.getTotal());
+                psro.getList().add(psrr);
+                totalAdd = totalAdd + psd.getTotal();
+                System.out.println(psd.getRowNumber().toString() + "     " + psd.getDescription() + " " + psd.getTotal());
+            }
+//
+            double totalLess = 0;
+            for (PaySlipDetail psd : emp.getPayslip().getDeductions()) {
+
+                PaySlipReportRow psrr = new PaySlipReportRow();
+                psrr.setRow(row++);
+                psrr.setDescription(psd.getDescription());
+                psrr.setEmployeeName(emp.getName());
+                psrr.setPosition(emp.getPosition().getDescription());
+                psrr.setAmount(psd.getTotal());
+                psro.getList().add(psrr);
+
+                totalLess = totalLess + psd.getTotal();
+
+              //  System.out.println(psd.getRowNumber().toString() + "     " + psd.getDescription() + " " + psd.getTotal());
+            }
+
+            psro.setNetTotal(totalAdd - totalLess);
+            emp.setPayslipReport(psro);
+        }
 
 
         return employeeList;

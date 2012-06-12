@@ -301,7 +301,6 @@ public class PaySlipEntry extends javax.swing.JDialog {
 
         if (psd.getGenerated()) {
             setTextFields(psd.getPaySlipDetailType());
-            comboDTRType.setSelectedItem(psd.getPaySlipDetailType());
             comboDTRType.setEnabled(false);
             txtQuantity.setEditable(false);
             txtAmount.setEditable(false);
@@ -310,6 +309,9 @@ public class PaySlipEntry extends javax.swing.JDialog {
             btnSave.setEnabled(false);
         }
         
+        
+        comboDTRType.setSelectedItem(psd.getPaySlipDetailType());
+            
         txtNotes.setText(psd.getDescription());
         txtAmount.setValue(psd.getAmount());
 

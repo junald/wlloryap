@@ -28,24 +28,25 @@ public class RowNumberInit {
     private static void init() {
         rowNumbers = new LinkedHashMap<String, Integer>();
 
-        rowNumbers.put("WorkedHours", 1);
-        rowNumbers.put("Absent", 100);
+        rowNumbers.put("WorkedHours", 10);
+        rowNumbers.put("Absent", 20);
 
-        rowNumbers.put("Overtime", 200);
-        rowNumbers.put("Undertime", 300);
-        rowNumbers.put("Holiday",400);
-        rowNumbers.put("VL", 500);
-        rowNumbers.put("SL", 600);
+        rowNumbers.put("Overtime", 30);
+        rowNumbers.put("Undertime", 40);
+        rowNumbers.put("Holiday",50);
+        rowNumbers.put("VL", 60);
+        rowNumbers.put("SL", 70);
 
-        rowNumbers.put("Adjustment", 700);
-        rowNumbers.put("SSS", 800);
-        rowNumbers.put("PagIbig", 900);
-        rowNumbers.put("PhilHealth", 1000);
-        rowNumbers.put("WTax", 1100);
+        
+        rowNumbers.put("SSS", 90);
+        rowNumbers.put("PagIbig", 100);
+        rowNumbers.put("PhilHealth", 110);
+        rowNumbers.put("WTax", 120);
 
-        rowNumbers.put("Loans", 1200);
-        rowNumbers.put("CashAdvanced", 1300);
-        rowNumbers.put("Others", 1400);
+        rowNumbers.put("Adjustment", 130);
+        rowNumbers.put("Loans", 140);
+        rowNumbers.put("CashAdvanced", 150);
+        rowNumbers.put("Others", 160);
 
     }
     

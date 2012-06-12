@@ -4,8 +4,7 @@
  */
 package com.jcl.utilities;
 
- 
-import com.jcl.payroll.transaction.TransactionType;
+
 import com.jcl.dbms.dbms;
 
 import java.util.logging.Level;
