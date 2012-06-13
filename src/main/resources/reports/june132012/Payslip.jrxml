@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Payslip" pageWidth="306" pageHeight="792" columnWidth="286" leftMargin="10" rightMargin="10" topMargin="17" bottomMargin="17">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Payslip" pageWidth="612" pageHeight="792" columnWidth="592" leftMargin="10" rightMargin="10" topMargin="17" bottomMargin="17">
 	<property name="ireport.zoom" value="2.5937424601000036"/>
-	<property name="ireport.x" value="610"/>
+	<property name="ireport.x" value="744"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="REPORT_TITLE" class="java.lang.String"/>
 	<parameter name="PAYROLL_PERIOD" class="java.lang.String"/>
@@ -28,6 +28,13 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
 			</textField>
 			<textField>
+				<reportElement x="306" y="0" width="286" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
+			</textField>
+			<textField>
 				<reportElement x="0" y="13" width="223" height="13"/>
 				<textElement>
 					<font size="8"/>
@@ -40,6 +47,20 @@
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{DATE_GENERATED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="532" y="13" width="60" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{DATE_GENERATED}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="13" width="226" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{PAYROLL_PERIOD}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -62,12 +83,29 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{position}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="530" y="0" width="62" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{position}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="0" width="223" height="13"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{employeeName}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="6" splitType="Stretch">
 			<line>
-				<reportElement x="1" y="3" width="280" height="1"/>
+				<reportElement x="1" y="3" width="591" height="1"/>
 				<graphicElement>
 					<pen lineWidth="0.75"/>
 				</graphicElement>
@@ -90,12 +128,33 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="331" y="0" width="212" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;(###0.00)">
+				<reportElement x="544" y="0" width="48" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
 			<textField pattern="###0.00;(###0.00)">
 				<reportElement x="237" y="0" width="48" height="13"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="0" width="22" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{row}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -108,10 +167,28 @@
 				</textElement>
 				<text><![CDATA[Total:]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="521" y="0" width="22" height="13"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
 			<textField pattern="###0.00;(###0.00)">
 				<reportElement x="237" y="0" width="48" height="13"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{NET_TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;(###0.00)">
+				<reportElement x="544" y="0" width="48" height="13"/>
+				<box>
+					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0" lineStyle="Double"/>
 				</box>
 				<textElement textAlignment="Right">

@@ -79,6 +79,12 @@
             </exclusions>
         </dependency>
         
+        <dependency>
+	   <groupId>commons-digester</groupId>
+	   <artifactId>commons-digester</artifactId>
+	   <version>1.7</version>
+        </dependency>
+        
         <!-- DB Dependencies -->
 
         <dependency>
@@ -196,7 +202,7 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>3.7.5</version>
+            <version>3.7.4</version>
         </dependency>
  
      

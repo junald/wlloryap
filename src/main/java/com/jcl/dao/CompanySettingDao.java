@@ -23,7 +23,7 @@ public class CompanySettingDao {
     private EntityManager entityManager;
 
     public CompanySetting find(Long id) {
-        System.out.println("finding company with id:=" + id);
+
         CompanySetting  company = entityManager.find(CompanySetting.class, id);
         if(company!=null){
             System.out.println(company);

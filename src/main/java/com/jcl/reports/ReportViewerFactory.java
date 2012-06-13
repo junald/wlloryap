@@ -71,7 +71,9 @@ public class ReportViewerFactory {
 
         try {
             DynamicReport dr = null;
-            String jasper = checkJasperReportFile();
+            checkJasperReportFile("Payslip");
+            String jasper = checkJasperReportFile(filename);
+            
             boolean continueReport = false;
             if (jasper == null && checkForDJ) {
                 //if jasper file is not found this will create the dynamic report jrxml
@@ -103,7 +105,7 @@ public class ReportViewerFactory {
         return jrv;
     }
 
-    private String checkJasperReportFile() throws JRException {
+    private String checkJasperReportFile(String filename) throws JRException {
 
         String reportfile = null;
         String jrxml = dbms.codebaseReports + filename + ".jrxml";
@@ -134,6 +136,7 @@ public class ReportViewerFactory {
 
         ObjectDataSource ods = new ObjectDataSource(list, false);
         
+        
 //        System.out.println("============================");
 //        for(Object ib: list){
 //            InventoryBalance iib = (InventoryBalance) ib;
@@ -157,6 +160,7 @@ public class ReportViewerFactory {
         System.out.println("loading jasper");
         JasperReport jr = (JasperReport) JRLoader.loadObjectFromLocation(jasper);
         System.out.println("creating jasper print");
+        System.out.println(parameters.size() +" : "+ list.size());
         JasperPrint jp = JasperFillManager.fillReport(jr, parameters, ods);
         System.out.println("jasper print created");
         jrw = new JRViewer(jp);
@@ -171,6 +175,7 @@ public class ReportViewerFactory {
         JRDataSource jrsource = new JRBeanCollectionDataSource(dataList);
         String jrxml = dbms.codebaseReports + filename + ".jrxml";
         String jasper = dbms.codebaseReports + filename + ".jasper";
+        
 
 
         File f = new File(jasper);

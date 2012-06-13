@@ -144,7 +144,8 @@ public class PayslipReports {
                         || psd.getPaySlipDetailType().equals("Overtime")
                         || psd.getPaySlipDetailType().equals("Undertime")
                         || psd.getPaySlipDetailType().equals("Holiday")
-                        || psd.getPaySlipDetailType().equals("Absent")) {
+                        || psd.getPaySlipDetailType().equals("Absent")) 
+                {
                     psdString = psd.getDescription() + " (" + MyNumberFormatter.formatAmount(psd.getQuantity()) + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
 
                 }
@@ -190,7 +191,7 @@ public class PayslipReports {
                 
             }
 
-            psro.setNetTotal(totalAdd - totalLess);
+            psro.setNetTotal(Double.valueOf(totalAdd - totalLess));
             emp.setPayslipReport(psro);
         }
 

@@ -1254,7 +1254,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
             
             for (Employee eep : emplist) {
                 if (eep.getPayslipReport() != null && eep.getPayslipReport().getList().size() > 0) {
-                    list.add(eep.getPayslipReport());
+                    list.add(eep.getPayslipReport());                 
+                    
                 }
             }
 
@@ -1270,8 +1271,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
             parameters.put("DATE_GENERATED", _sdf.format(pp.getDatePrepared()));
             parameters.put("PREPARED_BY", "admin");
             parameters.put("SUBREPORT_DIR", dbms.codebaseReports);
-
-            System.out.println("payslip count: " + list.size());
+            
+          
             ReportViewerFactory rvf = new ReportViewerFactory("Payroll", parameters, list);
 
             JRViewer jrv = rvf.getReport(false);
