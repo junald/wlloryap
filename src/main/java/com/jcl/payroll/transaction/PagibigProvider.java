@@ -14,31 +14,35 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Li
  */
-/*
+
 public class PagIbigProvider {
 
-    private static List<PagIbig> philHealthList = null;
+    private static List<PagIbig> pagibigList = null;
     
     public static PagIbig getPagIbigContribution(Double salary){
         
-        if(philHealthList == null){
+        if(pagibigList == null){
             init();
         }
         
         PagIbig pi = null;
         
-        for(PagIbig pie: philHealthList){
-            if(salary >= pie.getRange1() && salary <=pie.getRange2()){
+        for(PagIbig pie: pagibigList){
+                   
+           if(salary >= pie.getRange1() && salary <=pie.getRange2()){
                 pi = pie;
                 break;
             }
         }
+            
+           
         
         return pi;    
     }
     
     public static void init(){
-        
+        pagibigList.add(new PagIbig(0, 1500, 1500, 0.01, 0.02));
+        pagibigList.add(new PagIbig(1501, 5000, 5000, 0.02, 0.02));
     }
             
             
@@ -49,8 +53,8 @@ public class PagIbigProvider {
             
             PagIbig pie = pi.getPagIbigContribution(4000d);
          
-            System.out.println(pie.getEr());
+            System.out.println(pie.getErS());
             
     }
     
-}*/
+}

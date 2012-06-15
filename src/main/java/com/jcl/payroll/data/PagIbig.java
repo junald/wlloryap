@@ -12,7 +12,20 @@ public class PagIbig {
 
     private int pagibigKey;
     private double contribution;
+    private double range1;
+    private double range2;
+    private double salaryBase;
+    private double ers;
+    private double ees;
 
+     public PagIbig(double range1,double range2, double salaryBase,double ees,
+                double ers){
+            this.range1 = range1;
+            this.range2 = range2;
+            this.salaryBase = salaryBase;
+            this.ers = ers;
+            this.ees = ees;
+        }
     /**
      * @return the pagibigKey
      */
@@ -39,5 +52,36 @@ public class PagIbig {
      */
     public void setContribution(double contribution) {
         this.contribution = contribution;
+    }
+    public double getSalaryBase() {
+        return salaryBase;
+    }
+    public void setSalaryBase(double d) {
+        salaryBase = d;
+    }
+    
+    public double getEeS() {
+        return ees;
+    }
+    public double getErS() {
+        return ers;
+    }
+    public void setEeS(double d) {
+        ees = d;
+    }
+    public void setErS(double d) {
+        ers = d;
+    }
+    public double getRange1() {
+        return range1;
+    }
+    public double getRange2() {
+        return range2;
+    }
+    public void setRange1(double d) {
+        range1 = d;
+    }
+    public void setRange2(double d) {
+        range2 = d;
     }
 }

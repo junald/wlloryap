@@ -14,10 +14,7 @@ public class Philhealth {
         private double er;
         private double ee;
            
-        public Philhealth(){
-            
-        }
-        
+                
         public Philhealth(double range1, double range2, double salaryBase, double tmc, double er, double ee){
             this.range1 = range1;
             this.range2 = range2;
