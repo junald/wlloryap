@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Li
  */
 
-public class PagIbigProvider {
+public class PagibigProvider {
 
     private static List<PagIbig> pagibigList = null;
     
@@ -35,25 +35,25 @@ public class PagIbigProvider {
             }
         }
             
-           
-        
+     
         return pi;    
     }
     
     public static void init(){
+        pagibigList = new ArrayList<PagIbig>();
         pagibigList.add(new PagIbig(0, 1500, 1500, 0.01, 0.02));
-        pagibigList.add(new PagIbig(1501, 5000, 5000, 0.02, 0.02));
+        pagibigList.add(new PagIbig(1501, 30000, 5000, 0.02, 0.02));
     }
             
             
     public static void main(String[] args){
             System.out.println("pagibig contribution.");
-            PagIbigProvider pi =new PagIbigProvider();
+            PagibigProvider pi =new PagibigProvider();
             pi.init();
             
-            PagIbig pie = pi.getPagIbigContribution(4000d);
+            PagIbig pie = pi.getPagIbigContribution(00d);
          
-            System.out.println(pie.getErS());
+            System.out.println(pie.getEeS());
             
     }
     
