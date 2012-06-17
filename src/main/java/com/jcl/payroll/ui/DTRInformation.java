@@ -101,7 +101,7 @@ public class DTRInformation extends javax.swing.JPanel {
             DateTime tt = ft.plusDays(calendar.getMaximum(Calendar.DAY_OF_MONTH) - 2);
             txtDateFrom.setDate(ft.toDate());
             txtDateTo.setDate(tt.toDate());
-
+            lastEnteredDate = new Date();
         } catch (Exception ex) {
             Logger.getLogger(DTRInformation.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1088,12 +1088,14 @@ public class DTRInformation extends javax.swing.JPanel {
     }
 
     private void openDTREntryDialog(DailyTimeRecord d) {
-        DTREntry dui = new DTREntry(null, true, d);
+       
+        DTREntry dui = new DTREntry(null, true, d, lastEnteredDate);
         dui.setLocationRelativeTo(this);
         dui.setVisible(true);
         if (dui.selectedButton == SelectedButton.Save) {
             try {
                 dDao.save(dui.dtr);
+                lastEnteredDate = dui.dtr.getTransactionDate();
                 initDTR();
             } catch (Exception ex) {
                 Logger.getLogger(DTRInformation.class.getName()).log(Level.SEVERE, null, ex);
