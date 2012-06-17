@@ -26,19 +26,19 @@ public class WithHoldingTaxProvider {
         
         WithHoldingTax wht = null;
         
-        for(WithHoldingTax whte: withHoldingTaxList){
-            if(salary >= whte.getRange1() && salary <= whte.getRange2()){
-                wht = whte;
-                break;
-            }
-        }
+//        for(WithHoldingTax whte: withHoldingTaxList){
+//            if(salary >= whte.getRange1() && salary <= whte.getRange2()){
+//                wht = whte;
+//                break;
+//            }
+//        }
         
         return wht;    
     }
     
     public static void init(){
         withHoldingTaxList = new ArrayList<WithHoldingTax>();
-        withHoldingTaxList.add(new WithHoldingTax(0,4999.99,4000,100,50,50));
+//        withHoldingTaxList.add(new WithHoldingTax(0,4999.99,4000,100,50,50));
         
         
     }
@@ -51,7 +51,7 @@ public class WithHoldingTaxProvider {
             
             WithHoldingTax whte = wht.getWithHoldingTaxContribution(4000d);
          
-            System.out.println(whte.getEr());
+//            System.out.println(whte.getEr());
             
     }
     
