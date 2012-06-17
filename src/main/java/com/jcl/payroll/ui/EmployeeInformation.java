@@ -2030,7 +2030,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         for (DTRDisplayType ddt : DTRDisplayType.values()) {
             comboDisplayType.addItem(ddt.name());
         }
-         for (TaxCodeTypes ddt : TaxCodeTypes.values()) {
+         for (TaxCodeType ddt : TaxCodeType.values()) {
             comboTaxCode.addItem(ddt.name());
         }
         
