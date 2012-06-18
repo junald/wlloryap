@@ -38,7 +38,7 @@ public class dbms    {
     public static String MAINDIRECTORY = "c:/testdb/";
     public static int LOCALPORT = 4488;
     public static String codebase;
-    public static String codebaseReports = "c:/reports/";
+    public static String codebaseReports = "/reports/";
     public static Properties properties = new Properties();    
     private static boolean isRemote = true;
     public static User user;   

@@ -291,6 +291,8 @@ public class EmployeeInformation extends javax.swing.JPanel {
         textPagIbigNo = new javax.swing.JTextField();
         textPhilHealthNo = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
+        jLabel49 = new javax.swing.JLabel();
+        comboTaxCode = new javax.swing.JComboBox();
         panelContactInfo3 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
@@ -874,6 +876,8 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         textBankAccountNo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
@@ -884,6 +888,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelContactInfo2.add(textTaxIdNo, gridBagConstraints);
 
@@ -891,6 +896,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelContactInfo2.add(textSSSNo, gridBagConstraints);
@@ -899,6 +905,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelContactInfo2.add(textPagIbigNo, gridBagConstraints);
@@ -907,6 +914,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelContactInfo2.add(textPhilHealthNo, gridBagConstraints);
@@ -927,6 +935,23 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.gridy = 5;
         gridBagConstraints.weighty = 1.0;
         panelContactInfo2.add(jPanel10, gridBagConstraints);
+
+        jLabel49.setText("Tax Code");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        panelContactInfo2.add(jLabel49, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 0.4;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        panelContactInfo2.add(comboTaxCode, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1811,6 +1836,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JComboBox comboPayCode;
     private javax.swing.JComboBox comboPayrollPeriod;
     private javax.swing.JComboBox comboPosition;
+    private javax.swing.JComboBox comboTaxCode;
     private javax.swing.JComboBox comboType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1849,6 +1875,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2003,6 +2030,10 @@ public class EmployeeInformation extends javax.swing.JPanel {
         for (DTRDisplayType ddt : DTRDisplayType.values()) {
             comboDisplayType.addItem(ddt.name());
         }
+         for (TaxCodeType ddt : TaxCodeType.values()) {
+            comboTaxCode.addItem(ddt.name());
+        }
+        
 
 //        for (PayrollPeriod p : dbms.getDBInstance().query(PayrollPeriod.class)) {
 //            String code = p.getPayrollPeriodType() + " :[" + sdf.format(p.getDateFrom()) + "-" + sdf.format(p.getDateTo()) + "] " + p.getPayrollPeriodCode();
