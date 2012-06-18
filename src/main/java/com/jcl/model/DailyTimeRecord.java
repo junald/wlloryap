@@ -58,9 +58,9 @@ public class DailyTimeRecord {
     // on that particular date the absenthour is set to daily working hours of the employee.
     // if Date falls on holidays or special day. the number of hours is computed also.
     @Column
-    private Integer actualHours;
+    private Integer actualHours= 0;
     @Column
-    private Integer actualMins;
+    private Integer actualMins = 0;
     
     @Column
     private Integer workHours;
@@ -108,6 +108,12 @@ public class DailyTimeRecord {
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
+    
+    @Column
+    private Boolean restDay = false;
+    
+    @Column
+    private Integer section = 1;
     
     public DailyTimeRecord() {
     }
@@ -599,6 +605,34 @@ public class DailyTimeRecord {
      */
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    /**
+     * @return the restDay
+     */
+    public Boolean getRestDay() {
+        return restDay;
+    }
+
+    /**
+     * @param restDay the restDay to set
+     */
+    public void setRestDay(Boolean restDay) {
+        this.restDay = restDay;
+    }
+
+    /**
+     * @return the section
+     */
+    public Integer getSection() {
+        return section;
+    }
+
+    /**
+     * @param section the section to set
+     */
+    public void setSection(Integer section) {
+        this.section = section;
     }
     
     public String toString(){

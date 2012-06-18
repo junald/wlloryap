@@ -19,6 +19,8 @@ public class Holiday {
     private String description;
     @Column
     private Double rates;  // in percent
+    @Column(length=15)
+    private String holidayType; // Legel,Special
 
     /**
      * @return the id
@@ -74,6 +76,20 @@ public class Holiday {
      */
     public void setRates(Double rates) {
         this.rates = rates;
+    }
+
+    /**
+     * @return the holidayType
+     */
+    public String getHolidayType() {
+        return holidayType;
+    }
+
+    /**
+     * @param holidayType the holidayType to set
+     */
+    public void setHolidayType(String holidayType) {
+        this.holidayType = holidayType;
     }
     
     

@@ -2071,6 +2071,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         comboPosition.setSelectedItem(ce.getPosition());
         comboDepartment.setSelectedItem(ce.getDepartment());
         comboCompany.setSelectedItem(ce.getCompany());
+        comboTaxCode.setSelectedItem(ce.getTaxCode());
         comboType.setSelectedItem(ce.getPayType() == null ? "Variable" : ce.getPayType());
 
         txtDateHired.setDate(ce.getDateHired());
@@ -2132,6 +2133,8 @@ public class EmployeeInformation extends javax.swing.JPanel {
         }
 
         ce.setStatus(comboEmploymentStatus.getSelectedItem().toString());
+        
+        ce.setTaxCode(comboTaxCode.getSelectedItem().toString());
 
         Position pp = (Position) comboPosition.getSelectedItem();
         ce.setPosition(pp);
@@ -2343,7 +2346,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
     }
 
     private void openDTREntryDialog(DailyTimeRecord d) {
-        DTREntry dui = new DTREntry(null, true, d);
+        DTREntry dui = new DTREntry(null, true, d,null);
         dui.setLocationRelativeTo(this);
         dui.setVisible(true);
         if (dui.selectedButton == SelectedButton.Save) {
