@@ -10,17 +10,27 @@ package com.jcl.payroll.transaction;
  */
 public class TaxData {
     
+    private double exemption;
     private double range1;
     private double range2;
     private double over;
     private double due;
     
-    public TaxData(double range1, double range2, double over, double due)
+    public TaxData(double exemption, double range1, double range2, double over, double due)
     {
+        this.exemption = exemption;
         this.range1 = range1;
         this.range2 = range2;
         this.over = over;
         this.due = due;           
+    }
+    
+    public double getExemption() {
+        return exemption;
+    }
+    
+    public void setExemption(double d) {
+        exemption = d;
     }
     
     public double getRange1() {
