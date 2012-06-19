@@ -129,11 +129,9 @@ public class PaySlipProcess2 {
 
                         BigDecimal totalAmount = timeToDecimal.multiply(new BigDecimal(emp.getHourRate()));
                         psd.setQuantity(Double.valueOf(timeToDecimal.toPlainString()));
-
-                        System.out.println("totalAmount: " + totalAmount.toPlainString());
+                     
                         psd.setAmount(emp.getHourRate());
                         psd.setTotal(Double.valueOf(totalAmount.toPlainString()));
-                        System.out.println("psd.description: " + psd.getDescription());
                         psd.setTaxable(true);
 
                         psd.setRowNumber(Integer.valueOf(rowNumber++));
@@ -142,13 +140,14 @@ public class PaySlipProcess2 {
                     } else {
 
                         BigDecimal totalSum = new BigDecimal(0d);
+                        StringBuilder description = new StringBuilder();
                         for (DailyTimeRecord dtr : dtrs) {
-
                             String totalHours = dtr.getActualHours() + ":" + dtr.getActualMins();
                             BigDecimal timeToDecimal = computeTimeToDecimal(totalHours);
                             BigDecimal otr = OvertimeRateProvider.getDecimalRate(dtr.getDtrType(), dtr.getSection());
                             BigDecimal otrRate = new BigDecimal(emp.getHourRate()).multiply(otr);
-                            BigDecimal totalAmount = timeToDecimal.multiply(otrRate);
+                            BigDecimal totalAmount = timeToDecimal.multiply(otrRate);                            
+                            description.append(timeToDecimal.toPlainString() +"x"+ otrRate.toPlainString()+" ");                                    
                             totalSum.add(totalAmount);
                         }
                         String totalHours = computeTotalHoursInString(dtrs);
@@ -158,22 +157,20 @@ public class PaySlipProcess2 {
 
                         PaySlipDetail psd = new PaySlipDetail(ps, dtrType.toString());
 
-                        psd.setDescription(dtrType.toString() + " " + totalHours + "(OT rates)");
+                        psd.setDescription(description.toString());
                         psd.setOtherDescription(totalHours);
-
                         psd.setQuantity(Double.valueOf(timeToDecimal.toPlainString()));
-
-                        System.out.println("totalSum: " + totalSum.toPlainString());
+                   
                         psd.setAmount(emp.getHourRate());
                         psd.setTotal(Double.valueOf(totalSum.toPlainString()));
-                        System.out.println("psd.description: " + psd.getDescription());
                         psd.setTaxable(true);
 
                         psd.setRowNumber(Integer.valueOf(rowNumber++));
                         psd.setGenerated(true);
                         ps.getPayslipDetails().add(psd);
 
-                    }
+                    }                    
+                    
                 }
 
             }
@@ -288,7 +285,6 @@ public class PaySlipProcess2 {
             psdPag.setTotal( pagIbig.getEeS() );
             psdPag.setEmployeeContribution(pagIbig.getErS());
             psdPag.setDeduction(true);
-            psdPag.setEmployeeContribution(10d);
             psdPag.setGenerated(true);
             emp.getPayslip().getPayslipDetails().add(psdPag);
 
