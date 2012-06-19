@@ -29,7 +29,7 @@ public class PagibigProvider {
         
         for(PagIbig pie: pagibigList){
                    
-           if(salary >= pie.getRange1() && salary <=pie.getRange2()){
+           if(salary >= pie.getRange1() && salary <= pie.getRange2()){
                 pi = pie;
                 break;
             }
@@ -41,8 +41,8 @@ public class PagibigProvider {
     
     public static void init(){
         pagibigList = new ArrayList<PagIbig>();
-        pagibigList.add(new PagIbig(0, 1500, 1500, 0.01, 0.02));
-        pagibigList.add(new PagIbig(1501, 30000, 5000, 0.02, 0.02));
+        pagibigList.add(new PagIbig(0, 1500, 1500, 15, 30));
+        pagibigList.add(new PagIbig(1501, 30000, 5000, 100, 100));
     }
             
             
@@ -51,7 +51,7 @@ public class PagibigProvider {
             PagibigProvider pi =new PagibigProvider();
             pi.init();
             
-            PagIbig pie = pi.getPagIbigContribution(00d);
+            PagIbig pie = pi.getPagIbigContribution(5000d);
          
             System.out.println(pie.getEeS());
             
