@@ -121,6 +121,7 @@ public class Employee {
 
     private transient String name;
     private transient ArrayList<DailyTimeRecord> dtrList;
+    private transient ArrayList<DailyTimeRecord> overTimeDtrList;
     private transient LinkedHashMap<String,List<DailyTimeRecord>> dtrTypeList;
     private transient PaySlipReportObject payslipReport;
     private transient PaySlip payslip;
@@ -712,6 +713,20 @@ public class Employee {
      */
     public void setDtrList(ArrayList<DailyTimeRecord> dtrList) {
         this.dtrList = dtrList;
+    }
+
+    /**
+     * @return the overTimeDtrList
+     */
+    public ArrayList<DailyTimeRecord> getOverTimeDtrList() {
+        return overTimeDtrList;
+    }
+
+    /**
+     * @param overTimeDtrList the overTimeDtrList to set
+     */
+    public void setOverTimeDtrList(ArrayList<DailyTimeRecord> overTimeDtrList) {
+        this.overTimeDtrList = overTimeDtrList;
     }
 
     /**

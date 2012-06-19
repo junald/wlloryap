@@ -98,6 +98,7 @@ public class DTREntry extends javax.swing.JDialog {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
+        chkBoxDeduction = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dependents");
@@ -226,7 +227,7 @@ public class DTREntry extends javax.swing.JDialog {
         labelHours.setText(" ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         panelDTR.add(labelHours, gridBagConstraints);
 
@@ -268,8 +269,8 @@ public class DTREntry extends javax.swing.JDialog {
 
         chkRestDay.setText("Rest Day");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelDTR.add(chkRestDay, gridBagConstraints);
 
@@ -323,6 +324,31 @@ public class DTREntry extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 4);
         jPanel1.add(jButton2, gridBagConstraints);
 
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setText("First 8hrs");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel1.add(jRadioButton1, gridBagConstraints);
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("Before 10PM");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel1.add(jRadioButton2, gridBagConstraints);
+
+        buttonGroup1.add(jRadioButton3);
+        jRadioButton3.setText("10PM to 6AM");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel1.add(jRadioButton3, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -331,26 +357,12 @@ public class DTREntry extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         panelDTR.add(jPanel1, gridBagConstraints);
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("First 8hrs");
+        chkBoxDeduction.setText("Deduction");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
-        panelDTR.add(jRadioButton1, gridBagConstraints);
-
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Before 10PM");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        panelDTR.add(jRadioButton2, gridBagConstraints);
-
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("10PM to 6AM");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 6;
-        panelDTR.add(jRadioButton3, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        panelDTR.add(chkBoxDeduction, gridBagConstraints);
 
         getContentPane().add(panelDTR, java.awt.BorderLayout.CENTER);
 
@@ -379,20 +391,16 @@ public class DTREntry extends javax.swing.JDialog {
         String s = (String) comboDTRType.getSelectedItem();
         DTRType selectedDTRType = DTRType.valueOf(s);
 
-//        if (selectedDTRType == DTRType.Absent || selectedDTRType == DTRType.Undertime) {
-//
-//            chkBoxDeduction.setSelected(true);
-//        } else {
-//            chkBoxDeduction.setSelected(false);
-//        }
-//
-//        if (selectedDTRType != DTRType.Absent && selectedDTRType != DTRType.Undertime) {
-//            chkBoxWithPay.setEnabled(true);
-//            chkBoxWithPay.setSelected(true);
-//        } else {
-//            chkBoxWithPay.setSelected(false);
-//            chkBoxWithPay.setSelected(false);
-//        }
+
+        if (selectedDTRType == DTRType.Absent || selectedDTRType == DTRType.Undertime) {
+            chkBoxDeduction.setSelected(true);
+        } else if (selectedDTRType == DTRType.SL && dtr.getEmployee().getSickLeave() >= 0) {
+            chkBoxDeduction.setSelected(true);
+        } else if (selectedDTRType == DTRType.VL && dtr.getEmployee().getVacationLeave() >= 0) {
+            chkBoxDeduction.setSelected(true);
+        } else {
+            chkBoxDeduction.setSelected(false);
+        }
     }//GEN-LAST:event_comboDTRTypeActionPerformed
 
     private void txtWorkingDateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtWorkingDateFocusLost
@@ -434,6 +442,7 @@ public class DTREntry extends javax.swing.JDialog {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox chkBoxDeduction;
     private javax.swing.JCheckBox chkRestDay;
     private javax.swing.JComboBox comboDTRType;
     private javax.swing.JButton jButton2;
@@ -549,11 +558,11 @@ public class DTREntry extends javax.swing.JDialog {
         if (txtTimeIn.getValue() != null && txtTimeOut.getValue() != null) {
             try {
                 txtTimeIn.commitEdit();
-                 txtTimeOut.commitEdit();
+                txtTimeOut.commitEdit();
             } catch (ParseException ex) {
                 Logger.getLogger(DTREntry.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
+
             DateTime timeStart = new DateTime(txtTimeIn.getValue());
             DateTime timeEnd = new DateTime(txtTimeOut.getValue());
             System.out.println(timeStart);

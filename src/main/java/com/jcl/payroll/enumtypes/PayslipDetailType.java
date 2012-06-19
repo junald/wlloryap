@@ -10,7 +10,7 @@ package com.jcl.payroll.enumtypes;
  * @author junald
  */
 public enum PayslipDetailType {
-    WorkedHours,Overtime,  Holiday,  Absent,Undertime, VL, SL,
+    WorkedHours, Overtime, HolidayLegal,HolidaySpecial,  Absent,Undertime, VL, SL, 
     SSS,PhilHealth,PagIbig, WTax, Adjustment, Loans, CashAdvanced,Others
     
 }

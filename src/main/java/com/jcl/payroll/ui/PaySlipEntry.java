@@ -267,7 +267,7 @@ public class PaySlipEntry extends javax.swing.JDialog {
         PayslipDetailType stype = PayslipDetailType.valueOf(s);
 
         if (stype == PayslipDetailType.Absent || stype == PayslipDetailType.Undertime
-                || stype == PayslipDetailType.Holiday || stype == PayslipDetailType.Overtime
+                || stype == PayslipDetailType.HolidayLegal || stype == PayslipDetailType.HolidaySpecial || stype == PayslipDetailType.Overtime
                 || stype == PayslipDetailType.VL || stype == PayslipDetailType.SL || stype == PayslipDetailType.WorkedHours) {
 
             txtAmount.setEnabled(true);
@@ -307,11 +307,10 @@ public class PaySlipEntry extends javax.swing.JDialog {
             txtTotal.setEditable(false);
             checkIsDeductable.setEnabled(false);
             btnSave.setEnabled(false);
+        }else{
+            comboDTRType.setSelectedItem(psd.getPaySlipDetailType());
         }
-        
-        
-        comboDTRType.setSelectedItem(psd.getPaySlipDetailType());
-            
+
         txtNotes.setText(psd.getDescription());
         txtAmount.setValue(psd.getAmount());
 
@@ -321,20 +320,19 @@ public class PaySlipEntry extends javax.swing.JDialog {
         if (psd.getProcess()) {
             btnSave.setEnabled(false);
         }
- 
+
     }
 
     private void saveScreen() throws TransactionException, Exception {
 
-
-        psd.setPaySlipDetailType(comboDTRType.getSelectedItem().toString());
+        if (!psd.getGenerated()) {
+            psd.setPaySlipDetailType(comboDTRType.getSelectedItem().toString());
+        }
         psd.setDescription(txtNotes.getText());
-        psd.setQuantity(Double.valueOf(txtQuantity.getText().toString().length()>0?txtQuantity.getText():"0"));
-        psd.setAmount(Double.valueOf(txtAmount.getText().toString().length()>0?txtAmount.getText():"0"));
+        psd.setQuantity(Double.valueOf(txtQuantity.getText().toString().length() > 0 ? txtQuantity.getText() : "0"));
+        psd.setAmount(Double.valueOf(txtAmount.getText().toString().length() > 0 ? txtAmount.getText() : "0"));
         psd.setTotal(Double.valueOf(txtTotal.getText()));
         psd.setDeduction(checkIsDeductable.isSelected());
-
-//        dbms.save(psd);
-//        dbms.getDBInstance().ext().refresh(psd, Integer.MAX_VALUE);
+ 
     }
 }

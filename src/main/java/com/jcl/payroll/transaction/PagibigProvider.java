@@ -57,4 +57,11 @@ public class PagibigProvider {
             
     }
     
+    public static PagIbig getContribution(Double salary){
+        PagIbig pagIbig =new PagIbig(0d, 0, salary, 500d, 500d);
+        
+        
+        return pagIbig;
+    }
+    
 }
