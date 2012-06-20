@@ -14,19 +14,21 @@ import java.util.LinkedHashMap;
  * @author Kentimport com.jcl.payroll.data.Philhealth;
 
  */
-/*
+ 
 
 public class WithHoldingTaxProvider {
 
-   private static List<TaxData> taxTable = null;
+ //  private static List<TaxData> taxTable = null;
+    
+   public static HashMap<String, ArrayList<TaxData>> taxTable ;
    
-   public static TaxData getWHT(Double salary) {
+   public static TaxData getWHT(String taxCode, Double salary) {
        if (taxTable == null) {
            init();
        }
        TaxData td = null;
-       
-       for (TaxData tde : taxTable) {
+       ArrayList<TaxData> list = taxTable.get(taxCode);
+       for (TaxData tde : list) {
            if (salary >= tde.getRange1() && salary <= tde.getRange2()) {
                td = tde;
                break;
@@ -34,9 +36,7 @@ public class WithHoldingTaxProvider {
        }
        return td;
    }
-   
-  
-   public static HashMap<String, ArrayList<TaxData>> taxTable ;
+    
   
    public static void init(){
        
@@ -114,12 +114,13 @@ public class WithHoldingTaxProvider {
           me4hf4List.add(new TaxData(150000, 27083, 50000, 5208.33, 0.32));
        taxTable.put("ME4_S4", me4hf4List);
     }
+   
    public static void main(String[] args){
             System.out.println("withholdingtax contribution.");
             WithHoldingTaxProvider td =new WithHoldingTaxProvider();
             td.init();
             
-            TaxData tde = td.getWHT(4000d);
+            TaxData tde = td.getWHT("Z", 4000d);
          
             System.out.println(tde.getDue());
             
@@ -127,4 +128,4 @@ public class WithHoldingTaxProvider {
     
 }
 
-*/
+ 
