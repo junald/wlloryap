@@ -113,6 +113,9 @@ public class MainApp extends JFrame implements Observer {
         miPayroll = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         miEmployee = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        miReport1 = new javax.swing.JMenuItem();
+        miReport2 = new javax.swing.JMenuItem();
         menuOpenWindows = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -244,6 +247,26 @@ public class MainApp extends JFrame implements Observer {
 
         jMenuBar1.add(mEmployee);
 
+        jMenu1.setText("Reports");
+
+        miReport1.setText("Report1");
+        miReport1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(miReport1);
+
+        miReport2.setText("Report2");
+        miReport2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(miReport2);
+
+        jMenuBar1.add(jMenu1);
+
         menuOpenWindows.setText("Windows");
         jMenuBar1.add(menuOpenWindows);
 
@@ -330,6 +353,14 @@ public class MainApp extends JFrame implements Observer {
             com.jcl.payroll.ui.PaySlipInformation psi = context.getBean( com.jcl.payroll.ui.PaySlipInformation.class);
             psi.setup();
             tabbedPaneMain.add(panel, psi);
+        }else if (panel.equals("Report1")) {
+            com.jcl.reports.EmployeeReport er = new com.jcl.reports.EmployeeReport();
+            
+            tabbedPaneMain.add(panel, er);
+        }else if (panel.equals("Report2")) {
+            com.jcl.payroll.ui.PaySlipInformation psi = context.getBean( com.jcl.payroll.ui.PaySlipInformation.class);
+            psi.setup();
+            tabbedPaneMain.add(panel, psi);
         }
 
 
@@ -367,6 +398,7 @@ public class MainApp extends JFrame implements Observer {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConnect;
     private javax.swing.JButton jButton6;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
@@ -382,6 +414,8 @@ public class MainApp extends JFrame implements Observer {
     private javax.swing.JMenuItem miExit;
     private javax.swing.JMenuItem miPayroll;
     private javax.swing.JMenuItem miPayslip;
+    private javax.swing.JMenuItem miReport1;
+    private javax.swing.JMenuItem miReport2;
     private javax.swing.JMenuItem miSetting;
     private javax.swing.JPanel panel1;
     private javax.swing.JPanel panel2;

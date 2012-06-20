@@ -293,10 +293,9 @@ public class PaySlipProcess2 {
             psdTax.setQuantity(0d);
             psdTax.setAmount(0d);
             psdTax.setDeduction(true);
-            psdTax.setRowNumber(row++);
-            //Philhealth ph = PhilhealthProvider.getPhilhealthContribution(emp.getSalary());
-            psdTax.setTotal(10d);
-            psdTax.setEmployeeContribution(10d);
+            psdTax.setRowNumber(row++);            
+            psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), emp.getSalary()));
+            psdTax.setEmployeeContribution(0.0d);
             psdTax.setGenerated(true);
             emp.getPayslip().getPayslipDetails().add(psdTax);
 
