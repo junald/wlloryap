@@ -20,9 +20,9 @@ public class WithHoldingTaxProvider {
 
  //  private static List<TaxData> taxTable = null;
     
-   public static HashMap<String, ArrayList<TaxData>> taxTable ;
+   private static HashMap<String, ArrayList<TaxData>> taxTable ;
    
-   public static TaxData getWHT(String taxCode, Double salary) {
+   private static TaxData getWHT(String taxCode, Double salary) {
        if (taxTable == null) {
            init();
        }
@@ -35,10 +35,17 @@ public class WithHoldingTaxProvider {
            }
        }
        return td;
+   }    
+   
+   public static Double taxWithHeld(String taxCode, Double salary){
+       TaxData taxData = getWHT(taxCode, salary);
+       Double taxWithHeld = 0.0d;
+       // continue here
+           
+       return taxWithHeld;        
    }
-    
   
-   public static void init(){
+   private static void init(){
        
        taxTable  = new LinkedHashMap<String, ArrayList<TaxData>>();
        
