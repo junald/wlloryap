@@ -281,7 +281,7 @@ public class PaySlipProcess2 {
             psdPag.setQuantity(0d);
             psdPag.setAmount(0d);           
             psdPag.setRowNumber(row++);
-            PagIbig pagIbig=  PagibigProvider.getPagIbigContribution(emp.getSalary());
+            PagIbig pagIbig=  PagibigProvider.getContribution(emp.getSalary());
             psdPag.setTotal( pagIbig.getEeS() );
             psdPag.setEmployeeContribution(pagIbig.getErS());
             psdPag.setDeduction(true);

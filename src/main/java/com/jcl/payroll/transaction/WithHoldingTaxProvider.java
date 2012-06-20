@@ -39,7 +39,7 @@ public class WithHoldingTaxProvider {
    
    public static Double taxWithHeld(String taxCode, Double salary){
        TaxData taxData = getWHT(taxCode, salary);
-       Double taxWithHeld = 0.0d;
+       Double taxWithHeld = 0.0d; // compute tax with held base on the data from taxData
        // continue here
            
        return taxWithHeld;        
