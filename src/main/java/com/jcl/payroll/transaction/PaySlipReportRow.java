@@ -26,6 +26,7 @@ public class PaySlipReportRow {
     private double amount;
     private int noOfEmployeeSharing;
     private double netAmount;
+    private String payrollPeriodCode;
 
     /**
      * @return the employeeName
@@ -209,6 +210,20 @@ public class PaySlipReportRow {
         this.netAmount = netAmount;
     }
                              //helper/loader = (quantity * amount) / noOfEmployeeSharing
+
+    /**
+     * @return the payrollPeriodCode
+     */
+    public String getPayrollPeriodCode() {
+        return payrollPeriodCode;
+    }
+
+    /**
+     * @param payrollPeriodCode the payrollPeriodCode to set
+     */
+    public void setPayrollPeriodCode(String payrollPeriodCode) {
+        this.payrollPeriodCode = payrollPeriodCode;
+    }
 
     
 

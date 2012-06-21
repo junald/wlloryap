@@ -71,6 +71,9 @@ public class PaySlipProcess2 {
                 psr.setEmployeeName(psd.getPaySlip().getEmployee().getName());
                 psr.setEmployeeNumber(psd.getPaySlip().getEmployee().getIdNumber());                                
                 psr.setPaySlipDetailType(psr.getPaySlipDetailType());
+                psr.setPosition(psd.getPaySlip().getEmployee().getPosition().getDescription());
+                psr.setPayrollPeriodCode(psd.getPaySlip().getPayrollPeriod().getPayrollPeriodCode());
+                psr.setDate(psd.getPaySlip().getModifiedDate());
                 psrList.put(key,psr);
             }
             
@@ -80,8 +83,7 @@ public class PaySlipProcess2 {
                 amount = (psd.getTotal()*-1);                
             }
             total = total + amount;
-            psr.setAmount(total);
-                        
+            psr.setAmount(total);                                    
         }
         
         List<PaySlipReportRow> paySlipReportList = new ArrayList<PaySlipReportRow>(psrList.values());
