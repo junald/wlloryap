@@ -13,11 +13,13 @@ import java.util.Date;
  */
 public class PaySlipReportRow {
 
-    private String employeeName;
+    private long employeeId; 
+    private String employeeName;    
+    private String employeeNumber;    
+    private String paySlipDetailType;
     private String position;
     private int row;
-    private String description;
-    private int employeeId; // driver = quantity * amount,
+    private String description;    
     private Date date;
     private String reference;
     private double quantity;
@@ -37,6 +39,34 @@ public class PaySlipReportRow {
      */
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
+    }
+
+    /**
+     * @return the employeeNumber
+     */
+    public String getEmployeeNumber() {
+        return employeeNumber;
+    }
+
+    /**
+     * @param employeeNumber the employeeNumber to set
+     */
+    public void setEmployeeNumber(String employeeNumber) {
+        this.employeeNumber = employeeNumber;
+    }
+
+    /**
+     * @return the paySlipDetailType
+     */
+    public String getPaySlipDetailType() {
+        return paySlipDetailType;
+    }
+
+    /**
+     * @param paySlipDetailType the paySlipDetailType to set
+     */
+    public void setPaySlipDetailType(String paySlipDetailType) {
+        this.paySlipDetailType = paySlipDetailType;
     }
 
     /**
@@ -84,14 +114,14 @@ public class PaySlipReportRow {
     /**
      * @return the employeeId
      */
-    public int getEmployeeId() {
+    public long getEmployeeId() {
         return employeeId;
     }
 
     /**
      * @param employeeId the employeeId to set
      */
-    public void setEmployeeId(int employeeId) {
+    public void setEmployeeId(long employeeId) {
         this.employeeId = employeeId;
     }
 

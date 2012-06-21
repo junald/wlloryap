@@ -92,7 +92,7 @@ public class DailyTimeRecord {
     private Integer leaveMins;
     
     @Column(length = 15)
-    private String status;
+    private String status ="Opened";
     @Column(length = 150)
     private String notes = ""; // this will contain if the DTR is special or company unique day.
     @Column
