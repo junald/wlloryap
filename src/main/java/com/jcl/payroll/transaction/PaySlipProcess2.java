@@ -22,6 +22,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Date;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,17 +48,50 @@ public class PaySlipProcess2 {
     @Transactional
     public List<Employee> employeeListForPayslip(Long payrollPeriodID) {
         PayrollPeriod pp = ppDao.find(payrollPeriodID);
-        List<Employee> list = new ArrayList<Employee>();
-//        System.out.println(PayrollPeriodStatus.Closed.name());
-//        if (pp.getStatus().equals(PayrollPeriodStatus.Closed.name())) {           //BEFORE: generated.
-//            list = psDao.getAllPayslipBaseOnEmployee(pp);             
-//        } else {
-//        
-//        }
-        list = eDao.getAllActiveEmployes();
+        List<Employee> list =eDao.getAllActiveEmployes();
         processPaySlip(list, pp);
         return list;
     }
+    
+    
+    public List<PaySlipReportRow> employeeListForPayslipReports(Date dateFrom, Date dateTo, String[] filters) {        
+        List<PaySlipDetail> list = psDao.getAllPayslipByDateFromAndTo(dateFrom, dateTo);
+        // loop through the list
+        LinkedHashMap< String, PaySlipReportRow> psrList = new LinkedHashMap<String, PaySlipReportRow>();
+        
+        for(PaySlipDetail psd: list){
+            PaySlipReportRow psr = new PaySlipReportRow();
+            
+            String key = psd.getPaySlip().getEmployee().getId() +"-"+psr.getPaySlipDetailType();
+            
+            if(psrList.containsKey(key)){
+                psr = psrList.get(key);               
+            }else{
+                psr.setEmployeeId(psd.getPaySlip().getEmployee().getId());
+                psr.setEmployeeName(psd.getPaySlip().getEmployee().getName());
+                psr.setEmployeeNumber(psd.getPaySlip().getEmployee().getIdNumber());                                
+                psr.setPaySlipDetailType(psr.getPaySlipDetailType());
+                psr.setPosition(psd.getPaySlip().getEmployee().getPosition().getDescription());
+                psr.setPayrollPeriodCode(psd.getPaySlip().getPayrollPeriod().getPayrollPeriodCode());
+                psr.setDate(psd.getPaySlip().getModifiedDate());
+                psrList.put(key,psr);
+            }
+            
+            double total = psr.getAmount();
+            double amount = 0.0d;
+            if(psd.getDeduction()){
+                amount = (psd.getTotal()*-1);                
+            }
+            total = total + amount;
+            psr.setAmount(total);                                    
+        }
+        
+        List<PaySlipReportRow> paySlipReportList = new ArrayList<PaySlipReportRow>(psrList.values());
+        
+        return paySlipReportList;
+    }
+    
+    
 
     public void processPaySlip(List<Employee> employeeList, PayrollPeriod pp) {
         for (Employee emp : employeeList) {
@@ -75,22 +109,22 @@ public class PaySlipProcess2 {
             emp.setPayslip(ps);
         }
         processDTRs(employeeList, pp);
-        processPayslipDTR(employeeList, pp);
-        processPayslipGoverment(employeeList, pp);
+        createPayslipDetailFromDTR(employeeList);
+        createPayslipForGovernment(employeeList, pp);
         for (Employee eep : employeeList) {
             eep.getPayslip().getPayslipDetails().size();
         }
     }
-
+    // use in individual payslip processing and generate all payslip
     public void processDTRs(List<Employee> employeeList, PayrollPeriod pp) {
         for (Employee emp : employeeList) {
-            processIndividualDTR(emp, pp, DTRDisplayTypeStatus.Opened);
+            processIndividualDTR(emp, pp.getDateFrom(),pp.getDateTo(), DTRDisplayTypeStatus.Opened);
         }
     }
 
-    public void processIndividualDTR(Employee employee, PayrollPeriod pp, DTRDisplayTypeStatus dtdts) {
+    public void processIndividualDTR(Employee employee, Date dateFrom, Date dateTo, DTRDisplayTypeStatus dtdts) {
 
-        List<DailyTimeRecord> dtrList = dtrDao.getDailyTimeRecordsByDateAndEmployee(employee, pp.getDateFrom(), pp.getDateTo(), dtdts);
+        List<DailyTimeRecord> dtrList = dtrDao.getDailyTimeRecordsByDateAndEmployee(employee, dateFrom, dateTo, dtdts);
         System.out.println(employee.getName() + " : dtr counts: " + dtrList.size());
         LinkedHashMap<String, List<DailyTimeRecord>> dtrTypeList = new LinkedHashMap<String, List<DailyTimeRecord>>();
         for (DailyTimeRecord dtr : dtrList) {
@@ -107,7 +141,7 @@ public class PaySlipProcess2 {
         employee.setDtrTypeList(dtrTypeList);
     }
 
-    private void processPayslipDTR(List<Employee> employeeList, PayrollPeriod pp) {
+    private void createPayslipDetailFromDTR(List<Employee> employeeList) {
         //create payslip detail from dtr
         for (Employee emp : employeeList) {
             LinkedHashMap<String, List<DailyTimeRecord>> dtrTypeList = emp.getDtrTypeList();
@@ -175,9 +209,7 @@ public class PaySlipProcess2 {
 
             }
         }
-
-        //create payslip form goverment contributions.         
-        //if pp is generated or closed, don't generated goverment contributions and deductions.
+       
     }
 
     public boolean isDeductionDTR(String name) {
@@ -201,23 +233,6 @@ public class PaySlipProcess2 {
         BigDecimal splitHour = new BigDecimal(splitTime[0]);
         return splitHour.add(decimalMinute);
     }
-    //not used
-
-    public BigDecimal computeHotalHours(int time, double hourlyRate) {
-        //  DecimalFormat df = new DecimalFormat("#,##0.00;(#,##0.00)");
-        // BigDecimal hourRate = new BigDecimal(df.format(hourlyRate).toString());
-        BigDecimal hourRate = new BigDecimal(hourlyRate);
-        System.out.println(hourRate);
-        BigDecimal minutes = new BigDecimal("60");
-        System.out.println(minutes);
-        BigDecimal minuteRate = hourRate.divide(minutes, 2, RoundingMode.HALF_UP);
-        System.out.println(minuteRate);
-        BigDecimal totalMinute = new BigDecimal(time);
-        System.out.println(totalMinute);
-        BigDecimal netAmount = minuteRate.multiply(totalMinute);
-        return netAmount;
-    }
-    //not used
 
     public Integer computeTotalHoursInMinutes(String totalHours) {
         String[] splitTime = totalHours.split(":");
@@ -247,7 +262,7 @@ public class PaySlipProcess2 {
         return tm;
     }
 
-    private void processPayslipGoverment(List<Employee> employeeList, PayrollPeriod pp) {
+    private void createPayslipForGovernment(List<Employee> employeeList, PayrollPeriod pp) {
 
         for (Employee emp : employeeList) {
             Integer row = 1;
@@ -302,4 +317,22 @@ public class PaySlipProcess2 {
 
         }
     }
+    
+    
+    //not used
+    public BigDecimal computeHotalHours(int time, double hourlyRate) {
+        //  DecimalFormat df = new DecimalFormat("#,##0.00;(#,##0.00)");
+        // BigDecimal hourRate = new BigDecimal(df.format(hourlyRate).toString());
+        BigDecimal hourRate = new BigDecimal(hourlyRate);
+        System.out.println(hourRate);
+        BigDecimal minutes = new BigDecimal("60");
+        System.out.println(minutes);
+        BigDecimal minuteRate = hourRate.divide(minutes, 2, RoundingMode.HALF_UP);
+        System.out.println(minuteRate);
+        BigDecimal totalMinute = new BigDecimal(time);
+        System.out.println(totalMinute);
+        BigDecimal netAmount = minuteRate.multiply(totalMinute);
+        return netAmount;
+    }
+    //not used
 }

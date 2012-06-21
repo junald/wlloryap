@@ -12,16 +12,21 @@ reports:
 3. support individual companies
 	
 payslip
-1. include adjustment in payslip entries.
-2. support individual companies
-3. generated payslip(finalized)
+1. support individual companies
+2. generated payslip(finalized)
 
 goverment:
 1. withheld tax 
-2. implement zero check in sss, philhealth, pagibig and tax,
+2. Pagibig
+3. implement zero check in sss, philhealth, pagibig and tax,
+
+reports.
+1. summarized dtr
+2. summarized dtr payslip entries
+3. 
 
 bugs:
-1. exception is thrown in payslip refresh. when new employee is set to different position(driver)
+1.
 2. 
 
 All:
