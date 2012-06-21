@@ -16,7 +16,7 @@ public class TaxData {
     private double over;
     private double due;
     
-    public TaxData(double exemption, double range1, double range2, double over, double due)
+    public TaxData(double exemption, double range1, double range2, double due, double over)
     {
         this.exemption = exemption;
         this.range1 = range1;
@@ -24,6 +24,7 @@ public class TaxData {
         this.over = over;
         this.due = due;           
     }
+    
     
     public double getExemption() {
         return exemption;

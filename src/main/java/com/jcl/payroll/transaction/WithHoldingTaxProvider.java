@@ -20,6 +20,7 @@ public class WithHoldingTaxProvider {
 
  //  private static List<TaxData> taxTable = null;
     
+    
    private static HashMap<String, ArrayList<TaxData>> taxTable ;
    
    private static TaxData getWHT(String taxCode, Double salary) {
@@ -39,9 +40,25 @@ public class WithHoldingTaxProvider {
    
    public static Double taxWithHeld(String taxCode, Double salary){
        TaxData taxData = getWHT(taxCode, salary);
-       Double taxWithHeld = 0.0d; // compute tax with held base on the data from taxData
-       // continue here
+       Double taxWithHeld = 50.0d; // compute tax with held base on the data from taxData
+       
+       double colValue ;
+       double excess ;
+       double over;
+       double totalExcess;
+       double taxDue;
            
+      // if (salary >= taxData.getRange1() && salary <= taxData.getRange2()) {
+       
+           colValue = 100;//taxData.getRange1();
+           taxDue = 100;// taxData.getDue();
+           over = 2.0d;//taxData.getOver();
+           excess = salary - colValue;
+           totalExcess = excess * over;
+           taxWithHeld = taxDue + totalExcess;
+   //}
+       
+       
        return taxWithHeld;        
    }
   
@@ -126,13 +143,12 @@ public class WithHoldingTaxProvider {
             System.out.println("withholdingtax contribution.");
             WithHoldingTaxProvider td =new WithHoldingTaxProvider();
             td.init();
-            
             TaxData tde = td.getWHT("Z", 4000d);
-         
-            System.out.println(tde.getDue());
-            
+            // Double tde = td.taxWithHeld("Z", 4000d);
+            System.out.println(taxWithHeld);
     }
-    
+   static double taxWithHeld;
+   static double over;
 }
 
  
