@@ -4,6 +4,7 @@
  */
 package com.jcl.payroll.transaction;
 
+import com.jcl.payroll.data.SSS;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -18,9 +19,6 @@ import java.util.LinkedHashMap;
 
 public class WithHoldingTaxProvider {
 
- //  private static List<TaxData> taxTable = null;
-    
-    
    private static HashMap<String, ArrayList<TaxData>> taxTable ;
    
    private static TaxData getWHT(String taxCode, Double salary) {
@@ -40,28 +38,24 @@ public class WithHoldingTaxProvider {
    
    public static Double taxWithHeld(String taxCode, Double salary){
        TaxData taxData = getWHT(taxCode, salary);
-       Double taxWithHeld = 50.0d; // compute tax with held base on the data from taxData
+       Double taxWithHeld = 0.0d; // compute tax with held base on the data from taxData
        
        double colValue ;
        double excess ;
        double over;
        double totalExcess;
        double taxDue;
+       
+       colValue = taxData.getRange1();
+       taxDue = taxData.getDue();
+       over = taxData.getOver();
+       excess = salary - colValue;
+       totalExcess = excess * over;
+       taxWithHeld = taxDue + totalExcess;
            
-      // if (salary >= taxData.getRange1() && salary <= taxData.getRange2()) {
-       
-           colValue = 100;//taxData.getRange1();
-           taxDue = 100;// taxData.getDue();
-           over = 2.0d;//taxData.getOver();
-           excess = salary - colValue;
-           totalExcess = excess * over;
-           taxWithHeld = taxDue + totalExcess;
-   //}
-       
-       
        return taxWithHeld;        
    }
-  
+   
    private static void init(){
        
        taxTable  = new LinkedHashMap<String, ArrayList<TaxData>>();
@@ -88,8 +82,6 @@ public class WithHoldingTaxProvider {
             smeList.add(new TaxData(50000, 12500, 22916, 2083.33, 0.3));
             smeList.add(new TaxData(50000, 22917, 50000, 5208.33, 0.32));
        taxTable.put("S_ME", smeList);
-        
-        //taxTable.get("S_ME");
         
        ArrayList<TaxData> me1hf1List = new ArrayList<TaxData>();
            me1hf1List.add(new TaxData(75000, 1, 3124, 0.0, 0.0));
@@ -141,14 +133,10 @@ public class WithHoldingTaxProvider {
    
    public static void main(String[] args){
             System.out.println("withholdingtax contribution.");
-            WithHoldingTaxProvider td =new WithHoldingTaxProvider();
-            td.init();
-            TaxData tde = td.getWHT("Z", 4000d);
-            // Double tde = td.taxWithHeld("Z", 4000d);
-            System.out.println(taxWithHeld);
-    }
-   static double taxWithHeld;
-   static double over;
+            Double taxValue = WithHoldingTaxProvider.taxWithHeld("ME3_S3", 10000d);
+            System.out.println(taxValue);
+   }
+   
 }
 
  

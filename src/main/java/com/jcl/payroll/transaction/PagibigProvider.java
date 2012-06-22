@@ -11,12 +11,10 @@ import java.util.List;
 /**
  *
  * @author Kentimport com.jcl.payroll.data.Philhealth;
-import java.util.ArrayList;
-import java.util.Li
  */
 
 public class PagibigProvider {
-
+   /*
     private static List<PagIbig> pagibigList = null;
     
     private static PagIbig getPagIbigContribution(Double salary){
@@ -35,39 +33,47 @@ public class PagibigProvider {
             }
         }
             
-     
         return pi;    
     }
     
     private static void init(){
         pagibigList = new ArrayList<PagIbig>();
-        pagibigList.add(new PagIbig(0, 1500, 1500, 15, 30));
-        pagibigList.add(new PagIbig(1501, 30000, 5000, 100, 100));
+        pagibigList.add(new PagIbig(0, 1500, 0.01, 0.02));
+        pagibigList.add(new PagIbig(1501, 30000, 0.02, 0.02));
     }
              
     
-    public static PagIbig getContribution(Double salary){
-        PagIbig pagIbig =getPagIbigContribution(salary);
+    public static PagIbig pagIbigContribution(Double salary){
+        PagIbig pagIbig = getPagIbigContribution(salary);
                 
         //continue here
         //compute the exact pagibig contributin not what in the init()
         double ers = 0.0d;// compute employee contribution
-        double ees = 0.0d;//compute  employee contribution
+        double ees = 0.0d;//compute  employer contribution
+        Double pagIbigContribution = 0.0d;
         
-        PagIbig pagIbigContribution  = new PagIbig(pagIbig.getRange1(), pagIbig.getRange2(), salary, ers, ees);
+        PagIbig pagIbigContribution  = new PagIbig(pagIbig.getRange1(), pagIbig.getRange2(), ees, ers);
+        
+        double pagibigErShare;
+        double pagibigEeShare;
+        
+        ers =  pagIbig.getErS();
+        ees =  pagIbig.getEeS();
+        pagibigErShare = ers * salary;
+        pagibigEeShare = ees * salary;
+        pagIbigContribution = pagibigErShare + pagibigEeShare;
         
         return pagIbigContribution;
     }
     
       public static void main(String[] args){
             System.out.println("pagibig contribution.");
-            
-            PagIbig pie = PagibigProvider.getPagIbigContribution(5000d);
-            
-            
+            PagibigProvider pi = new PagibigProvider();
+            pi.init();
+            PagIbig pie = pi.getPagIbigContribution(5000d);
          
-            System.out.println(pie.getEeS());
+            System.out.println(pie.pagIbigContribution);
             
     }
-    
-}
+    */
+}    

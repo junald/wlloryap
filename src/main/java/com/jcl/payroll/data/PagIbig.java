@@ -14,15 +14,12 @@ public class PagIbig {
     private double contribution;
     private double range1;
     private double range2;
-    private double salaryBase;
     private double ers;
     private double ees;
 
-     public PagIbig(double range1,double range2, double salaryBase,double ees,
-                double ers){
+     public PagIbig(double range1,double range2, double ees, double ers){
             this.range1 = range1;
             this.range2 = range2;
-            this.salaryBase = salaryBase;
             this.ers = ers;
             this.ees = ees;
         }
@@ -52,12 +49,6 @@ public class PagIbig {
      */
     public void setContribution(double contribution) {
         this.contribution = contribution;
-    }
-    public double getSalaryBase() {
-        return salaryBase;
-    }
-    public void setSalaryBase(double d) {
-        salaryBase = d;
     }
     
     public double getEeS() {
