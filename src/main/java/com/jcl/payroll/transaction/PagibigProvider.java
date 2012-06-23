@@ -37,8 +37,9 @@ public class PagibigProvider {
     
     private static void init(){
         pagibigList = new ArrayList<PagIbig>();
-        pagibigList.add(new PagIbig(0, 1500, 0.01, 0.02));
-        pagibigList.add(new PagIbig(1501, 30000, 0.02, 0.02));
+        pagibigList.add(new PagIbig(0, 1500, 1500, 0.01, 0.02));
+        pagibigList.add(new PagIbig(1501, 4999, 5000, 0.02, 0.02));
+        
     }
              
     
@@ -51,16 +52,22 @@ public class PagibigProvider {
         double ees = 0.0d;//compute  employer contribution
         Double pagIbigContribution = 0.0d;
         
-     //   PagIbig pagIbigContribution  = new PagIbig(pagIbig.getRange1(), pagIbig.getRange2(), ees, ers);
         
         double pagibigErShare;
         double pagibigEeShare;
+        
+        if (salary < 5000) {
         
         ers =  pagIbig.getErS();
         ees =  pagIbig.getEeS();
         pagibigErShare = ers * salary;
         pagibigEeShare = ees * salary;
         pagIbigContribution = pagibigErShare + pagibigEeShare;
+        }
+        else
+        {
+        pagIbigContribution = 200d;    
+        }
         
         return pagIbigContribution;
     }
@@ -69,8 +76,7 @@ public class PagibigProvider {
             System.out.println("pagibig contribution.");
             PagibigProvider pi = new PagibigProvider();
             pi.init();
-       //     PagIbig pie = pi.pagIbigContribution(5000d);
-            Double pagibigValue = PagibigProvider.pagIbigContribution(1100d);
+            Double pagibigValue = PagibigProvider.pagIbigContribution(6999d);
             System.out.println(pagibigValue);
             
     }
