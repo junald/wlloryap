@@ -14,7 +14,6 @@ import java.util.List;
  */
 
 public class PagibigProvider {
-   /*
     private static List<PagIbig> pagibigList = null;
     
     private static PagIbig getPagIbigContribution(Double salary){
@@ -43,7 +42,7 @@ public class PagibigProvider {
     }
              
     
-    public static PagIbig pagIbigContribution(Double salary){
+    public static Double pagIbigContribution(Double salary){
         PagIbig pagIbig = getPagIbigContribution(salary);
                 
         //continue here
@@ -52,7 +51,7 @@ public class PagibigProvider {
         double ees = 0.0d;//compute  employer contribution
         Double pagIbigContribution = 0.0d;
         
-        PagIbig pagIbigContribution  = new PagIbig(pagIbig.getRange1(), pagIbig.getRange2(), ees, ers);
+     //   PagIbig pagIbigContribution  = new PagIbig(pagIbig.getRange1(), pagIbig.getRange2(), ees, ers);
         
         double pagibigErShare;
         double pagibigEeShare;
@@ -70,10 +69,9 @@ public class PagibigProvider {
             System.out.println("pagibig contribution.");
             PagibigProvider pi = new PagibigProvider();
             pi.init();
-            PagIbig pie = pi.getPagIbigContribution(5000d);
-         
-            System.out.println(pie.pagIbigContribution);
+       //     PagIbig pie = pi.pagIbigContribution(5000d);
+            Double pagibigValue = PagibigProvider.pagIbigContribution(1100d);
+            System.out.println(pagibigValue);
             
     }
-    */
 }    
