@@ -69,10 +69,8 @@ public class SSSProvider {
      */
     public static void main(String[] args) {
         System.out.println("SSS contribution.");
-        SSSProvider ss = new SSSProvider();
-        ss.init();
-
-        SSS sse = ss.getSSSContribution(4000d);
+        
+        SSS sse = SSSProvider.getSSSContribution(4000d);
 
         System.out.println(sse.getEr());
     }

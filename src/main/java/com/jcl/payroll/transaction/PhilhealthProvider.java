@@ -70,10 +70,8 @@ public class PhilhealthProvider {
             
     public static void main(String[] args){
             System.out.println("philhealth contribution.");
-            PhilhealthProvider ph =new PhilhealthProvider();
-            ph.init();
-            
-            Philhealth phe = ph.getPhilhealthContribution(4000d);
+       
+            Philhealth phe = PhilhealthProvider.getPhilhealthContribution(4000d);
          
             System.out.println(phe.getEr());
             
