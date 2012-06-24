@@ -27,6 +27,7 @@ public class WithHoldingTaxProvider {
        }
        TaxData td = null;
        ArrayList<TaxData> list = taxTable.get(taxCode);
+
        for (TaxData tde : list) {
            if (salary >= tde.getRange1() && salary <= tde.getRange2()) {
                td = tde;

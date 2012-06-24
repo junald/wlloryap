@@ -177,6 +177,7 @@ public class EmployeeReport extends javax.swing.JPanel {
         jPanel6.add(jLabel5, gridBagConstraints);
 
         comboReports.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        comboReports.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SSS ", "PHILHEALTH", "WITH HOLDING TAX", "PAG-IBIG", " " }));
         comboReports.setNextFocusableComponent(comboClient);
         comboReports.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,7 +286,7 @@ public class EmployeeReport extends javax.swing.JPanel {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 484, Short.MAX_VALUE)
+            .addGap(0, 482, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
