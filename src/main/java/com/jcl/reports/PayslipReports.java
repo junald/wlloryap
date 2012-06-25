@@ -6,6 +6,7 @@ package com.jcl.reports;
 
 import com.jcl.dbms.dbms;
 import com.jcl.model.*;
+import com.jcl.payroll.enumtypes.PayrollPeriodCode;
 import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
 import com.jcl.payroll.enumtypes.PayrollPeriodType;
 import com.jcl.payroll.transaction.PaySlipProcess;
@@ -139,8 +140,11 @@ public class PayslipReports {
                 psrr.setRow(row++);
                 String psdString = psd.getDescription();
                 if(psd.getDtr()){
-                    if(emp.getPayType().equals(emp))sdfsd
-                    psdString = psd.getDescription() + " (" + MyNumberFormatter.formatAmount(psd.getQuantity()) + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
+                    if(emp.getPayCode().equals(PayrollPeriodCode.Daily)){
+                        psdString = psd.getDescription() + " (" + MyNumberFormatter.formatAmount(psd.getQuantity()) + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
+                    }else{
+                        psdString = psd.getDescription() + " ("+ MyNumberFormatter.formatAmount(psd.getQuantity()) + ")";
+                    }
                 }
 
                 psrr.setDescription(psdString);
