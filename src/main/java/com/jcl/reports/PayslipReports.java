@@ -163,17 +163,13 @@ public class PayslipReports {
                 PaySlipReportRow psrr = new PaySlipReportRow();
                 psrr.setRow(row++);
 
-                String psdString = psd.getDescription();
-                if (psd.getPaySlipDetailType().equals("WorkedHours")
-                        || psd.getPaySlipDetailType().equals("VL")
-                        || psd.getPaySlipDetailType().equals("SL")
-                        || psd.getPaySlipDetailType().equals("Overtime")
-                        || psd.getPaySlipDetailType().equals("Undertime")
-                        || psd.getPaySlipDetailType().equals("Holiday")
-                        || psd.getPaySlipDetailType().equals("Absent")) {
-                    psdString = psd.getDescription() + " (" + MyNumberFormatter.formatAmount(psd.getQuantity()) + " X " 
-                            + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
-
+                String psdString = psd.getDescription();                
+               if(psd.getDtr()){
+                    if(emp.getPayCode().equals(PayrollPeriodCode.Daily)){
+                        psdString = psd.getDescription() + " (" + MyNumberFormatter.formatAmount(psd.getQuantity()) + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
+                    }else{
+                        psdString = psd.getDescription() + " ("+ MyNumberFormatter.formatAmount(psd.getQuantity()) + ")";
+                    }
                 }
                 psrr.setDescription(psdString);
 

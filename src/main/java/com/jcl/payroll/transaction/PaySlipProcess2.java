@@ -5,15 +5,8 @@
 package com.jcl.payroll.transaction;
 
 //import com.jcl.dbms.dbms;
-import com.jcl.dao.DailyTimeRecordDao;
-import com.jcl.dao.EmployeeDao;
-import com.jcl.dao.PaySlipDao;
-import com.jcl.dao.PayrollPeriodDao;
-import com.jcl.model.PayrollPeriod;
-import com.jcl.model.PaySlip;
-import com.jcl.model.PaySlipDetail;
-import com.jcl.model.Employee;
-import com.jcl.model.DailyTimeRecord;
+import com.jcl.dao.*;
+import com.jcl.model.*;
 import com.jcl.payroll.data.Philhealth;
 import com.jcl.payroll.data.SSS;
 import com.jcl.payroll.enumtypes.*;
@@ -43,54 +36,55 @@ public class PaySlipProcess2 {
     PaySlipDao psDao;
     @Autowired
     DailyTimeRecordDao dtrDao;
+    @Autowired
+    OtherAdjustmentDao oaDao;
     private static int ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
 
     @Transactional
     public List<Employee> employeeListForPayslip(Long payrollPeriodID) {
         PayrollPeriod pp = ppDao.find(payrollPeriodID);
-        List<Employee> list =eDao.getAllActiveEmployes();
+        List<Employee> list = eDao.getAllActiveEmployes();
         processPaySlip(list, pp);
         return list;
     }
-    
-    
-    public List<PaySlipReportRow> employeeListForPayslipReports(Date dateFrom, Date dateTo, String[] filters) {        
+
+    public List<PaySlipReportRow> employeeListForPayslipReports(Date dateFrom, Date dateTo, String[] filters) {
         List<PaySlipDetail> list = psDao.getAllPayslipByDateFromAndTo(dateFrom, dateTo);
         // loop through the list
         LinkedHashMap< String, PaySlipReportRow> psrList = new LinkedHashMap<String, PaySlipReportRow>();
-        
-        for(PaySlipDetail psd: list){
+
+        for (PaySlipDetail psd : list) {
             PaySlipReportRow psr = new PaySlipReportRow();
-            
-            String key = psd.getPaySlip().getEmployee().getId() +"-"+psr.getPaySlipDetailType();
-            
-            if(psrList.containsKey(key)){
-                psr = psrList.get(key);               
-            }else{
+
+            String key = psd.getPaySlip().getEmployee().getId() + "-" + psr.getPaySlipDetailType();
+
+            if (psrList.containsKey(key)) {
+                psr = psrList.get(key);
+            } else {
                 psr.setEmployeeId(psd.getPaySlip().getEmployee().getId());
                 psr.setEmployeeName(psd.getPaySlip().getEmployee().getName());
-                psr.setEmployeeNumber(psd.getPaySlip().getEmployee().getIdNumber());                                
+                psr.setEmployeeNumber(psd.getPaySlip().getEmployee().getIdNumber());
                 psr.setPaySlipDetailType(psr.getPaySlipDetailType());
                 psr.setPosition(psd.getPaySlip().getEmployee().getPosition().getDescription());
                 psr.setPayrollPeriodCode(psd.getPaySlip().getPayrollPeriod().getPayrollPeriodCode());
                 psr.setDate(psd.getPaySlip().getModifiedDate());
-                psrList.put(key,psr);
+                psrList.put(key, psr);
             }
-            
+
             double total = psr.getAmount();
             double amount = 0.0d;
-            if(psd.getDeduction()){
-                amount = (psd.getTotal()*-1);                
+            if (psd.getDeduction()) {
+                amount = (psd.getTotal() * -1);
             }
             total = total + amount;
-            psr.setAmount(total);                                    
+            psr.setAmount(total);
         }
-        
+
         List<PaySlipReportRow> paySlipReportList = new ArrayList<PaySlipReportRow>(psrList.values());
-        
+
         return paySlipReportList;
     }
-    
+
     public void processPaySlip(List<Employee> employeeList, PayrollPeriod pp) {
         for (Employee emp : employeeList) {
 
@@ -109,14 +103,17 @@ public class PaySlipProcess2 {
         processDTRs(employeeList, pp);
         createPayslipDetailFromDTR(employeeList);
         createPayslipForGovernment(employeeList, pp);
+        createPayslipAutoAdjustment(employeeList);
+
         for (Employee eep : employeeList) {
             eep.getPayslip().getPayslipDetails().size();
         }
     }
     // use in individual payslip processing and generate all payslip
+
     public void processDTRs(List<Employee> employeeList, PayrollPeriod pp) {
         for (Employee emp : employeeList) {
-            processIndividualDTR(emp, pp.getDateFrom(),pp.getDateTo(), DTRDisplayTypeStatus.Opened);
+            processIndividualDTR(emp, pp.getDateFrom(), pp.getDateTo(), DTRDisplayTypeStatus.Opened);
         }
     }
 
@@ -137,6 +134,9 @@ public class PaySlipProcess2 {
             _list.add(dtr);
         }
         employee.setDtrTypeList(dtrTypeList);
+
+
+
     }
 
     private void createPayslipDetailFromDTR(List<Employee> employeeList) {
@@ -148,20 +148,20 @@ public class PaySlipProcess2 {
                 if (dtrTypeList.containsKey(dtrType.toString())) {
                     List<DailyTimeRecord> dtrs = dtrTypeList.get(dtrType.toString());
 
+                    PaySlip ps = emp.getPayslip();
+                    PaySlipDetail psd = new PaySlipDetail(ps, dtrType.toString());
+
                     if (!OvertimeRateProvider.isOvertime(dtrType.toString())) {
                         String totalHours = computeTotalHoursInString(dtrs);
 
                         BigDecimal timeToDecimal = computeTimeToDecimal(totalHours);
 
-                        PaySlip ps = emp.getPayslip();
-
-                        PaySlipDetail psd = new PaySlipDetail(ps, dtrType.toString());
                         psd.setDescription(dtrType.toString() + " " + totalHours);
                         psd.setOtherDescription(timeToDecimal.toString());
 
                         BigDecimal totalAmount = timeToDecimal.multiply(new BigDecimal(emp.getHourRate()));
                         psd.setQuantity(Double.valueOf(timeToDecimal.toPlainString()));
-                     
+
                         psd.setAmount(emp.getHourRate());
                         psd.setTotal(Double.valueOf(totalAmount.toPlainString()));
                         psd.setTaxable(true);
@@ -169,7 +169,10 @@ public class PaySlipProcess2 {
                         psd.setRowNumber(Integer.valueOf(rowNumber++));
                         psd.setGenerated(true);
                         psd.setDtr(true);
-                        ps.getPayslipDetails().add(psd);
+                        if(dtrType == DTRType.Absent || dtrType == DTRType.Undertime|| dtrType == DTRType.SL || dtrType == DTRType.VL){
+                           psd.setDeduction(Boolean.TRUE); 
+                        }
+
                     } else {
 
                         BigDecimal totalSum = new BigDecimal(0d);
@@ -179,16 +182,12 @@ public class PaySlipProcess2 {
                             BigDecimal timeToDecimal = computeTimeToDecimal(totalHours);
                             BigDecimal otr = OvertimeRateProvider.getDecimalRate(dtr.getDtrType(), dtr.getSection());
                             BigDecimal otrRate = new BigDecimal(emp.getHourRate()).multiply(otr);
-                            BigDecimal totalAmount = timeToDecimal.multiply(otrRate);                            
-                            description.append(timeToDecimal.toPlainString() +"x"+ otrRate.toPlainString()+" ");                                    
+                            BigDecimal totalAmount = timeToDecimal.multiply(otrRate);
+                            description.append(timeToDecimal.toPlainString() + "x" + otrRate.toPlainString() + " ");
                             totalSum.add(totalAmount);
                         }
                         String totalHours = computeTotalHoursInString(dtrs);
                         BigDecimal timeToDecimal = computeTimeToDecimal(totalHours);
-
-                        PaySlip ps = emp.getPayslip();
-
-                        PaySlipDetail psd = new PaySlipDetail(ps, dtrType.toString());
 
                         psd.setDescription(description.toString());
                         psd.setOtherDescription(totalHours);
@@ -197,14 +196,27 @@ public class PaySlipProcess2 {
                         psd.setAmount(emp.getHourRate());
                         psd.setTotal(Double.valueOf(totalSum.toPlainString()));
                         psd.setTaxable(true);
-
                         psd.setRowNumber(Integer.valueOf(rowNumber++));
                         psd.setGenerated(true);
-                        ps.getPayslipDetails().add(psd);
-                    }                                        
+
+                    }
+                    // this will reset WorkedHours payslip detail into Monthly or Daily paycode.
+                    //workedhours psd.total is set to semi monthly amount.
+                    if (psd.getPaySlipDetailType().toString().equals(DTRType.WorkedHours.toString())) {
+                        if (emp.getPayCode().equals(PayrollPeriodCode.Monthly.toString())
+                                && emp.getPayType().equals(PayrollPeriodType.SemiMonthly.toString())) {
+                            BigDecimal salaryBig = new BigDecimal(emp.getSalary());
+                            BigDecimal semiDiv = new BigDecimal("2");
+                            BigDecimal semiSalary = salaryBig.divide(semiDiv, 2, RoundingMode.HALF_UP);
+                            psd.setTotal(Double.valueOf(semiSalary.toPlainString()));
+                        }
+                    }
+                    ps.getPayslipDetails().add(psd);
+
                 }
+
             }
-        }       
+        }
     }
 
     public boolean isDeductionDTR(String name) {
@@ -260,7 +272,7 @@ public class PaySlipProcess2 {
     private void createPayslipForGovernment(List<Employee> employeeList, PayrollPeriod pp) {
 
         for (Employee emp : employeeList) {
-            Integer row = 1;
+            Integer row = emp.getPayslip().getPayslipDetails().size();
             PaySlipDetail psdSSS = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.SSS.toString());
             psdSSS.setDescription("SSS");
             psdSSS.setQuantity(0d);
@@ -289,10 +301,10 @@ public class PaySlipProcess2 {
             PaySlipDetail psdPag = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.PagIbig.toString());
             psdPag.setDescription("Pag-ibig");
             psdPag.setQuantity(0d);
-            psdPag.setAmount(0d);           
+            psdPag.setAmount(0d);
             psdPag.setRowNumber(row++);
-            PagIbig pagIbig=  PagibigProvider.pagIbigContribution(emp.getSalary());
-            psdPag.setTotal( pagIbig.getEeS() );
+            PagIbig pagIbig = PagibigProvider.pagIbigContribution(emp.getSalary());
+            psdPag.setTotal(pagIbig.getEeS());
             psdPag.setEmployeeContribution(pagIbig.getErS());
             psdPag.setDeduction(true);
             psdPag.setGenerated(true);
@@ -303,7 +315,7 @@ public class PaySlipProcess2 {
             psdTax.setQuantity(0d);
             psdTax.setAmount(0d);
             psdTax.setDeduction(true);
-            psdTax.setRowNumber(row++);            
+            psdTax.setRowNumber(row++);
             psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), emp.getSalary()));
             psdTax.setEmployeeContribution(0.0d);
             psdTax.setGenerated(true);
@@ -311,12 +323,41 @@ public class PaySlipProcess2 {
 
 
         }
-        
-        
+
+
     }
-    
-    
+
+    private void createPayslipAutoAdjustment(List<Employee> employeeList) {
+
+        for (Employee emp : employeeList) {
+            Integer row = emp.getPayslip().getPayslipDetails().size();
+            for (OtherAdjustment oa : oaDao.getAdjustments()) {
+
+                if (oa.getEveryPayroll()) {
+                    PaySlipDetail payslip = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.Adjustment.toString());
+                    payslip.setDescription(oa.getDescription());
+                    payslip.setQuantity(0d);
+                    payslip.setAmount(0d);
+                    if(oa.getAdjustmentType().equals("less")){
+                        payslip.setTotal(oa.getAmount());
+                        payslip.setDeduction(true);
+                        
+                    }else{
+                         payslip.setDeduction(false);
+                        payslip.setTotal(oa.getAmount());
+                    }
+                    payslip.setTaxable(oa.getTaxable());                
+                    payslip.setEmployeeContribution(0d);
+                    payslip.setGenerated(true);
+                    payslip.setRowNumber(row++);
+                    
+                    emp.getPayslip().getPayslipDetails().add(payslip);
+                }
+            }
+        }
+    }
     //not used
+
     public BigDecimal computeHotalHours(int time, double hourlyRate) {
         //  DecimalFormat df = new DecimalFormat("#,##0.00;(#,##0.00)");
         // BigDecimal hourRate = new BigDecimal(df.format(hourlyRate).toString());

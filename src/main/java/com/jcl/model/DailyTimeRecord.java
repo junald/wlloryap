@@ -100,7 +100,7 @@ public class DailyTimeRecord {
     @Column
     private Boolean isDTR = true;
     @Column
-    private Boolean withPay = true;    
+    private Boolean withPay = true;   //if vl or sl, loop through dtr, separate payslipdetail for with pay and no pay
     @Column    
     private Boolean deduction = false;
     @Column(length = 150)

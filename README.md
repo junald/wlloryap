@@ -31,3 +31,9 @@ bugs:
 
 All:
 1. checked to support delete and cancel button.
+
+
+last:
+1. working on DailyTimeRecord, regarding payslip entries on VL and SL  by separating payslipdetail with pay and withoutpay
+with that it create problem on how to process Daily and Monthly vl sl type.
+2. review DTR entry screen specially  the isdeduction and withpay, restday

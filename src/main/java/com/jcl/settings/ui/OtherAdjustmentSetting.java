@@ -64,6 +64,7 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         panelTop = new javax.swing.JPanel();
         panelRight = new javax.swing.JPanel();
         panelMainCenter = new javax.swing.JPanel();
@@ -84,7 +85,6 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
-        txtAmount = new javax.swing.JTextField();
         adjustmentTypeLess = new javax.swing.JRadioButton();
         adjustmentTypeDeduction = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
@@ -92,6 +92,7 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
         everyPayroll = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
         txtDescription1 = new javax.swing.JTextField();
+        txtAmount = new javax.swing.JFormattedTextField();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -258,28 +259,24 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
 
         txtId.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panelInformation.add(txtId, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panelInformation.add(txtAmount, gridBagConstraints);
 
-        adjustmentTypeLess.setText("Less");
+        buttonGroup1.add(adjustmentTypeLess);
+        adjustmentTypeLess.setText("Add");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelInformation.add(adjustmentTypeLess, gridBagConstraints);
 
-        adjustmentTypeDeduction.setText("Deduction");
+        buttonGroup1.add(adjustmentTypeDeduction);
+        adjustmentTypeDeduction.setText("Less");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         panelInformation.add(adjustmentTypeDeduction, gridBagConstraints);
@@ -298,10 +295,10 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelInformation.add(taxable, gridBagConstraints);
 
-        everyPayroll.setText("Payroll");
+        everyPayroll.setText("Every Payroll");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 4;
         panelInformation.add(everyPayroll, gridBagConstraints);
 
         jLabel5.setText("Amount");
@@ -313,10 +310,20 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panelInformation.add(txtDescription1, gridBagConstraints);
+
+        txtAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.##"))));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panelInformation.add(txtAmount, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -332,7 +339,7 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addContainerGap(247, Short.MAX_VALUE))
         );
 
         panelInformation.getAccessibleContext().setAccessibleParent(panelCenter);
@@ -417,6 +424,7 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox everyPayroll;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -436,7 +444,7 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
     private javax.swing.JPanel panelTop;
     private javax.swing.JTable tableData;
     private javax.swing.JCheckBox taxable;
-    private javax.swing.JTextField txtAmount;
+    private javax.swing.JFormattedTextField txtAmount;
     private javax.swing.JTextField txtDescription1;
     private javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables
@@ -460,16 +468,31 @@ public class OtherAdjustmentSetting extends javax.swing.JPanel {
         disableAllControls(true);
         txtId.setText(adjustment.getId()==null? "": adjustment.getId()+"");
        // txtCode.setText(adjustment.getCode());
-        txtAmount.setText(adjustment.getDescription());
+        txtAmount.setValue(adjustment.getAmount());
         txtDescription1.setText(adjustment.getDescription());
-
+        everyPayroll.setSelected(adjustment.getEveryPayroll());
+        taxable.setSelected(adjustment.getTaxable());
+        if(adjustment.getAdjustmentType().equals("less")){
+            adjustmentTypeDeduction.setSelected(true);
+        }else{
+            adjustmentTypeLess.setSelected(true);
+        }
+        
     }
 
     private void saveScreen() {
 
        // adjustment.setCode(txtCode.getText());
         adjustment.setDescription(txtAmount.getText());
-
+        adjustment.setAmount(Double.valueOf(txtAmount.getText()));
+        adjustment.setEveryPayroll(everyPayroll.isSelected());
+        adjustment.setTaxable(taxable.isSelected());
+        if(adjustmentTypeDeduction.isSelected()){
+            adjustment.setAdjustmentType("less");
+        }else{
+            adjustment.setAdjustmentType("add");
+        }
+        
     }
 
     private void disableAllControls(boolean s) {

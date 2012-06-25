@@ -26,6 +26,8 @@ public class OtherAdjustment {
     private Boolean everyPayroll;    
     @Column
     private Double amount;
+    
+    
 
     /**
      * @return the id

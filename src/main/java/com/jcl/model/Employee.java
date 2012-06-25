@@ -117,7 +117,7 @@ public class Employee {
     private Integer vacationLeave=0;
     
     @Column(length=5)
-    private String taxCode;
+    private String taxCode ="Z";
 
     private transient String name;
     private transient ArrayList<DailyTimeRecord> dtrList;
