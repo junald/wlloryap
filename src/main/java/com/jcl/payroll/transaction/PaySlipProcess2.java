@@ -91,8 +91,6 @@ public class PaySlipProcess2 {
         return paySlipReportList;
     }
     
-    
-
     public void processPaySlip(List<Employee> employeeList, PayrollPeriod pp) {
         for (Employee emp : employeeList) {
 
@@ -170,6 +168,7 @@ public class PaySlipProcess2 {
 
                         psd.setRowNumber(Integer.valueOf(rowNumber++));
                         psd.setGenerated(true);
+                        psd.setDtr(true);
                         ps.getPayslipDetails().add(psd);
                     } else {
 
@@ -194,7 +193,7 @@ public class PaySlipProcess2 {
                         psd.setDescription(description.toString());
                         psd.setOtherDescription(totalHours);
                         psd.setQuantity(Double.valueOf(timeToDecimal.toPlainString()));
-                   
+                        psd.setDtr(true);
                         psd.setAmount(emp.getHourRate());
                         psd.setTotal(Double.valueOf(totalSum.toPlainString()));
                         psd.setTaxable(true);
@@ -202,14 +201,10 @@ public class PaySlipProcess2 {
                         psd.setRowNumber(Integer.valueOf(rowNumber++));
                         psd.setGenerated(true);
                         ps.getPayslipDetails().add(psd);
-
-                    }                    
-                    
+                    }                                        
                 }
-
             }
-        }
-       
+        }       
     }
 
     public boolean isDeductionDTR(String name) {

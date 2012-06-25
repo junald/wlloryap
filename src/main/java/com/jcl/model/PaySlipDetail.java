@@ -59,6 +59,8 @@ public class PaySlipDetail {
     @Column
     private Boolean process = false;
     @Column
+    private Boolean dtr = false;
+    @Column
     private Double employeeContribution;
     
 
@@ -285,6 +287,20 @@ public class PaySlipDetail {
      */
     public void setProcess(Boolean isProcess) {
         this.process = isProcess;
+    }
+
+    /**
+     * @return the dtr
+     */
+    public Boolean getDtr() {
+        return dtr;
+    }
+
+    /**
+     * @param dtr the dtr to set
+     */
+    public void setDtr(Boolean dtr) {
+        this.dtr = dtr;
     }
 
     /**

@@ -27,6 +27,8 @@ public class PaySlipReportRow {
     private int noOfEmployeeSharing;
     private double netAmount;
     private String payrollPeriodCode;
+    private String branch;
+    private String payType; //monthly, daily
 
     /**
      * @return the employeeName
@@ -223,6 +225,34 @@ public class PaySlipReportRow {
      */
     public void setPayrollPeriodCode(String payrollPeriodCode) {
         this.payrollPeriodCode = payrollPeriodCode;
+    }
+
+    /**
+     * @return the branch
+     */
+    public String getBranch() {
+        return branch;
+    }
+
+    /**
+     * @param branch the branch to set
+     */
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    /**
+     * @return the payType
+     */
+    public String getPayType() {
+        return payType;
+    }
+
+    /**
+     * @param payType the payType to set
+     */
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 
     

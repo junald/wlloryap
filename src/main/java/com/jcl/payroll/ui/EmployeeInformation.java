@@ -2072,8 +2072,8 @@ public class EmployeeInformation extends javax.swing.JPanel {
         comboDepartment.setSelectedItem(ce.getDepartment());
         comboCompany.setSelectedItem(ce.getCompany());
         comboTaxCode.setSelectedItem(ce.getTaxCode());
-        comboType.setSelectedItem(ce.getPayType() == null ? "Variable" : ce.getPayType());
-
+        comboType.setSelectedItem(ce.getPayType() == null ? "SemiMonthly" : ce.getPayType());
+        comboPayCode.setSelectedItem(ce.getPayCode() == null ? "Monthly" : ce.getPayCode());
         txtDateHired.setDate(ce.getDateHired());
         txtDateEnd.setDate(ce.getDateEnd());
 

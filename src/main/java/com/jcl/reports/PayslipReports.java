@@ -138,16 +138,9 @@ public class PayslipReports {
                 PaySlipReportRow psrr = new PaySlipReportRow();
                 psrr.setRow(row++);
                 String psdString = psd.getDescription();
-                if (psd.getPaySlipDetailType().equals("WorkedHours")
-                        || psd.getPaySlipDetailType().equals("VL")
-                        || psd.getPaySlipDetailType().equals("SL")
-                        || psd.getPaySlipDetailType().equals("Overtime")
-                        || psd.getPaySlipDetailType().equals("Undertime")
-                        || psd.getPaySlipDetailType().equals("Holiday")
-                        || psd.getPaySlipDetailType().equals("Absent")) 
-                {
+                if(psd.getDtr()){
+                    if(emp.getPayType().equals(emp))sdfsd
                     psdString = psd.getDescription() + " (" + MyNumberFormatter.formatAmount(psd.getQuantity()) + " X " + MyNumberFormatter.formatAmount(psd.getAmount()) + ")";
-
                 }
 
                 psrr.setDescription(psdString);
