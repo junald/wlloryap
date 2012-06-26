@@ -33,16 +33,16 @@ public class DailyTimeRecord {
     @Temporal(TemporalType.DATE)
     private Date transactionDate;
     @Column
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date timeIn1;
     @Column
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date timeOut1;
     @Column
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date timeIn2;
     @Column
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date timeOut2;
     // all source on this field are manually entered in the UI
     // for absence this fields are empty;
@@ -113,7 +113,7 @@ public class DailyTimeRecord {
     private Boolean restDay = false;
     
     @Column
-    private Integer section = 1;
+    private Integer section = 1; // used in computing overtime rates.
     
     public DailyTimeRecord() {
     }

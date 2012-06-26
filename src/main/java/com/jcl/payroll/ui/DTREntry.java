@@ -486,13 +486,10 @@ public class DTREntry extends javax.swing.JDialog {
         chkRestDay.setSelected(dtr.getRestDay());
 //        chkBoxWithPay.setSelected(dtr.getWithPay());
 //        chkBoxDeduction.setSelected(dtr.getDeduction());
-        if (dtr.getTransactionDate() == null) {
-            txtTimeIn.setValue(new Date());
-            txtTimeOut.setValue(new Date());
-        } else {
-            txtTimeIn.setValue(dtr.getTransactionDate());
-            txtTimeOut.setValue(dtr.getTransactionDate());
-        }
+         
+            txtTimeIn.setValue(dtr.getTimeIn1()!=null?dtr.getTimeIn1(): dtr.getTransactionDate());
+            txtTimeOut.setValue(dtr.getTimeOut1()!=null?dtr.getTimeOut1(): dtr.getTransactionDate());
+         
 
         if (dtr.getProcess()) {
             btnSave.setEnabled(false);
@@ -527,6 +524,10 @@ public class DTREntry extends javax.swing.JDialog {
         dtr.setActualHours(Integer.valueOf(txtHours.getText()));
 //      dtr.setWithPay(chkBoxWithPay.isSelected());
 //      dtr.setDeduction(chkBoxDeduction.isSelected());
+         Date t1 = sdf2.parse(txtTimeIn.getText());
+         Date t2 = sdf2.parse(txtTimeOut.getText());
+        dtr.setTimeIn1(t1);
+        dtr.setTimeOut1(t2);
         dtr.setRestDay(chkRestDay.isSelected());
         Integer section = 1;
         if (buttonGroup1.isSelected(jRadioButton2.getModel())) {
