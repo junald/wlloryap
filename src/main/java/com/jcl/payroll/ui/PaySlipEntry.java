@@ -259,7 +259,7 @@ public class PaySlipEntry extends javax.swing.JDialog {
     private void comboDTRTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDTRTypeActionPerformed
 
         String s = (String) comboDTRType.getSelectedItem();
-      //  setTextFields(s);
+         setTextFields(s);
 
     }//GEN-LAST:event_comboDTRTypeActionPerformed
 
