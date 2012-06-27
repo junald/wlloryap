@@ -29,6 +29,7 @@ public class RowNumberInit {
 
         rowNumbers.put("WorkedHours", 10);
         rowNumbers.put("Absent", 20);
+        rowNumbers.put("Undertime", 21);
 
         rowNumbers.put("Overtime", 30);
         rowNumbers.put("OT_RD", 31);
@@ -43,13 +44,15 @@ public class RowNumberInit {
         rowNumbers.put("OT_LHRTM", 40);
         rowNumbers.put("OT_SHRGM", 41);
         rowNumbers.put("OT_SHRTM", 42);
-
-        rowNumbers.put("Undertime", 50);
-        rowNumbers.put("Holiday_L", 60);
-        rowNumbers.put("Holiday_S", 61);
         
-        rowNumbers.put("VL", 70);
-        rowNumbers.put("SL", 80);
+        rowNumbers.put("HL", 60);
+        rowNumbers.put("HS", 61);
+        
+        rowNumbers.put("VL_WP", 70);
+        rowNumbers.put("VL_WOP", 75);
+        rowNumbers.put("SL_WP", 80);
+        rowNumbers.put("SL_WOP", 80);
+        
 
         rowNumbers.put("SSS", 200);
         rowNumbers.put("PagIbig", 210);
@@ -59,6 +62,8 @@ public class RowNumberInit {
         rowNumbers.put("Adjustment", 240);
         rowNumbers.put("Loans", 250);
         rowNumbers.put("CashAdvanced", 260);
+        rowNumbers.put("PLoans", 261);
+        rowNumbers.put("SSSLoans", 262);
         rowNumbers.put("Others", 270);
 
     }

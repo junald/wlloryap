@@ -37,20 +37,20 @@ public class OvertimeRateProvider {
     //OR_D,ORS_D,OLHRG_D,OLHRT_D,OSHRG_D,OSHRT_D,OR_M,ORS_M,OLHRG_M,OLHRT_M,OSHRG_M,OSHRT_M
     private static void init(){
         //Daily
-        overTimeList.put("OR_D", new OvertimeRate ("R_D",1d,1.250d,1.1d));
-        overTimeList.put("ORS_D", new OvertimeRate ("RS_D",1.3d,1.3d,1.1d));
-        overTimeList.put("OLHRG_D", new OvertimeRate ("LHRG_D",2d,1.3d,1.1d));
-        overTimeList.put("OLHRT_D", new OvertimeRate ("LHRT_D",2.3d,1.3d,1.1d));
-        overTimeList.put("OSHRG_D", new OvertimeRate ("SHRG_D",1.3d,1.3d,1.1));
-        overTimeList.put("OSHRT_D", new OvertimeRate ("SHRT_D",1.5d,1.8d,1.1d));
+        overTimeList.put("OT_RD", new OvertimeRate ("OT_RD",1d,1.250d,1.1d));
+        overTimeList.put("OT_RSD", new OvertimeRate ("OT_RSD",1.3d,1.3d,1.1d));
+        overTimeList.put("OT_LHRGD", new OvertimeRate ("OT_LHRGD",2d,1.3d,1.1d));
+        overTimeList.put("OT_LHRTD", new OvertimeRate ("OT_LHRTD",2.3d,1.3d,1.1d));
+        overTimeList.put("OT_SHRGD", new OvertimeRate ("OT_SHRGD",1.3d,1.3d,1.1));
+        overTimeList.put("OT_SHRTD", new OvertimeRate ("OT_SHRTD",1.5d,1.8d,1.1d));
         
         //Monthly
-        overTimeList.put("OR_M", new OvertimeRate ("R_M",1d,1.250d,1.1d));
-        overTimeList.put("ORS_M", new OvertimeRate ("RS_M",1.3d,1.3d,1.1d));
-        overTimeList.put("OLHRG_M", new OvertimeRate ("LHRG_M",1d,1.3d,1.1d));
-        overTimeList.put("OLHRT_M", new OvertimeRate ("LHRT_M",2.3d,1.3d,1.1d));
-        overTimeList.put("OSHRG_M", new OvertimeRate ("SHRG_M",1.3d,1.3d,1.1));
-        overTimeList.put("OSHRT_M", new OvertimeRate ("SHRT_M",1.5d,1.8d,1.1d));
+        overTimeList.put("OT_RM", new OvertimeRate ("OT_RM",1d,1.250d,1.1d));
+        overTimeList.put("OT_RSM", new OvertimeRate ("OT_RSM",1.3d,1.3d,1.1d));
+        overTimeList.put("OT_LHRGM", new OvertimeRate ("OT_LHRGM",1d,1.3d,1.1d));
+        overTimeList.put("OT_LHRTM", new OvertimeRate ("OT_LHRTM",2.3d,1.3d,1.1d));
+        overTimeList.put("OT_SHRGM", new OvertimeRate ("OT_SHRGM",1.3d,1.3d,1.1));
+        overTimeList.put("OT_SHRTM", new OvertimeRate ("OT_SHRTM",1.5d,1.8d,1.1d));
     }
     
     public  static  OvertimeRate getRate(String code, Integer section){

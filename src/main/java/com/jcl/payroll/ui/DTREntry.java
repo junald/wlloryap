@@ -13,6 +13,7 @@ package com.jcl.payroll.ui;
 import com.jcl.model.Employee;
 import com.jcl.model.DailyTimeRecord;
 import com.jcl.payroll.enumtypes.DTRType;
+import com.jcl.payroll.transaction.OvertimeRateProvider;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.utils.MyDateUtil;
@@ -37,7 +38,6 @@ public class DTREntry extends javax.swing.JDialog {
     public SelectedButton selectedButton = SelectedButton.Cancel;
     public DailyTimeRecord dtr;
     public SimpleDateFormat sdf2;
-    public SimpleDateFormat stf;
     Date lastEnteredDate;
 
     /**
@@ -50,7 +50,7 @@ public class DTREntry extends javax.swing.JDialog {
         this.lastEnteredDate = lastEnteredDate;
 
         sdf2 = MyDateFormatter.getDateTimeFormatter();
-        stf = MyDateFormatter.getTimeFormatter2();
+
         txtWorkingDate.setFormats("MM/dd/yyyy");
 
         ComboBoxModel cbm = new DefaultComboBoxModel(DTRType.values());
@@ -98,7 +98,10 @@ public class DTREntry extends javax.swing.JDialog {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
+        jRadioButton4 = new javax.swing.JRadioButton();
         chkBoxDeduction = new javax.swing.JCheckBox();
+        chkBoxWithPay = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Dependents");
@@ -138,7 +141,9 @@ public class DTREntry extends javax.swing.JDialog {
         panelDTR.setPreferredSize(new java.awt.Dimension(250, 290));
         panelDTR.setLayout(new java.awt.GridBagLayout());
 
+        jLabel5.setForeground(new java.awt.Color(0, 0, 255));
         jLabel5.setText("Type");
+        jLabel5.setToolTipText("WorkedHours\nVL_WP = Vacation With Pay\nVL_WOP = Vacation With Out Pay\nSL_WP = Sick Leave With Pay\nSL_WOP = Sick Leave With Out Pay\nUndertime\nHL = Holiday Legal\nHS = Holiday Special\nAbsent \nOT_RD = Overtime Regular Day DAILY\nOT_RSD = Overtime Rest Day\nOT_LHRGD = Overtime Legal Holiday Regular Day\nOT_LHRTD = Overtime Legal Holiday Rest Day\nOT_SHRGD = Overtime Special Holiday Regular Day\nOT_SHRTD = Overtime Special Holiday Rest Day\nOT_RM = Overtime Regular Day MONTHLY\nOT_RSM = Overtime Rest Day\nOT_LHRGM = Overtime Legal Holiday Regular Day\nOT_LHRTM = Overtime Legal Holiday Rest Day\nOT_SHRGM = Overtime Special Holiday Regular Day\nOT_SHRTM = Overtime Special Holiday Rest Day\n");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -280,7 +285,7 @@ public class DTREntry extends javax.swing.JDialog {
         jLabel1.setText("Time In");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         jPanel1.add(jLabel1, gridBagConstraints);
@@ -288,23 +293,25 @@ public class DTREntry extends javax.swing.JDialog {
         jLabel2.setText("Time Out");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        txtTimeIn.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yyyy h:mm a"))));
+        txtTimeIn.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd h:mm a"))));
+        txtTimeIn.setToolTipText("YYYY-MM-DD hh:mm a");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         jPanel1.add(txtTimeIn, gridBagConstraints);
 
-        txtTimeOut.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yyyy h:mm a"))));
+        txtTimeOut.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd h:mm a"))));
+        txtTimeOut.setToolTipText("YYYY-MM-DD hh:mm a");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
@@ -319,7 +326,7 @@ public class DTREntry extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 4);
         jPanel1.add(jButton2, gridBagConstraints);
@@ -327,6 +334,8 @@ public class DTREntry extends javax.swing.JDialog {
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("First 8hrs");
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         jPanel1.add(jRadioButton1, gridBagConstraints);
@@ -335,7 +344,7 @@ public class DTREntry extends javax.swing.JDialog {
         jRadioButton2.setText("Before 10PM");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         jPanel1.add(jRadioButton2, gridBagConstraints);
@@ -344,10 +353,23 @@ public class DTREntry extends javax.swing.JDialog {
         jRadioButton3.setText("10PM to 6AM");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         jPanel1.add(jRadioButton3, gridBagConstraints);
+
+        jLabel3.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel3.setText("( YYYY-MM-DD hh:mm am)");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(jLabel3, gridBagConstraints);
+
+        jRadioButton4.setText("Regular");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel1.add(jRadioButton4, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -363,6 +385,12 @@ public class DTREntry extends javax.swing.JDialog {
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelDTR.add(chkBoxDeduction, gridBagConstraints);
+
+        chkBoxWithPay.setText("With Pay");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 6;
+        panelDTR.add(chkBoxWithPay, gridBagConstraints);
 
         getContentPane().add(panelDTR, java.awt.BorderLayout.CENTER);
 
@@ -391,23 +419,29 @@ public class DTREntry extends javax.swing.JDialog {
         String s = (String) comboDTRType.getSelectedItem();
         DTRType selectedDTRType = DTRType.valueOf(s);
 
-
+     
+        chkBoxDeduction.setSelected(false);
         if (selectedDTRType == DTRType.Absent || selectedDTRType == DTRType.Undertime) {
+     
             chkBoxDeduction.setSelected(true);
-        } else if (selectedDTRType == DTRType.SL && dtr.getEmployee().getSickLeave() >= 0) {
-            chkBoxDeduction.setSelected(true);
-        } else if (selectedDTRType == DTRType.VL && dtr.getEmployee().getVacationLeave() >= 0) {
-            chkBoxDeduction.setSelected(true);
-        } else {
+        } else if (selectedDTRType == DTRType.SL_WP && dtr.getEmployee().getSickLeave() >= 0) {
             chkBoxDeduction.setSelected(false);
+     
+            chkBoxWithPay.setSelected(true);
+        } else if (selectedDTRType == DTRType.VL_WP && dtr.getEmployee().getVacationLeave() >= 0) {
+            chkBoxDeduction.setSelected(false);
+     
+            chkBoxWithPay.setSelected(true);
+        } else if (selectedDTRType == DTRType.SL_WOP && dtr.getEmployee().getSickLeave() >= 0) {
+            chkBoxDeduction.setSelected(true);
+     
+            chkBoxWithPay.setSelected(false);
+        } else if (selectedDTRType == DTRType.VL_WOP && dtr.getEmployee().getVacationLeave() >= 0) {
+            chkBoxDeduction.setSelected(true);
+     
+            chkBoxWithPay.setSelected(false);
         }
     }//GEN-LAST:event_comboDTRTypeActionPerformed
-
-    private void txtWorkingDateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtWorkingDateFocusLost
-        if (dtr != null && dtr.getId() == null) {
-            checkDay();
-        }
-    }//GEN-LAST:event_txtWorkingDateFocusLost
 
     private void txtWorkingDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtWorkingDatePropertyChange
         // System.out.println("name: " + evt.getPropertyName());
@@ -415,6 +449,12 @@ public class DTREntry extends javax.swing.JDialog {
         System.out.println(evt.getNewValue().toString());
         checkDay();
     }//GEN-LAST:event_txtWorkingDatePropertyChange
+
+    private void txtWorkingDateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtWorkingDateFocusLost
+        if (dtr != null && dtr.getId() == null) {
+            checkDay();
+        }
+    }//GEN-LAST:event_txtWorkingDateFocusLost
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         computeHrs();
@@ -443,11 +483,13 @@ public class DTREntry extends javax.swing.JDialog {
     private javax.swing.JButton btnSave;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox chkBoxDeduction;
+    private javax.swing.JCheckBox chkBoxWithPay;
     private javax.swing.JCheckBox chkRestDay;
     private javax.swing.JComboBox comboDTRType;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -458,6 +500,7 @@ public class DTREntry extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JLabel labelCompleteName;
     private javax.swing.JLabel labelHours;
     private javax.swing.JLabel labelName;
@@ -484,35 +527,29 @@ public class DTREntry extends javax.swing.JDialog {
         txtMinutes.setValue(dtr.getActualMins());
         txtHours.setValue(dtr.getActualHours());
         chkRestDay.setSelected(dtr.getRestDay());
-//        chkBoxWithPay.setSelected(dtr.getWithPay());
-//        chkBoxDeduction.setSelected(dtr.getDeduction());
-         
-            txtTimeIn.setValue(dtr.getTimeIn1()!=null?dtr.getTimeIn1(): dtr.getTransactionDate());
-            txtTimeOut.setValue(dtr.getTimeOut1()!=null?dtr.getTimeOut1(): dtr.getTransactionDate());
-         
 
-        if (dtr.getProcess()) {
-            btnSave.setEnabled(false);
-        }
-//        DTRType selectedDTRType = DTRType.valueOf(dtr.getDtrType());
-//        if (selectedDTRType != DTRType.Absent && selectedDTRType != DTRType.Undertime) {
-//            chkBoxWithPay.setEnabled(true);
-//            chkBoxWithPay.setSelected(true);
-//        } else {
-//            chkBoxWithPay.setSelected(false);
-//            chkBoxWithPay.setSelected(false);
-//        }
+        txtTimeIn.setValue(dtr.getTimeIn1() != null ? dtr.getTimeIn1() : dtr.getTransactionDate());
+        txtTimeOut.setValue(dtr.getTimeOut1() != null ? dtr.getTimeOut1() : dtr.getTransactionDate());
 
-        //labelHours.setText(MyDateFormatter.getNumberOfHours(dtr)+" hrs");
+        initCheckBox(DTRType.valueOf(dtr.getDtrType()));
 
-        Integer section = 1;
+        Integer section = dtr.getSection();
         if (dtr.getSection() == 3) {
             jRadioButton3.setSelected(true);
         } else if (dtr.getSection() == 2) {
             jRadioButton2.setSelected(true);
-        } else {
+        } else if(dtr.getSection() == 1 ){
             jRadioButton1.setSelected(true);
+        } else {
+            jRadioButton4.setSelected(true);
         }
+
+        if (dtr.getProcess()) {
+            btnSave.setEnabled(false);
+        }
+        
+        chkBoxDeduction.setEnabled(false);
+        chkBoxWithPay.setEnabled(false);
     }
 
     private void saveScreen() throws TransactionException, Exception {
@@ -522,19 +559,26 @@ public class DTREntry extends javax.swing.JDialog {
         dtr.setNotes(txtNotes.getText());
         dtr.setActualMins(Integer.valueOf(txtMinutes.getText()));
         dtr.setActualHours(Integer.valueOf(txtHours.getText()));
-//      dtr.setWithPay(chkBoxWithPay.isSelected());
-//      dtr.setDeduction(chkBoxDeduction.isSelected());
-         Date t1 = sdf2.parse(txtTimeIn.getText());
-         Date t2 = sdf2.parse(txtTimeOut.getText());
+
+        Date t1 = sdf2.parse(txtTimeIn.getText());
+        Date t2 = sdf2.parse(txtTimeOut.getText());
         dtr.setTimeIn1(t1);
         dtr.setTimeOut1(t2);
         dtr.setRestDay(chkRestDay.isSelected());
-        Integer section = 1;
-        if (buttonGroup1.isSelected(jRadioButton2.getModel())) {
+        dtr.setWithPay(chkBoxWithPay.isSelected());
+        dtr.setDeduction(chkBoxDeduction.isSelected());
+        Integer section = 0;
+        if (buttonGroup1.isSelected(jRadioButton1.getModel())) {
+            section = 1;
+        } else if (buttonGroup1.isSelected(jRadioButton2.getModel())) {
             section = 2;
         } else if (buttonGroup1.isSelected(jRadioButton3.getModel())) {
             section = 3;
+        } else if (buttonGroup1.isSelected(jRadioButton4.getModel())) {
+            section = 0;
         }
+        dtr.setSection(section);
+
     }
 
     private void checkDay() {
@@ -578,9 +622,34 @@ public class DTREntry extends javax.swing.JDialog {
                 jRadioButton3.setSelected(true);
             } else if (section == 2) {
                 jRadioButton2.setSelected(true);
-            } else {
+            } else if(section == 1){
                 jRadioButton1.setSelected(true);
             }
+            
+        }
+    }
+
+    private void initCheckBox(DTRType selectedDTRType) {
+
+        if (selectedDTRType == DTRType.Absent || selectedDTRType == DTRType.Undertime) {        
+            chkBoxDeduction.setSelected(dtr.getDeduction());
+        } else {            
+            chkBoxDeduction.setSelected(false);            
+        }
+        
+        if (selectedDTRType == DTRType.VL_WP || selectedDTRType == DTRType.SL_WP ||
+                selectedDTRType == DTRType.VL_WOP && selectedDTRType == DTRType.SL_WOP) {            
+            
+            chkBoxWithPay.setSelected(dtr.getWithPay());
+            chkBoxDeduction.setSelected(!dtr.getWithPay());
+        } else {
+            chkBoxDeduction.setSelected(false);
+            chkBoxWithPay.setSelected(false);
+            chkBoxWithPay.setSelected(false);
+        }
+        
+        if(!OvertimeRateProvider.isOvertime(dtr.getDtrType().toString())){
+            jRadioButton4.setSelected(true);
         }
     }
 }

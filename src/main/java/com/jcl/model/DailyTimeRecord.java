@@ -113,7 +113,7 @@ public class DailyTimeRecord {
     private Boolean restDay = false;
     
     @Column
-    private Integer section = 1; // used in computing overtime rates.
+    private Integer section = 0; // used in computing overtime rates.
     
     public DailyTimeRecord() {
     }

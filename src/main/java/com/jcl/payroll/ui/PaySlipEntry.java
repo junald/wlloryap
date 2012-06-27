@@ -259,23 +259,31 @@ public class PaySlipEntry extends javax.swing.JDialog {
     private void comboDTRTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboDTRTypeActionPerformed
 
         String s = (String) comboDTRType.getSelectedItem();
-        setTextFields(s);
+      //  setTextFields(s);
 
     }//GEN-LAST:event_comboDTRTypeActionPerformed
 
     private void setTextFields(String s) {
-        PayslipDetailType stype = PayslipDetailType.valueOf(s);
-
-        if (stype == PayslipDetailType.Absent || stype == PayslipDetailType.Undertime
-                || stype == PayslipDetailType.HolidayLegal || stype == PayslipDetailType.HolidaySpecial || stype == PayslipDetailType.Overtime
-                || stype == PayslipDetailType.VL || stype == PayslipDetailType.SL || stype == PayslipDetailType.WorkedHours) {
-
+        //PayslipDetailType stype = PayslipDetailType.valueOf(s);
+        try {
+            DTRType dtrType = DTRType.valueOf(s);
             txtAmount.setEnabled(true);
             txtQuantity.setEnabled(true);
-        } else {
+        } catch (IllegalArgumentException ex) {
             txtAmount.setEnabled(false);
             txtQuantity.setEnabled(false);
         }
+
+//        if (stype == PayslipDetailType.Absent || stype == PayslipDetailType.Undertime
+//                || stype == PayslipDetailType.HolidayLegal || stype == PayslipDetailType.HolidaySpecial || stype == PayslipDetailType.Overtime
+//                || stype == PayslipDetailType.VL || stype == PayslipDetailType.SL || stype == PayslipDetailType.WorkedHours) {
+//            txtAmount.setEnabled(true);
+//            txtQuantity.setEnabled(true);
+//
+//        } else {
+//            txtAmount.setEnabled(false);
+//            txtQuantity.setEnabled(false);
+//        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -301,13 +309,14 @@ public class PaySlipEntry extends javax.swing.JDialog {
 
         if (psd.getGenerated()) {
             setTextFields(psd.getPaySlipDetailType());
+            
             comboDTRType.setEnabled(false);
             txtQuantity.setEditable(false);
             txtAmount.setEditable(false);
             txtTotal.setEditable(false);
             checkIsDeductable.setEnabled(false);
             btnSave.setEnabled(false);
-        }else{
+        } else {
             comboDTRType.setSelectedItem(psd.getPaySlipDetailType());
         }
 
@@ -333,6 +342,6 @@ public class PaySlipEntry extends javax.swing.JDialog {
         psd.setAmount(Double.valueOf(txtAmount.getText().toString().length() > 0 ? txtAmount.getText() : "0"));
         psd.setTotal(Double.valueOf(txtTotal.getText()));
         psd.setDeduction(checkIsDeductable.isSelected());
- 
+
     }
 }

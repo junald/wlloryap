@@ -169,10 +169,12 @@ public class PaySlipProcess2 {
                         psd.setRowNumber(Integer.valueOf(rowNumber++));
                         psd.setGenerated(true);
                         psd.setDtr(true);
-                        if(dtrType == DTRType.Absent || dtrType == DTRType.Undertime|| dtrType == DTRType.SL || dtrType == DTRType.VL){
-                           psd.setDeduction(Boolean.TRUE); 
+                        if(dtrType == DTRType.Absent || dtrType == DTRType.Undertime|| dtrType == DTRType.SL_WOP || dtrType == DTRType.VL_WOP){
+                           psd.setDeduction(Boolean.TRUE);                            
+                        }else if(dtrType == DTRType.SL_WP || dtrType == DTRType.VL_WP){
+                            psd.setDeduction(Boolean.FALSE);                            
                         }
-
+ 
                     } else {
 
                         BigDecimal totalSum = new BigDecimal(0d);
@@ -183,9 +185,10 @@ public class PaySlipProcess2 {
                             BigDecimal otr = OvertimeRateProvider.getDecimalRate(dtr.getDtrType(), dtr.getSection());
                             BigDecimal otrRate = new BigDecimal(emp.getHourRate()).multiply(otr);
                             BigDecimal totalAmount = timeToDecimal.multiply(otrRate);
-                            description.append(timeToDecimal.toPlainString() + "x" + otrRate.toPlainString() + " ");
+                            description.append(timeToDecimal.toPlainString() + "x" + otrRate.toPlainString() + ",");
                             totalSum.add(totalAmount);
                         }
+                        
                         String totalHours = computeTotalHoursInString(dtrs);
                         BigDecimal timeToDecimal = computeTimeToDecimal(totalHours);
 
