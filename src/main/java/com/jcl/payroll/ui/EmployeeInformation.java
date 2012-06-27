@@ -279,10 +279,10 @@ public class EmployeeInformation extends javax.swing.JPanel {
         textDLoan2 = new javax.swing.JFormattedTextField();
         jLabel43 = new javax.swing.JLabel();
         textDLoan1 = new javax.swing.JFormattedTextField();
-        CheckD_Tax = new javax.swing.JCheckBox();
-        CheckD_SSS = new javax.swing.JCheckBox();
-        CheckD_PagIbig = new javax.swing.JCheckBox();
-        CheckD_PhilHealth = new javax.swing.JCheckBox();
+        checkTaxD = new javax.swing.JCheckBox();
+        checkSssD = new javax.swing.JCheckBox();
+        checkPagibigD = new javax.swing.JCheckBox();
+        checkPhilhealthD = new javax.swing.JCheckBox();
         panelContactInfo2 = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
@@ -826,21 +826,21 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         panelContactInfo1.add(textDLoan1, gridBagConstraints);
-        panelContactInfo1.add(CheckD_Tax, new java.awt.GridBagConstraints());
-        CheckD_Tax.getAccessibleContext().setAccessibleDescription("");
+        panelContactInfo1.add(checkTaxD, new java.awt.GridBagConstraints());
+        checkTaxD.getAccessibleContext().setAccessibleDescription("");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        panelContactInfo1.add(CheckD_SSS, gridBagConstraints);
+        panelContactInfo1.add(checkSssD, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        panelContactInfo1.add(CheckD_PagIbig, gridBagConstraints);
+        panelContactInfo1.add(checkPagibigD, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
-        panelContactInfo1.add(CheckD_PhilHealth, gridBagConstraints);
+        panelContactInfo1.add(checkPhilhealthD, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1837,10 +1837,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
         openDTREntryDialog(dtr);
     }//GEN-LAST:event_btnInsertDetailActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox CheckD_PagIbig;
-    private javax.swing.JCheckBox CheckD_PhilHealth;
-    private javax.swing.JCheckBox CheckD_SSS;
-    private javax.swing.JCheckBox CheckD_Tax;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
@@ -1851,6 +1847,10 @@ public class EmployeeInformation extends javax.swing.JPanel {
     private javax.swing.JButton btnRefreshDTR;
     private javax.swing.JButton btnSave;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox checkPagibigD;
+    private javax.swing.JCheckBox checkPhilhealthD;
+    private javax.swing.JCheckBox checkSssD;
+    private javax.swing.JCheckBox checkTaxD;
     private javax.swing.JComboBox comboCompany;
     private javax.swing.JComboBox comboDepartment;
     private javax.swing.JComboBox comboDisplayType;
@@ -2114,7 +2114,13 @@ public class EmployeeInformation extends javax.swing.JPanel {
         textDSSS.setValue(ce.getSssD());
         textDPagIbig.setValue(ce.getPagibigD());
         textDPhilHealth.setValue(ce.getPhilhealthD());
-
+        
+        checkTaxD.setSelected(ce.getTax());
+        checkSssD.setSelected(ce.getSss());
+        checkPagibigD.setSelected(ce.getPagibig());
+        checkPhilhealthD.setSelected(ce.getPhilhealth());
+        
+        
         textBankAccountNo.setText(ce.getBankAccountNumber());
         textTaxIdNo.setText(ce.getTaxID());
         textSSSNo.setText(ce.getSssNo());
@@ -2189,6 +2195,10 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setPagibigD(Double.valueOf(textDPagIbig.getText()));
         ce.setPhilhealthD(Double.valueOf(textDPhilHealth.getText()));
 // check box information
+        ce.setSss(Boolean.valueOf(checkSssD.isSelected()));
+        ce.setTax(Boolean.valueOf(checkTaxD.isSelected()));
+        ce.setPagibig(Boolean.valueOf(checkPagibigD.isSelected()));
+        ce.setPhilhealth(Boolean.valueOf(checkPhilhealthD.isSelected()));
 
         ce.setBankAccountNumber(textBankAccountNo.getText());
         ce.setTaxID(textTaxIdNo.getText());

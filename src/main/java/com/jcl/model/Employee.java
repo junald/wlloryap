@@ -775,6 +775,7 @@ public class Employee {
      * @return the sss
      */
     public Boolean getSss() {
+        
         return sss;
     }
 
