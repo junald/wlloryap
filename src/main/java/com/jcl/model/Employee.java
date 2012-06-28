@@ -10,7 +10,8 @@ import com.jcl.payroll.transaction.PaySlipReportObject;
 
 import java.util.*;
 import javax.persistence.*;
-
+import java.math.BigDecimal;
+import java.math.BigInteger;
 /**
  *
  * @author junald
@@ -868,5 +869,20 @@ public class Employee {
      */
     public void setTaxCode(String taxCode) {
         this.taxCode = taxCode;
+    }
+    
+   
+    public Double getTotalTaxableIncome(){
+        
+        BigDecimal taxableIncome = new BigDecimal(0d); 
+       
+        for(PaySlipDetail psdTax :  getPayslip().getPayslipDetails()){
+            BigDecimal amount = new BigDecimal(psdTax.getTotal());
+            if(psdTax.getTaxable()){
+                   taxableIncome.add(amount);
+            }            
+        }   
+        
+        return taxableIncome.doubleValue();
     }
 }

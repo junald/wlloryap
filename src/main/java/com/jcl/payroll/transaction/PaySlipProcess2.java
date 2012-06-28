@@ -169,8 +169,13 @@ public class PaySlipProcess2 {
                         psd.setRowNumber(Integer.valueOf(rowNumber++));
                         psd.setGenerated(true);
                         psd.setDtr(true);
+                        //TODO: need further thinking in SL_WP and VL_WP
+                        //if with out pay in monthly pay, this will be deducted
+                        //if with pay in monthly pay, ????????????????
                         if (dtrType == DTRType.Absent || dtrType == DTRType.Undertime || dtrType == DTRType.SL_WOP || dtrType == DTRType.VL_WOP) {
                             psd.setDeduction(Boolean.TRUE);
+                            psd.setTaxable(Boolean.FALSE);                            
+                            
                         } else if (dtrType == DTRType.SL_WP || dtrType == DTRType.VL_WP) {
                             psd.setDeduction(Boolean.FALSE);
                         }
@@ -284,6 +289,7 @@ public class PaySlipProcess2 {
                 SSS sss = SSSProvider.getSSSContribution(emp.getSalary());
                 psdSSS.setTotal(sss.getEe());
                 psdSSS.setDeduction(true);
+                psdSSS.setTaxable(false);
                 psdSSS.setEmployeeContribution(sss.getEr());
                 psdSSS.setGenerated(true);
                 psdSSS.setRowNumber(row++);
@@ -295,6 +301,7 @@ public class PaySlipProcess2 {
                 psdPH.setQuantity(0d);
                 psdPH.setAmount(0d);
                 psdPH.setRowNumber(row++);
+                psdPH.setTaxable(false);
                 psdPH.setDeduction(true);
                 Philhealth ph = PhilhealthProvider.getPhilhealthContribution(emp.getSalary());
                 psdPH.setTotal(ph.getEe());
@@ -308,6 +315,7 @@ public class PaySlipProcess2 {
                 psdPag.setDescription("Pag-ibig");
                 psdPag.setQuantity(0d);
                 psdPag.setAmount(0d);
+                psdPag.setTaxable(false);
                 psdPag.setRowNumber(row++);
                 PagIbig pagIbig = PagibigProvider.pagIbigContribution(emp.getSalary());
                 psdPag.setTotal(pagIbig.getEeS());
@@ -341,13 +349,17 @@ public class PaySlipProcess2 {
             //need to loop through all payslipdetail and add all taxable amount
             // base on total amount  that will used to compute the tax withheld.
             if (emp.getTax()) {
+                
+                Double totalTaxableAmount =emp.getTotalTaxableIncome();
+                
                 PaySlipDetail psdTax = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.WTax.toString());
-                psdTax.setDescription("Withholding Tax");
+                psdTax.setDescription("Taxable amount: " + totalTaxableAmount);
                 psdTax.setQuantity(0d);
                 psdTax.setAmount(0d);
                 psdTax.setDeduction(true);
                 psdTax.setRowNumber(row++);
-                psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), emp.getSalary()));
+                psdTax.setTaxable(false);
+                psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), totalTaxableAmount));
                 psdTax.setEmployeeContribution(0.0d);
                 psdTax.setGenerated(true);
                 emp.getPayslip().getPayslipDetails().add(psdTax);
