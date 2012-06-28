@@ -10,8 +10,7 @@ package com.jcl.payroll.enumtypes;
  * @author junald
  */
 public enum PayslipDetailType {    
-    SSS,PhilHealth,PagIbig, WTax, Adjustment, Loans, CashAdvanced,PagIbigLoans,SSSLoans,Others
-    
+    SSS,PhilHealth,PagIbig, WTax, Adjustment, Loans, CashAdvanced,PagIbigLoans,SSSLoans,Others    
 }
 
  
