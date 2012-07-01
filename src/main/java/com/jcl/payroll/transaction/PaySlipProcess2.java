@@ -324,18 +324,18 @@ public class PaySlipProcess2 {
                 psdPag.setGenerated(true);
                 emp.getPayslip().getPayslipDetails().add(psdPag);
             }
-            if (emp.getTax()) {
-                PaySlipDetail psdTax = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.WTax.toString());
-                psdTax.setDescription("Withholding Tax");
-                psdTax.setQuantity(0d);
-                psdTax.setAmount(0d);
-                psdTax.setDeduction(true);
-                psdTax.setRowNumber(row++);
-                psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), emp.getSalary()));
-                psdTax.setEmployeeContribution(0.0d);
-                psdTax.setGenerated(true);
-                emp.getPayslip().getPayslipDetails().add(psdTax);
-            }
+//            if (emp.getTax()) {
+//                PaySlipDetail psdTax = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.WTax.toString());
+//                psdTax.setDescription("Withholding Tax");
+//                psdTax.setQuantity(0d);
+//                psdTax.setAmount(0d);
+//                psdTax.setDeduction(true);
+//                psdTax.setRowNumber(row++);
+//                psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), emp.getSalary()));
+//                psdTax.setEmployeeContribution(0.0d);
+//                psdTax.setGenerated(true);
+//                emp.getPayslip().getPayslipDetails().add(psdTax);
+//            }
 
         }
 
@@ -359,6 +359,7 @@ public class PaySlipProcess2 {
                 psdTax.setDeduction(true);
                 psdTax.setRowNumber(row++);
                 psdTax.setTaxable(false);
+                System.out.println("employee: " + emp.getName());
                 psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), totalTaxableAmount));
                 psdTax.setEmployeeContribution(0.0d);
                 psdTax.setGenerated(true);

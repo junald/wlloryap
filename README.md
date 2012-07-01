@@ -1,5 +1,11 @@
 wlloryap
 ========
+Setup Dev:
+
+Deploy:
+Goal: package
+copy
+
 TODO:
 
 reports:

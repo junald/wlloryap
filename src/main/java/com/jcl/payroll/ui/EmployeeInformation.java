@@ -2091,7 +2091,9 @@ public class EmployeeInformation extends javax.swing.JPanel {
         }
 
         comboEmploymentStatus.setSelectedItem(ce.getStatus());
-        comboPosition.setSelectedItem(ce.getPosition());
+        System.out.println(ce.getPosition());
+        //comboPosition.setSelectedItem(ce.getPosition());
+        comboPosition.getModel().setSelectedItem(ce.getPosition());
         comboDepartment.setSelectedItem(ce.getDepartment());
         comboCompany.setSelectedItem(ce.getCompany());
         comboTaxCode.setSelectedItem(ce.getTaxCode());
