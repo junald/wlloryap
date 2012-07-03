@@ -40,6 +40,14 @@ public class DailyTimeRecordDao {
         }
     }
     
+    public void save2(DailyTimeRecord dtr) {
+        if (dtr.getId() == null) {
+            entityManager.persist(dtr);
+        } else {
+            entityManager.merge(dtr);
+        }
+    }
+    
     
     @Transactional  
      public List<DailyTimeRecord> getDailyTimeRecordsByEmployeeAndUprocess(Long employeeId, Boolean process) {

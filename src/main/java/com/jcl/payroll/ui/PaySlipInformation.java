@@ -1053,7 +1053,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
         try {
             payrollPeriod  = ppDao.find((Long) kv.getValue());
-            currentEmployeeList = ppService.employeeListForPayslip((Long) kv.getValue());
+            //TODO: finalized
+            currentEmployeeList = ppService.employeeListForPayslip((Long) kv.getValue(),false);
 
             dtm.setColumnIdentifiers(new String[]{"#", "IDNo", "Position", "Name", "Amount"});
             int row = 1;
@@ -1158,55 +1159,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
     }//GEN-LAST:event_includeOthersActionPerformed
 
     private void btnPayslipAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayslipAllActionPerformed
-//        KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
-//        if (kv == null) {
-//            return;
-//        }
-//
-//        String msg = "Are you sure you want to process payslip for: \n " + kv.getKey();
-//        int result = JOptionPane.showConfirmDialog(this, msg, "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//        if (result != JOptionPane.YES_OPTION) {
-//            return;
-//        }
-//
-//
-//        try {
-//            dbms.useNewDBInstance();
-//
-//            PayrollPeriod pp = ppDao.find((Long) kv.getValue());
-//            List<Employee> employeeList = ppService.preparePayslip((Long) kv.getValue(), null);
-//            List list = new ArrayList();
-//
-//            for (Employee eep : employeeList) {
-//                if (eep.getPayslipReport() != null && eep.getPayslipReport().getList().size() > 0) {
-//                    list.add(eep.getPayslipReport());
-//                }
-//            }
-//
-//            SimpleDateFormat _sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
-//
-//            HashMap parameters = new HashMap();
-//            //Company cs = CompanySetting.companySetting();
-//            Company cs = new Company();
-//
-//            parameters.put("REPORT_TITLE", cs.getDescription());
-//            String payroll_period = pp.getPayrollPeriodCode() + " - [" + _sdf.format(pp.getDateFrom()) + "-" + _sdf.format(pp.getDateTo()) + "]";
-//            parameters.put("PAYROLL_PERIOD", "Payroll Period: " + payroll_period);
-//            parameters.put("DATE_GENERATED", _sdf.format(pp.getDatePrepared()));
-//            parameters.put("PREPARED_BY", dbms.user.getUsername());
-//            parameters.put("SUBREPORT_DIR", dbms.codebaseReports);
-//
-//            System.out.println("payslip count: " + list.size());
-//            ReportViewerFactory rvf = new ReportViewerFactory("Payroll", parameters, list);
-//
-//            JRViewer jrv = rvf.getReport(false);
-//
-//            rvf.showReport(jrv);
-//
-//        } catch (Exception ex) {
-//            Logger.getLogger(PaySlipProcess.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        
+ 
          try {
           
             List list = new ArrayList();
@@ -1222,7 +1175,6 @@ public class PaySlipInformation extends javax.swing.JPanel {
             SimpleDateFormat _sdf = MyDateFormatter.getSimpleDateTimeFormatter2();
 
             HashMap parameters = new HashMap();
-            //Company cs = CompanySetting.companySetting();
             CompanySetting cs = csDao.find(1L);            
 
             parameters.put("REPORT_TITLE", cs.getDescription());

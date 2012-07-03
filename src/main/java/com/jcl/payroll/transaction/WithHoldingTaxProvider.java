@@ -38,6 +38,7 @@ public class WithHoldingTaxProvider {
    }    
    
    public static Double taxWithHeld(String taxCode, Double salary){
+       System.out.println(taxCode +": " + salary);
        TaxData taxData = getWHT(taxCode, salary);
        Double taxWithHeld = 0.0d; // compute tax with held base on the data from taxData
        
@@ -134,7 +135,7 @@ public class WithHoldingTaxProvider {
    
    public static void main(String[] args){
             System.out.println("withholdingtax contribution.");
-            Double taxValue = WithHoldingTaxProvider.taxWithHeld("ME3_S3", 10000d);
+            Double taxValue = WithHoldingTaxProvider.taxWithHeld("ME1_S1", 0d);
             System.out.println(taxValue);
    }
    

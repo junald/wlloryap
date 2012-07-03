@@ -38,6 +38,14 @@ public class PayrollPeriodDao {
             entityManager.merge(payrollPeriod);
         }
     }
+    
+    public void save2(PayrollPeriod payrollPeriod) {
+        if (payrollPeriod.getId() == null) {
+            entityManager.persist(payrollPeriod);
+        } else {
+            entityManager.merge(payrollPeriod);
+        }
+    }
 
     public ArrayList<PayrollPeriod> getPayrollPeriods() {
         return (ArrayList<PayrollPeriod>) entityManager.createQuery("from PayrollPeriod order by datePrepared").getResultList();

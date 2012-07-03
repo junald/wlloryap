@@ -34,4 +34,15 @@ public class PaySlipDetailDao {
             entityManager.merge(payslipDetail);
         }
     }
+    
+    
+    public void save2(PaySlipDetail payslipDetail) {
+        
+        System.out.println("saving payslipDetail");
+        if (payslipDetail.getId() == null) {
+            entityManager.persist(payslipDetail);
+        } else {
+            entityManager.merge(payslipDetail);
+        }
+    }
 }

@@ -263,8 +263,9 @@ public class PaySlipEntry extends javax.swing.JDialog {
 
     }//GEN-LAST:event_comboDTRTypeActionPerformed
 
-    private void setTextFields(String s) {
-        //PayslipDetailType stype = PayslipDetailType.valueOf(s);
+    private void setTextFields(String s) {        
+        //purpose: DTRType's does not exist on PayslipDetailType and exception will be thrown 
+        //if be convert s to not existing DTRTypes.
         try {
             DTRType dtrType = DTRType.valueOf(s);
             txtAmount.setEnabled(true);
@@ -274,16 +275,6 @@ public class PaySlipEntry extends javax.swing.JDialog {
             txtQuantity.setEnabled(false);
         }
 
-//        if (stype == PayslipDetailType.Absent || stype == PayslipDetailType.Undertime
-//                || stype == PayslipDetailType.HolidayLegal || stype == PayslipDetailType.HolidaySpecial || stype == PayslipDetailType.Overtime
-//                || stype == PayslipDetailType.VL || stype == PayslipDetailType.SL || stype == PayslipDetailType.WorkedHours) {
-//            txtAmount.setEnabled(true);
-//            txtQuantity.setEnabled(true);
-//
-//        } else {
-//            txtAmount.setEnabled(false);
-//            txtQuantity.setEnabled(false);
-//        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;

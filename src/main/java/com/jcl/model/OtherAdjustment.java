@@ -21,11 +21,11 @@ public class OtherAdjustment {
     @Column(length = 15)
     private String adjustmentType; //less, deduction
     @Column
-    private Boolean taxable;    
+    private Boolean taxable = false;    
     @Column
-    private Boolean everyPayroll;    
+    private Boolean everyPayroll = false;    
     @Column
-    private Double amount;
+    private Double amount =0.0d;
     
     
 

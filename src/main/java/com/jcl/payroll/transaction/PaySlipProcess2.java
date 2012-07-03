@@ -35,16 +35,20 @@ public class PaySlipProcess2 {
     @Autowired
     PaySlipDao psDao;
     @Autowired
+    PaySlipDetailDao psdDao;
+    @Autowired
     DailyTimeRecordDao dtrDao;
     @Autowired
     OtherAdjustmentDao oaDao;
     private static int ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
 
     @Transactional
-    public List<Employee> employeeListForPayslip(Long payrollPeriodID) {
+    public List<Employee> employeeListForPayslip(Long payrollPeriodID, boolean finalized) {
         PayrollPeriod pp = ppDao.find(payrollPeriodID);
         List<Employee> list = eDao.getAllActiveEmployes();
-        processPaySlip(list, pp);
+        processPaySlip(list, pp, finalized);
+        pp.setProcess(finalized);
+        ppDao.save2(pp);
         return list;
     }
 
@@ -85,7 +89,7 @@ public class PaySlipProcess2 {
         return paySlipReportList;
     }
 
-    public void processPaySlip(List<Employee> employeeList, PayrollPeriod pp) {
+    public void processPaySlip(List<Employee> employeeList, PayrollPeriod pp,boolean finalized) {
         for (Employee emp : employeeList) {
 
             PaySlip ps = psDao.getPayslipByPayPeriodAndEmployee(emp, pp.getId());
@@ -100,25 +104,25 @@ public class PaySlipProcess2 {
             }
             emp.setPayslip(ps);
         }
-        processDTRs(employeeList, pp);
-        createPayslipDetailFromDTR(employeeList);
-        createPayslipForGovernment(employeeList, pp);
-        createPayslipAutoAdjustment(employeeList);
-        computeTaxWithHolding(employeeList,pp);
+        processDTRs(employeeList, pp,finalized);
+        createPayslipDetailFromDTR(employeeList,finalized);
+        createPayslipForGovernment(employeeList, pp,finalized);
+        createPayslipAutoAdjustment(employeeList,finalized);
+        computeTaxWithHolding(employeeList,pp,finalized);
         
         for (Employee eep : employeeList) {
-            eep.getPayslip().getPayslipDetails().size();
+            eep.getPayslip().getPayslipDetails().size();           
         }
     }
     // use in individual payslip processing and generate all payslip
 
-    public void processDTRs(List<Employee> employeeList, PayrollPeriod pp) {
+    public void processDTRs(List<Employee> employeeList, PayrollPeriod pp, boolean finalized) {
         for (Employee emp : employeeList) {
-            processIndividualDTR(emp, pp.getDateFrom(), pp.getDateTo(), DTRDisplayTypeStatus.Opened);
+            processIndividualDTR(emp, pp.getDateFrom(), pp.getDateTo(), DTRDisplayTypeStatus.Opened, finalized);
         }
     }
 
-    public void processIndividualDTR(Employee employee, Date dateFrom, Date dateTo, DTRDisplayTypeStatus dtdts) {
+    public void processIndividualDTR(Employee employee, Date dateFrom, Date dateTo, DTRDisplayTypeStatus dtdts, boolean finalized) {
 
         List<DailyTimeRecord> dtrList = dtrDao.getDailyTimeRecordsByDateAndEmployee(employee, dateFrom, dateTo, dtdts);
         System.out.println(employee.getName() + " : dtr counts: " + dtrList.size());
@@ -131,14 +135,17 @@ public class PaySlipProcess2 {
             } else {
                 _list = dtrTypeList.get(dtr.getDtrType());
             }
-
+            dtr.setProcess(finalized);
             _list.add(dtr);
+            if(finalized){
+                dtrDao.save2(dtr);
+            }
         }
         employee.setDtrTypeList(dtrTypeList);
 
     }
 
-    private void createPayslipDetailFromDTR(List<Employee> employeeList) {
+    private void createPayslipDetailFromDTR(List<Employee> employeeList, boolean finalized) {
         //create payslip detail from dtr
         for (Employee emp : employeeList) {
             LinkedHashMap<String, List<DailyTimeRecord>> dtrTypeList = emp.getDtrTypeList();
@@ -169,9 +176,7 @@ public class PaySlipProcess2 {
                         psd.setRowNumber(Integer.valueOf(rowNumber++));
                         psd.setGenerated(true);
                         psd.setDtr(true);
-                        //TODO: need further thinking in SL_WP and VL_WP
-                        //if with out pay in monthly pay, this will be deducted
-                        //if with pay in monthly pay, ????????????????
+                        //TODO: need further thinking in SL_WP and VL_WP                        
                         if (dtrType == DTRType.Absent || dtrType == DTRType.Undertime || dtrType == DTRType.SL_WOP || dtrType == DTRType.VL_WOP) {
                             psd.setDeduction(Boolean.TRUE);
                             psd.setTaxable(Boolean.FALSE);                            
@@ -219,10 +224,10 @@ public class PaySlipProcess2 {
                             psd.setTotal(Double.valueOf(semiSalary.toPlainString()));
                         }
                     }
+                    
+                    psdDao.save2(psd);
                     ps.getPayslipDetails().add(psd);
-
                 }
-
             }
         }
     }
@@ -277,7 +282,7 @@ public class PaySlipProcess2 {
         return tm;
     }
 
-    private void createPayslipForGovernment(List<Employee> employeeList, PayrollPeriod pp) {
+    private void createPayslipForGovernment(List<Employee> employeeList, PayrollPeriod pp,boolean finalized) {
 
         for (Employee emp : employeeList) {
             Integer row = emp.getPayslip().getPayslipDetails().size();
@@ -324,25 +329,25 @@ public class PaySlipProcess2 {
                 psdPag.setGenerated(true);
                 emp.getPayslip().getPayslipDetails().add(psdPag);
             }
-            if (emp.getTax()) {
-                PaySlipDetail psdTax = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.WTax.toString());
-                psdTax.setDescription("Withholding Tax");
-                psdTax.setQuantity(0d);
-                psdTax.setAmount(0d);
-                psdTax.setDeduction(true);
-                psdTax.setRowNumber(row++);
-                psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), emp.getSalary()));
-                psdTax.setEmployeeContribution(0.0d);
-                psdTax.setGenerated(true);
-                emp.getPayslip().getPayslipDetails().add(psdTax);
-            }
+//            if (emp.getTax()) {
+//                PaySlipDetail psdTax = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.WTax.toString());
+//                psdTax.setDescription("Withholding Tax");
+//                psdTax.setQuantity(0d);
+//                psdTax.setAmount(0d);
+//                psdTax.setDeduction(true);
+//                psdTax.setRowNumber(row++);
+//                psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), emp.getSalary()));
+//                psdTax.setEmployeeContribution(0.0d);
+//                psdTax.setGenerated(true);
+//                emp.getPayslip().getPayslipDetails().add(psdTax);
+//            }
 
         }
 
 
     }
     
-    private void computeTaxWithHolding(List<Employee> employeeList, PayrollPeriod pp) {
+    private void computeTaxWithHolding(List<Employee> employeeList, PayrollPeriod pp,boolean finalized) {
 
         for (Employee emp : employeeList) {
             Integer row = emp.getPayslip().getPayslipDetails().size();
@@ -359,6 +364,7 @@ public class PaySlipProcess2 {
                 psdTax.setDeduction(true);
                 psdTax.setRowNumber(row++);
                 psdTax.setTaxable(false);
+                System.out.println("employee: " + emp.getName());
                 psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), totalTaxableAmount));
                 psdTax.setEmployeeContribution(0.0d);
                 psdTax.setGenerated(true);
@@ -368,7 +374,7 @@ public class PaySlipProcess2 {
         }
     }
 
-    private void createPayslipAutoAdjustment(List<Employee> employeeList) {
+    private void createPayslipAutoAdjustment(List<Employee> employeeList,boolean finalized) {
 
         for (Employee emp : employeeList) {
             Integer row = emp.getPayslip().getPayslipDetails().size();
