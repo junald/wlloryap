@@ -1053,7 +1053,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
         try {
             payrollPeriod  = ppDao.find((Long) kv.getValue());
-            currentEmployeeList = ppService.employeeListForPayslip((Long) kv.getValue());
+            //TODO: finalized
+            currentEmployeeList = ppService.employeeListForPayslip((Long) kv.getValue(),false);
 
             dtm.setColumnIdentifiers(new String[]{"#", "IDNo", "Position", "Name", "Amount"});
             int row = 1;
