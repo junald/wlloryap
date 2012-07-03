@@ -47,8 +47,10 @@ public class PaySlipProcess2 {
         PayrollPeriod pp = ppDao.find(payrollPeriodID);
         List<Employee> list = eDao.getAllActiveEmployes();
         processPaySlip(list, pp, finalized);
-        pp.setProcess(finalized);
-        ppDao.save2(pp);
+        if(finalized){
+            pp.setProcess(finalized);
+            ppDao.save2(pp);
+        }
         return list;
     }
 
@@ -110,7 +112,7 @@ public class PaySlipProcess2 {
         createPayslipAutoAdjustment(employeeList,finalized);
         computeTaxWithHolding(employeeList,pp,finalized);
         
-        for (Employee eep : employeeList) {
+        for (Employee eep : employeeList) {          
             eep.getPayslip().getPayslipDetails().size();           
         }
     }
@@ -224,8 +226,10 @@ public class PaySlipProcess2 {
                             psd.setTotal(Double.valueOf(semiSalary.toPlainString()));
                         }
                     }
-                    
-                    psdDao.save2(psd);
+                    psd.setProcess(finalized);           
+                    if(finalized){
+                        psdDao.save2(psd);
+                    }
                     ps.getPayslipDetails().add(psd);
                 }
             }
@@ -292,12 +296,16 @@ public class PaySlipProcess2 {
                 psdSSS.setQuantity(0d);
                 psdSSS.setAmount(0d);
                 SSS sss = SSSProvider.getSSSContribution(emp.getSalary());
-                psdSSS.setTotal(sss.getEe());
+                psdSSS.setTotal(new BigDecimal(sss.getEe()).doubleValue());
                 psdSSS.setDeduction(true);
-                psdSSS.setTaxable(false);
+                psdSSS.setTaxable(false);                
                 psdSSS.setEmployeeContribution(sss.getEr());
                 psdSSS.setGenerated(true);
                 psdSSS.setRowNumber(row++);
+                psdSSS.setProcess(finalized);
+                if(finalized){
+                        psdDao.save2(psdSSS);
+                }
                 emp.getPayslip().getPayslipDetails().add(psdSSS);
             }
             if (emp.getPhilhealth()) {
@@ -313,6 +321,10 @@ public class PaySlipProcess2 {
                 psdPH.setEmployeeContribution(ph.getEr());
                 psdPH.setGenerated(true);
                 psdPH.setRowNumber(row++);
+                psdPH.setProcess(finalized);
+                if(finalized){
+                        psdDao.save2(psdPH);
+                }
                 emp.getPayslip().getPayslipDetails().add(psdPH);
             }
             if (emp.getPagibig()) {
@@ -327,9 +339,14 @@ public class PaySlipProcess2 {
                 psdPag.setEmployeeContribution(pagIbig.getErS());
                 psdPag.setDeduction(true);
                 psdPag.setGenerated(true);
+                psdPag.setProcess(finalized);
+                if(finalized){
+                   psdDao.save2(psdPag);
+                }
                 emp.getPayslip().getPayslipDetails().add(psdPag);
             }
-//            if (emp.getTax()) {
+            
+//            if (emp.getTax() ) {
 //                PaySlipDetail psdTax = new PaySlipDetail(emp.getPayslip(), PayslipDetailType.WTax.toString());
 //                psdTax.setDescription("Withholding Tax");
 //                psdTax.setQuantity(0d);
@@ -365,9 +382,17 @@ public class PaySlipProcess2 {
                 psdTax.setRowNumber(row++);
                 psdTax.setTaxable(false);
                 System.out.println("employee: " + emp.getName());
-                psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), totalTaxableAmount));
+                if(emp.getTaxWithheld()>0d){
+                    psdTax.setTotal(emp.getTaxWithheld());
+                }else{
+                    psdTax.setTotal(WithHoldingTaxProvider.taxWithHeld(emp.getTaxCode(), totalTaxableAmount));
+                }
                 psdTax.setEmployeeContribution(0.0d);
                 psdTax.setGenerated(true);
+                psdTax.setProcess(finalized);
+                if(finalized){
+                    psdDao.save2(psdTax);
+                }
                 emp.getPayslip().getPayslipDetails().add(psdTax);
             }
 
@@ -397,7 +422,10 @@ public class PaySlipProcess2 {
                     payslip.setEmployeeContribution(0d);
                     payslip.setGenerated(true);
                     payslip.setRowNumber(row++);
-
+                    payslip.setProcess(finalized);
+                    if(finalized){
+                        psdDao.save2(payslip);
+                    }
                     emp.getPayslip().getPayslipDetails().add(payslip);
                 }
             }
@@ -415,7 +443,10 @@ public class PaySlipProcess2 {
                 payslipAllowance.setEmployeeContribution(0d);
                 payslipAllowance.setGenerated(true);
                 payslipAllowance.setRowNumber(row++);
-
+                payslipAllowance.setProcess(finalized);
+                    if(finalized){
+                        psdDao.save2(payslipAllowance);
+                    }
                 emp.getPayslip().getPayslipDetails().add(payslipAllowance);
             }
             if (emp.getBenefits() > 0) {
@@ -430,7 +461,10 @@ public class PaySlipProcess2 {
                 payslipAllowance.setEmployeeContribution(0d);
                 payslipAllowance.setGenerated(true);
                 payslipAllowance.setRowNumber(row++);
-
+                payslipAllowance.setProcess(finalized);
+                    if(finalized){
+                        psdDao.save2(payslipAllowance);
+                    }
                 emp.getPayslip().getPayslipDetails().add(payslipAllowance);
             }
 

@@ -42,7 +42,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MainApp extends JFrame implements Observer {
 
-    String windowTitle = "HRJ Internation Corp.";
+    String windowTitle = "HJR Internation Corp.";
     // static final Logger logger = Logger.getLogger("app_log");
     public static MessagePanelObservable messagePanelObservable;
     ArrayList<String> openPanels;

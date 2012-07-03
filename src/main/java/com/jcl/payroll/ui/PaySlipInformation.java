@@ -1129,24 +1129,9 @@ public class PaySlipInformation extends javax.swing.JPanel {
         if (kv == null) {
             return;
         } else {
+             currentEmployeeList = ppService.employeeListForPayslip((Long) kv.getValue(),true);
+             JOptionPane.showMessageDialog(this, " Payslips has been process.", "PaySlip",JOptionPane.OK_OPTION);
         }
-
-//        try {
-//            dbms.useNewDBInstance();
-//
-//            ppService.finalizedPaySlip((Long) kv.getValue());
-//
-//        } catch (TransactionException ex) {
-//            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex.getSimpleMessage());
-//
-//
-//        } catch (Exception ex) {
-//            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
-//
-//
-//        } finally {
-//            //     dbms.closeNewDB();
-//        }
 
     }//GEN-LAST:event_btnFinalizedActionPerformed
 
