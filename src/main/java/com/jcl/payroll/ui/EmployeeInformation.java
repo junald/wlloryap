@@ -2195,6 +2195,8 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setPagibigD(Double.valueOf(textDPagIbig.getText()));
         ce.setPhilhealthD(Double.valueOf(textDPhilHealth.getText()));
 // check box information
+        
+        ce.setSss(checkSssD.isSelected());        
         ce.setSss(Boolean.valueOf(checkSssD.isSelected()));
         ce.setTax(Boolean.valueOf(checkTaxD.isSelected()));
         ce.setPagibig(Boolean.valueOf(checkPagibigD.isSelected()));

@@ -24,6 +24,8 @@ import javax.swing.JTable;
 import org.springframework.beans.factory.annotation.Autowired;
  
 
+
+
 /**
  *
  * @author junald
@@ -431,3 +433,4 @@ public class BranchSetting extends javax.swing.JPanel {
 
     }
 }
+

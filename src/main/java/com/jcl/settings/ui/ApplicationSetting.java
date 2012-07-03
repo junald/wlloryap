@@ -24,8 +24,8 @@ public class ApplicationSetting extends javax.swing.JPanel {
 
     @Autowired
     CompanySettingInformation csi;
-    @Autowired
-    BranchSetting bs;
+  //  @Autowired
+  //  BranchSetting bs;
     @Autowired
     PositionSetting ps;
     @Autowired
@@ -49,14 +49,14 @@ public class ApplicationSetting extends javax.swing.JPanel {
     public void setup() {
         panelUser.add(new UserInformation());
         csi.initScreen();
-        bs.setup();
+    //    bs.setup();
         ps.setup();
         depts.setup();
         cs.setup();
         as.setup();
         hs.setup();
         panelSetting.add(csi);
-        panelBranch.add(bs);
+   //     panelBranch.add(bs);
         panelPosition.add(ps);
         panelDepartment.add(depts);
         panelAdjustment.add(as);
