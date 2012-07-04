@@ -12,6 +12,7 @@ import java.util.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 /**
  *
  * @author junald
@@ -874,15 +875,20 @@ public class Employee {
    
     public Double getTotalTaxableIncome(){
         
-        BigDecimal taxableIncome = new BigDecimal(0d); 
+        
+       BigDecimal taxableIncome = BigDecimal.ZERO;
        
-        for(PaySlipDetail psdTax :  getPayslip().getPayslipDetails()){
+       for(PaySlipDetail psdTax :  getPayslip().getPayslipDetails()){
             BigDecimal amount = new BigDecimal(psdTax.getTotal());
+            
             if(psdTax.getTaxable()){
-                   taxableIncome.add(amount);
+                //System.out.println(amount.toPlainString() +"===="+ psdTax.getTaxable()+"==="+psdTax.getPaySlipDetailType());                
+                taxableIncome  = taxableIncome.add(amount);
+                
+                System.out.println("total_taxable_amount: " + taxableIncome.toPlainString() + ":" + amount.toPlainString());
             }            
         }   
-        
+       
         return taxableIncome.doubleValue();
     }
 }
