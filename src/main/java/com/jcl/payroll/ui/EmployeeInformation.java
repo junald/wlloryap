@@ -1279,6 +1279,12 @@ public class EmployeeInformation extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelContactInfo.add(jLabel13, gridBagConstraints);
+
+        textStreet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textStreetActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -1307,6 +1313,11 @@ public class EmployeeInformation extends javax.swing.JPanel {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtContactNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtContactNoActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -1836,6 +1847,15 @@ public class EmployeeInformation extends javax.swing.JPanel {
         DailyTimeRecord dtr = new DailyTimeRecord(ce);
         openDTREntryDialog(dtr);
     }//GEN-LAST:event_btnInsertDetailActionPerformed
+
+    private void textStreetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textStreetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textStreetActionPerformed
+
+    private void txtContactNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContactNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtContactNoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClose;
@@ -2131,9 +2151,9 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
 
         textStreet.setText(ce.getAddress());
-
-        txtContactNo.setText(ce.getTelephoneNo());
-
+        String s = ce.getTelephoneNo();
+        
+        txtContactNo.setText(s == null ? "   -    " : ce.getTelephoneNo());
 
         txtDateTo.setDate(new Date());
         txtDateFrom.setDate(new Date());
