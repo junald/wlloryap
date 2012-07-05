@@ -35,6 +35,12 @@ public class PaySlipDetailDao {
         }
     }
     
+    @Transactional
+    public void delete(PaySlipDetail payslipDetail) {
+        
+       entityManager.remove(payslipDetail);
+    }
+    
     
     public void save2(PaySlipDetail payslipDetail) {
         

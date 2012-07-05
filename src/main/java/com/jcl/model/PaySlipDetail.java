@@ -9,6 +9,7 @@ package com.jcl.model;
 //import com.jcl.dbms.dbms;
 //import com.jcl.payroll.businessRule.IBusinessRule;
 //import com.jcl.payroll.businessRule.BusinessRuleFactory;
+import com.jcl.utilities.TransactionException;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -341,5 +342,17 @@ public class PaySlipDetail {
     public String toString(){
         return this.paySlipDetailType;
     }
+    
+      public void businessRuleDelete() throws Exception {
+        if (getProcess()) {
+            throw new TransactionException("Cannot delete this Payslip detailed has been finalized."  );
+        }
+        if(getGenerated()){
+            throw new TransactionException("Cannot delete this Generated Payslip."  );
+            
+        }
+        
+    }
+
   
 }

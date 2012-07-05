@@ -40,6 +40,11 @@ public class DailyTimeRecordDao {
         }
     }
     
+    @Transactional
+    public void delete(DailyTimeRecord dtr){
+        entityManager.remove(dtr);
+    }
+    
     public void save2(DailyTimeRecord dtr) {
         if (dtr.getId() == null) {
             entityManager.persist(dtr);

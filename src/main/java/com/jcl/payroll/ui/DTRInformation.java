@@ -865,7 +865,7 @@ public class DTRInformation extends javax.swing.JPanel {
                     if (dtr != null) {
                         try {
                             dtr.businessRuleDelete();
-                            //   dbms.getDBInstance().delete(dtr);
+                            dDao.delete(dtr);
                             initDTR();
                         } catch (TransactionException ex) {
                             JOptionErrorMessage.showErrorMessage("Daily Time Record", ex.getSimpleMessage());

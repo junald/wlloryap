@@ -126,13 +126,10 @@ public class DailyTimeRecord {
     }
 
     public void businessRuleDelete() throws Exception {
-//        if (isProcess()) {
-//            throw new TransactionException("Cannot delete this DTR payslip has been generated: "  );
-//        }
-//
-//        if (sourceTid != -1) {
-//            throw new TransactionException("Cannot delete generated DTR: " );
-//        }
+        if (getProcess()) {
+            throw new TransactionException("Cannot delete this DTR payslip has been generated: "  );
+        }
+        
     }
 
     public void setDefualtTime(Date theDate) {

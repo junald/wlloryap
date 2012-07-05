@@ -997,15 +997,16 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
                 if (tableDTR.getRowCount() > 0) {
                     int row = tableDTR.getSelectedRow();
-                    DailyTimeRecord dtr = (DailyTimeRecord) tableDTR.getValueAt(row, 2);
+                    
+                    PaySlipDetail psd = (PaySlipDetail) tableDTR.getValueAt(row, 1);
 
-                    if (dtr != null) {
+                    if (psd != null) {
                         try {
-                            dtr.businessRuleDelete();
-                            //    dbms.getDBInstance().delete(dtr);
+                            psd.businessRuleDelete();
+                            psdDao.delete(psd);
                             initPayslipDetail();
                         } catch (TransactionException ex) {
-                            JOptionErrorMessage.showErrorMessage("Daily Time Record", ex.getSimpleMessage());
+                            JOptionErrorMessage.showErrorMessage("Payslip", ex.getSimpleMessage());
                         } catch (Exception ex) {
                             Logger.getLogger(PaySlipInformation.class.getName()).log(Level.SEVERE, null, ex);
                         }
