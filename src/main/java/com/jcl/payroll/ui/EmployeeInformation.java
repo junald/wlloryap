@@ -2151,9 +2151,8 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
 
         textStreet.setText(ce.getAddress());
-        String s = ce.getTelephoneNo();
-        
-        txtContactNo.setText(s == null ? "   -    " : ce.getTelephoneNo());
+        txtContactNo.setText("   -    ");
+        txtContactNo.setText(ce.getTelephoneNo());
 
         txtDateTo.setDate(new Date());
         txtDateFrom.setDate(new Date());
