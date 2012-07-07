@@ -2114,8 +2114,8 @@ public class EmployeeInformation extends javax.swing.JPanel {
         System.out.println(ce.getPosition());
         //comboPosition.setSelectedItem(ce.getPosition());
         comboPosition.getModel().setSelectedItem(ce.getPosition());
-        comboDepartment.setSelectedItem(ce.getDepartment());
-        comboCompany.setSelectedItem(ce.getCompany());
+        comboDepartment.getModel().setSelectedItem(ce.getDepartment());
+        comboCompany.getModel().setSelectedItem(ce.getCompany());
         comboTaxCode.setSelectedItem(ce.getTaxCode());
         comboType.setSelectedItem(ce.getPayType() == null ? "SemiMonthly" : ce.getPayType());
         comboPayCode.setSelectedItem(ce.getPayCode() == null ? "Monthly" : ce.getPayCode());
@@ -2151,9 +2151,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
 
         textStreet.setText(ce.getAddress());
-        txtContactNo.setText("   -    ");
-        txtContactNo.setText(ce.getTelephoneNo());
-
+        txtContactNo.setValue(ce.getTelephoneNo()); 
         txtDateTo.setDate(new Date());
         txtDateFrom.setDate(new Date());
 
@@ -2231,7 +2229,6 @@ public class EmployeeInformation extends javax.swing.JPanel {
 
         ce.setAddress(textStreet.getText());
         ce.setTelephoneNo(txtContactNo.getText());
-
     }
 
     private void initLoanTableView() {
