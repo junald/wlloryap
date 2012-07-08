@@ -2228,7 +2228,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
         ce.setPhilhealthNo(textPhilHealthNo.getText());
 
         ce.setAddress(textStreet.getText());
-        ce.setTelephoneNo(txtContactNo.getText());
+        ce.setTelephoneNo(txtContactNo.getText() != null ? "   -    " : txtContactNo.getText());
     }
 
     private void initLoanTableView() {
