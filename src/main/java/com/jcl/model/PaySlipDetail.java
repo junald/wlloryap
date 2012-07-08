@@ -63,8 +63,9 @@ public class PaySlipDetail {
     private Boolean dtr = false;
     @Column
     private Double employeeContribution;
-    
-
+    @Column
+    @Temporal(TemporalType.DATE)
+    private Date dateEntered;
     /**
      * @return the id
      */
@@ -316,6 +317,20 @@ public class PaySlipDetail {
      */
     public void setEmployeeContribution(Double employeeContribution) {
         this.employeeContribution = employeeContribution;
+    }
+
+    /**
+     * @return the dateEntered
+     */
+    public Date getDateEntered() {
+        return dateEntered;
+    }
+
+    /**
+     * @param dateEntered the dateEntered to set
+     */
+    public void setDateEntered(Date dateEntered) {
+        this.dateEntered = dateEntered;
     }
 
     public PaySlipDetail() {

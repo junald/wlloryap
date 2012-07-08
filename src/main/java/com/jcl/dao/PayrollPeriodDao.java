@@ -64,4 +64,12 @@ public class PayrollPeriodDao {
         ArrayList<PayrollPeriod> list = (ArrayList<PayrollPeriod>)  query.getResultList();
         return list;
     }
+    
+    public ArrayList<PayrollPeriod> getProcessPayrollPeriods() {
+
+        String queryString = "from PayrollPeriod where process = true order by datePrepared ";        
+        Query query = entityManager.createQuery(queryString);
+        ArrayList<PayrollPeriod> list = (ArrayList<PayrollPeriod>)  query.getResultList();
+        return list;
+    }
 }

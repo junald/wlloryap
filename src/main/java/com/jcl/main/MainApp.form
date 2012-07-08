@@ -81,7 +81,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miReport1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Report1"/>
+                <Property name="text" type="java.lang.String" value="Employee Report"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemActionPerformed"/>
@@ -169,7 +169,7 @@
         <Component class="javax.swing.JButton" name="jButton6">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\hgh\wlloryap\src\main\resources\creditcard.png"/>
+              <Image iconType="2" name="D:\hgh\wlloryap\src\main\resources\doc.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Payslip"/>
             <Property name="focusable" type="boolean" value="false"/>

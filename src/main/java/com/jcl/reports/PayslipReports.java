@@ -4,20 +4,13 @@
  */
 package com.jcl.reports;
 
-import com.jcl.dbms.dbms;
 import com.jcl.model.*;
 import com.jcl.payroll.enumtypes.PayrollPeriodCode;
-import com.jcl.payroll.enumtypes.PayrollPeriodStatus;
-import com.jcl.payroll.enumtypes.PayrollPeriodType;
-import com.jcl.payroll.transaction.PaySlipProcess;
 import com.jcl.payroll.transaction.PaySlipReportObject;
 import com.jcl.payroll.transaction.PaySlipReportRow;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.MyNumberFormatter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import org.springframework.stereotype.Service;
 

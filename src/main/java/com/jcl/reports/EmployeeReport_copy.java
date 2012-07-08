@@ -16,7 +16,6 @@ import com.jcl.main.MainApp;
 import com.jcl.model.CompanySetting;
 import com.jcl.model.PayrollPeriod;
 import com.jcl.observables.PanelMessage;
-import com.jcl.payroll.transaction.PaySlipReportObject;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.verycommon.JOptionErrorMessage;
@@ -42,26 +41,26 @@ import org.springframework.stereotype.Component;
  * @author jlavador
  */
 @Component
-public class EmployeeReport extends javax.swing.JPanel {
+public class EmployeeReport_copy extends javax.swing.JPanel {
 
     private KeyValue selectedReport;
     private boolean isInitializing = false;
     private SimpleDateFormat sdf;
     @Autowired
     PayrollPeriodDao ppDao;
-    @Autowired
+      @Autowired
     CompanySettingDao csDao;
 
     /**
      * Creates new form EmployeeInformation
      */
-    public EmployeeReport() {
+    public EmployeeReport_copy() {
         initComponents();
     }
 
     public void setup() {
         sdf = MyDateFormatter.getSimpleDateTimeFormatter();
-        initScreen(true);
+        initScreen(false);
 
         initComboBoxes();
     }
@@ -255,11 +254,6 @@ public class EmployeeReport extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelTransactionDate.add(jLabel6, gridBagConstraints);
 
-        comboPayrollPeriod.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboPayrollPeriodActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
@@ -367,22 +361,238 @@ public class EmployeeReport extends javax.swing.JPanel {
 //                return;
 //            }
 //
-//            CompanySetting cs = csDao.find(1L);
+//            CompanySetting cs =  csDao.find(1L);   
 //
 //            Date fDate = txtFromDate.getDate();
 //            Date tDate = txtToDate.getDate();
 //            boolean checkDJ = false;
 //            HashMap parameters = new HashMap();
 //            JRViewer jrv = null;
+//            
+//            HashMap<String, InventoryBalance> hmap = null;
+//            List<InventoryBalance> list = null;
+//            if (selectedReport.getValue().equals(InventoryTemplate.InventoryBalance)) {
 //
-//            HashMap<String, PaySlipReportObject> hmap = null;
-//            List<PaySlipReportObject> list = null;
+//                parameters.put("REPORT_TITLE", cs.getCompanyName());
+//                parameters.put("CLIENT_INFO", "Inventory on hand");
+//
+//                hmap = Inventory.getInventoryBalance();
+//                list = new ArrayList<InventoryBalance>(hmap.values());
+//                checkDJ = false;
+//
+//            } else if (selectedReport.getValue().equals(InventoryTemplate.InventoryBalanceSupplier)) {
+//                KeyValue kv = (KeyValue) comboClient.getSelectedItem();
+//                Client c = null;
+//                if (kv != null) {
+//                    c = (Client) kv.getValue();
+//                }
+//                if (c == null) {
+//                    throw new TransactionException("Please select supplier/vendor.");
+//                }
+//                parameters.put("CLIENT_INFO", c.getCompanyName());
+//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - Supplier Inventory");
 //
 //
-//            if (selectedReport.getValue().toString() != null) {
+//                hmap = Inventory.getInventoryBalancePerSupplier(c);
+//                list = new ArrayList<InventoryBalance>(hmap.values());
+//                checkDJ = false;
+//            } else if (selectedReport.getValue().equals(InventoryTemplate.InventoryBalancePerGrower)) {
+//                KeyValue kv = (KeyValue) comboClient.getSelectedItem();
+//                Client c = null;
+//                if (kv != null) {
+//                    c = (Client) kv.getValue();
+//                }
+//                if (c == null) {
+//                    throw new TransactionException("Please select grower.");
+//                }
+//                parameters.put("CLIENT_INFO", c.getCompanyName() + "-" + c.getCode());
+//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - Grower Inventory");
+//                hmap = Inventory.getInventoryBalanceAllGrower(new Date(), c);
+//                list = new ArrayList<InventoryBalance>(hmap.values());
+//                checkDJ = false;
+//            } else if (selectedReport.getValue().equals(InventoryTemplate.InventoryBalancePerGrowerWeekly)) {
+//                KeyValue kv = (KeyValue) comboClient.getSelectedItem();
+//                Client c = null;
+//                if (kv != null) {
+//                    c = (Client) kv.getValue();
+//                }
+//                if (c == null) {
+//                    throw new TransactionException("Please select grower.");
+//                }
+//
+//                if (fDate == null) {
+//                    throw new TransactionException("Plese enter correct (cut off) dates.! ");
+//                }
 //
 //
+//                SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter();
+//                String datefrom_to = "Cut off date: " + sdf.format(fDate);
 //
+//                parameters.put("CLIENT_INFO", c.getCompanyName() + "-" + c.getCode());
+//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - Grower Weekly Inventory");
+//                parameters.put("DATE_FROMTO", datefrom_to);
+//                hmap = Inventory.getInventoryBalanceAllWeekly(fDate, c);
+//                list = new ArrayList<InventoryBalance>(hmap.values());
+//                Collections.sort(list, new DateComparator());
+//
+//
+//                checkDJ = false;
+//            } else if (selectedReport.getValue().equals(InventoryTemplate.InventoryBalanceAllGrowerWeekly)) {
+//                KeyValue kv = (KeyValue) comboClient.getSelectedItem();
+//
+//                if (fDate == null) {
+//                    throw new TransactionException("Plese enter correct (cut off) dates.! ");
+//                }
+//
+//
+//                SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter();
+//                String datefrom_to = "Cut off date: " + sdf.format(fDate);
+//
+//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - All Grower Weekly Inventory");
+//                parameters.put("DATE_FROMTO", datefrom_to);
+//                hmap = Inventory.getInventoryBalanceAllWeekly(fDate, null);
+//                list = new ArrayList<InventoryBalance>(hmap.values());
+//                checkDJ = false;
+//            } else if (selectedReport.getValue().equals(InventoryTemplate.InventoryBalanceAllGrower)) {
+//
+//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - All Grower Material Inventory");
+//                hmap = Inventory.getInventoryBalanceAllGrower(new Date(), null);
+//                list = new ArrayList<InventoryBalance>(hmap.values());
+//            } else if (selectedReport.getValue().equals(InventoryTemplate.InventoryBalanceAllGrowerCrossTab)) {
+//
+//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - All Grower Material Inventory(Crosstab)");
+//                hmap = Inventory.getInventoryBalanceAllGrower(new Date(), null);
+//                list = new ArrayList<InventoryBalance>(hmap.values());
+//
+//            } else if (selectedReport.getValue().equals(InventoryTemplate.TotalDeliveriesAllGrower)) {
+//
+//                if (fDate == null) {
+//                    throw new TransactionException("Plese enter correct (from) dates.! ");
+//                }
+//                if (tDate == null) {
+//                    throw new TransactionException("Plese enter correct (to) dates.! ");
+//                }
+//
+//                if (fDate.after(tDate)) {
+//                    throw new TransactionException("Plese enter correct dates.!\n(to) date must be greater than (from) date");
+//                }
+//
+//                SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter();
+//                String datefrom_to = sdf.format(fDate) + " - " + sdf.format(tDate);
+//
+//                parameters.put("DATE_FROMTO", datefrom_to);
+//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - Total Boxes Deliveries");
+//                hmap = Inventory.getInventoryBTotalDeliveriesAllGrower(fDate, tDate);
+//                list = new ArrayList<InventoryBalance>(hmap.values());
+//
+//            } else if (selectedReport.getValue().equals(InventoryTemplate.TotalDeliveriesPerGrowerWeekly)) {
+//
+//                KeyValue kv = (KeyValue) comboClient.getSelectedItem();
+//                Client c = null;
+//                if (kv != null) {
+//                    c = (Client) kv.getValue();
+//                }
+//                if (c == null) {
+//                    throw new TransactionException("Please select grower.");
+//                }
+//
+//                if (fDate == null) {
+//                    throw new TransactionException("Plese enter correct (from) dates.! ");
+//                }
+//                if (tDate == null) {
+//                    throw new TransactionException("Plese enter correct (to) dates.! ");
+//                }
+//
+//                if (fDate.after(tDate)) {
+//                    throw new TransactionException("Plese enter correct dates.!\n(to) date must be greater than (from) date");
+//                }
+//
+//                SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter();
+//                String datefrom_to = sdf.format(fDate) + " - " + sdf.format(tDate);
+//
+//                parameters.put("CLIENT_INFO", c.getCompanyName() + "-" + c.getCode());
+//                parameters.put("DATE_FROMTO", datefrom_to);
+//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - Weekly Total Boxes Deliveries");
+//                hmap = Inventory.getInventoryBTotalDeliveriesPerGrowerWeekly(fDate, tDate, c);
+//                list = new ArrayList<InventoryBalance>(hmap.values());
+//
+//            } else if (selectedReport.getValue().equals(InventoryTemplate.TotalDeliveriesPerGrowerDaily)) {
+//
+//                KeyValue kv = (KeyValue) comboClient.getSelectedItem();
+//                Client c = null;
+//                if (kv != null) {
+//                    c = (Client) kv.getValue();
+//                }
+//                if (c == null) {
+//                    throw new TransactionException("Please select grower.");
+//                }
+//
+//                if (fDate == null) {
+//                    throw new TransactionException("Plese enter correct (from) dates.! ");
+//                }
+//                if (tDate == null) {
+//                    throw new TransactionException("Plese enter correct (to) dates.! ");
+//                }
+//
+//                if (fDate.after(tDate)) {
+//                    throw new TransactionException("Plese enter correct dates.!\n(to) date must be greater than (from) date");
+//                }
+//
+//                SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter();
+//                String datefrom_to = sdf.format(fDate) + " - " + sdf.format(tDate);
+//
+//                parameters.put("CLIENT_INFO", c.getCompanyName() + "-" + c.getCode());
+//                parameters.put("DATE_FROMTO", datefrom_to);
+//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - Daily Total Boxes Deliveries");
+//                hmap = Inventory.getInventoryBTotalDeliveriesPerGrowerDaily(fDate, tDate, c);
+//                list = new ArrayList<InventoryBalance>(hmap.values());
+//
+//            } else if (selectedReport.getValue().equals(InventoryTemplate.BoxDeliveryTransactionList)) {
+//
+//
+//                KeyValue kv = (KeyValue) comboClient.getSelectedItem();
+//                String cnames = "";
+//                Client c = null;
+//                if (kv != null && kv.getValue() != null) {
+//                    c = (Client) kv.getValue();
+//                    cnames = c.getCompanyName();
+//                } else {
+//                    cnames = "All";
+//                }
+//
+//                if (fDate == null) {
+//                    throw new TransactionException("Plese enter correct (from) dates.! ");
+//                }
+//                if (tDate == null) {
+//                    throw new TransactionException("Plese enter correct (to) dates.! ");
+//                }
+//
+//                if (fDate.after(tDate)) {
+//                    throw new TransactionException("Plese enter correct dates.!\n(to) date must be greater than (from) date");
+//                }
+//
+//                SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter();
+//                String datefrom_to = sdf.format(fDate) + " - " + sdf.format(tDate);
+//
+//                parameters.put("DATE_FROMTO", datefrom_to);
+//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - Box Deliveries List");
+//                parameters.put("CLIENT_INFO", cnames);
+//                //   parameters.put("INVENTORY_TYPE", it.name());
+//                list = Inventory.getBoxDeliveriesList(fDate, tDate, c);
+//
+//
+//            } else if (InvoiceType.valueOf(selectedReport.getValue().toString()) != null) {
+//
+//                InvoiceType it = InvoiceType.valueOf(selectedReport.getValue().toString());
+//                KeyValue kv = (KeyValue) comboClient.getSelectedItem();
+//                String cnames = "";
+//                Client c = null;
+//                if (kv != null && kv.getValue() != null) {
+//                    c = (Client) kv.getValue();
+//                    cnames = c.getCompanyName();
+//                } else {
+//                    cnames = "All";
+//                }
 //
 //                if (fDate == null) {
 //                    throw new TransactionException("Plese enter correct (from) dates.! ");
@@ -446,22 +656,15 @@ public class EmployeeReport extends javax.swing.JPanel {
 //            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
 //            panelReportViewer.removeAll();
 //        }
-
-        btnGenerate.setEnabled(true);
+//
+//        btnGenerate.setEnabled(true);
     }
 
     private void comboReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboReportsActionPerformed
         if (isInitializing) {
             return;
         }
-        JComboBox jcb = (JComboBox) evt.getSource();
-        selectedReport = (KeyValue) jcb.getSelectedItem();
 
-        if (selectedReport.getValue().equals("Separator")) {
-            initScreen(false);
-            comboPayrollPeriod.setEnabled(false);
-            return;
-        }
 
 //        jLabel9.setText("From Date");
 //        JComboBox jcb = (JComboBox) evt.getSource();
@@ -531,23 +734,6 @@ public class EmployeeReport extends javax.swing.JPanel {
 //            comboClient.setSelectedIndex(-1);
 //        }
     }//GEN-LAST:event_comboReportsActionPerformed
-
-    private void comboPayrollPeriodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPayrollPeriodActionPerformed
-
-        if (!isInitializing) {
-            KeyValue kv = (KeyValue) comboPayrollPeriod.getSelectedItem();
-
-
-            PayrollPeriod pp = null;
-            if (kv != null && kv.getValue() != null) {
-                Long payrollPeriodID = (Long) kv.getValue();
-                pp = ppDao.find(payrollPeriodID);
-            }
-
-            this.txtFromDate.setDate(pp.getDateFrom());
-            this.txtToDate.setDate(pp.getDateTo());
-        }
-    }//GEN-LAST:event_comboPayrollPeriodActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnGenerate;
@@ -585,7 +771,7 @@ public class EmployeeReport extends javax.swing.JPanel {
             }
 
             comboPayrollPeriod.removeAllItems();
-            for (PayrollPeriod p : ppDao.getProcessPayrollPeriods()) {
+            for (PayrollPeriod p : ppDao.getPayrollPeriods(false)) {
                 //String code = p.getPayrollPeriodType() + " :[" + sdf.format(p.getDateFrom()) + "-" + sdf.format(p.getDateTo()) + "] " + p.getPayrollPeriodCode();
                 String code = "(" + sdf.format(p.getDateFrom()) + "-" + sdf.format(p.getDateTo()) + ") " + p.getPayrollPeriodCode() + "-" + p.getStatus();
                 KeyValue kv = new KeyValue(code, p.getId());
@@ -598,7 +784,7 @@ public class EmployeeReport extends javax.swing.JPanel {
 
             isInitializing = false;
         } catch (Exception ex) {
-            Logger.getLogger(EmployeeReport.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmployeeReport_copy.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

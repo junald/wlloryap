@@ -131,7 +131,7 @@ public class MainApp extends JFrame implements Observer {
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        jButton6.setIcon(new javax.swing.ImageIcon("D:\\hgh\\wlloryap\\src\\main\\resources\\creditcard.png")); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon("D:\\hgh\\wlloryap\\src\\main\\resources\\doc.png")); // NOI18N
         jButton6.setText("Payslip");
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -249,7 +249,7 @@ public class MainApp extends JFrame implements Observer {
 
         jMenu1.setText("Reports");
 
-        miReport1.setText("Report1");
+        miReport1.setText("Employee Report");
         miReport1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemActionPerformed(evt);
@@ -357,9 +357,9 @@ public class MainApp extends JFrame implements Observer {
             com.jcl.payroll.ui.PaySlipInformation psi = context.getBean(com.jcl.payroll.ui.PaySlipInformation.class);
             psi.setup();
             tabbedPaneMain.add(panel, psi);
-        } else if (panel.equals("Report1")) {
-            com.jcl.reports.EmployeeReport er = new com.jcl.reports.EmployeeReport();
-
+        } else if (panel.equals("Employee Report")) {
+            com.jcl.reports.EmployeeReport er = context.getBean(com.jcl.reports.EmployeeReport.class);
+            er.setup();                    
             tabbedPaneMain.add(panel, er);
         } else if (panel.equals("Report2")) {
             com.jcl.payroll.ui.PaySlipInformation psi = context.getBean(com.jcl.payroll.ui.PaySlipInformation.class);
