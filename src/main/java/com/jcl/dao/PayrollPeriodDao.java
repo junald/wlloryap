@@ -55,8 +55,8 @@ public class PayrollPeriodDao {
 
         String queryString = "from PayrollPeriod ";
         if (status) {
-            queryString = queryString + "  where process = true order by datePrepared ";
-        } else if (!status) {
+            queryString = queryString + "  order by datePrepared ";
+        } else  {
             queryString = queryString + " where process = false order by datePrepared ";
         }
 

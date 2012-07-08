@@ -45,9 +45,9 @@ public class MainApp extends JFrame implements Observer {
 
     String windowTitle = "HJR Internation Corp.";
     // static final Logger logger = Logger.getLogger("app_log");
-    public static MessagePanelObservable messagePanelObservable;
+    private static MessagePanelObservable messagePanelObservable;
     ArrayList<String> openPanels;
-    public static ApplicationContext context;
+    public static  ApplicationContext context;
 
     /**
      * Creates new form MainApp2
@@ -75,9 +75,7 @@ public class MainApp extends JFrame implements Observer {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         //this.setSize(screenSize);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        messagePanelObservable = new MessagePanelObservable();
-        messagePanelObservable.addObserver(this);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);     
         openPanels = new ArrayList<String>();
         jPanel1.add(new JPanelSetupProgress());
       
@@ -133,7 +131,7 @@ public class MainApp extends JFrame implements Observer {
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        jButton6.setIcon(new javax.swing.ImageIcon("C:\\Users\\jlavador\\oldcomputer\\myproject\\netbeans_projects\\wlloryap\\src\\main\\resources\\package.png")); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon("D:\\hgh\\wlloryap\\src\\main\\resources\\creditcard.png")); // NOI18N
         jButton6.setText("Payslip");
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -333,7 +331,11 @@ public class MainApp extends JFrame implements Observer {
     }//GEN-LAST:event_btnConnectActionPerformed
 
     private void openTabPanel(String panel) {
-
+        int observers = messagePanelObservable.countObservers();
+        System.out.println("observer count");
+        if(observers == 0){
+            messagePanelObservable.addObserver(this);
+        }         
         if (panel.equals("Employee")) {
 
             com.jcl.payroll.ui.EmployeeInformation employeeInformationUI = context.getBean(com.jcl.payroll.ui.EmployeeInformation.class);
@@ -369,6 +371,7 @@ public class MainApp extends JFrame implements Observer {
         System.out.println("Panel: " + panel);
         tabbedPaneMain.setSelectedIndex(tabbedPaneMain.indexOfTab(panel));
 
+
     }
 
     public void initSpringFramework(){
@@ -381,9 +384,12 @@ public class MainApp extends JFrame implements Observer {
                  System.out.println("end.");
                  jPanel1.remove(1);
                  jPanel1.updateUI();
+                 messagePanelObservable = context.getBean(com.jcl.observables.MessagePanelObservable.class);          
+                
             }
         });
         r.start();
+        
     }
     /**
      * @param args the command line arguments
@@ -399,45 +405,7 @@ public class MainApp extends JFrame implements Observer {
                 MainApp ma = new MainApp();
                 ma.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/RGBicon.png")).getImage());
 
-                ma.setVisible(true);
-                ma.addWindowListener(new WindowListener() {
-
-                    @Override
-                    public void windowOpened(WindowEvent e) {
-                        System.out.println("windowOpened");
-                         //
-                    }
-
-                    @Override
-                    public void windowClosing(WindowEvent e) {
-                        System.out.println("windowClosing");
-                    }
-
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        System.out.println("windowClosed");
-                    }
-
-                    @Override
-                    public void windowIconified(WindowEvent e) {
-                        System.out.println("windowIconified");
-                    }
-
-                    @Override
-                    public void windowDeiconified(WindowEvent e) {
-                        System.out.println("windowDeiconified");
-                    }
-
-                    @Override
-                    public void windowActivated(WindowEvent e) {
-                        System.out.println("windowActivated");
-                    }
-
-                    @Override
-                    public void windowDeactivated(WindowEvent e) {
-                        System.out.println("windowDeactivated");
-                    }
-                });
+                ma.setVisible(true);            
                 ma.initSpringFramework();
                 
 //                User u = new User();
@@ -486,7 +454,9 @@ public class MainApp extends JFrame implements Observer {
         if (arg instanceof PanelMessage) {
 
             PanelMessage pm = (PanelMessage) arg;
-            System.out.println(pm.getPanelName());
+            System.out.println("removing: " + pm.getPanelName());
+            System.out.println("openpanel count: " + openPanels.size());
+            System.out.println("tabbedPaneMain count: " + tabbedPaneMain.getTabCount());
             if (pm.getPanelAction().equals("remove")) {
                 openPanels.remove(pm.getPanelName());
                 int index = tabbedPaneMain.indexOfTab(pm.getPanelName());
@@ -504,5 +474,13 @@ public class MainApp extends JFrame implements Observer {
             }
         }
 
+    }
+    
+    public static MessagePanelObservable getMessagePanelObservable(){
+        if(messagePanelObservable == null){
+            System.out.println("messagePanelObservable is null");
+            messagePanelObservable = context.getBean(com.jcl.observables.MessagePanelObservable.class);          
+        }
+        return messagePanelObservable;
     }
 }

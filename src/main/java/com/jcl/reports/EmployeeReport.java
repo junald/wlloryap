@@ -319,7 +319,7 @@ public class EmployeeReport extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        MainApp.messagePanelObservable.callObserver(new PanelMessage("Report1", "remove"));
+        MainApp.getMessagePanelObservable().callObserver(new PanelMessage("Report1", "remove"));
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed

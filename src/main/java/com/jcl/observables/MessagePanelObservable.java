@@ -6,11 +6,13 @@
 package com.jcl.observables;
 
 import java.util.Observable;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author junald
  */
+@Component
 public class MessagePanelObservable extends Observable {
 
      public void callObserver(PanelMessage panel){

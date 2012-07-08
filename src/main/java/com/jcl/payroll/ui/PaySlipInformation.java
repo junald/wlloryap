@@ -106,12 +106,13 @@ public class PaySlipInformation extends javax.swing.JPanel {
     private void disabledComponents() {
 
 
-        this.jLabel40.setVisible(false);
+        
         this.jLabel41.setVisible(false);
         //    this.jLabel42.setVisible(false);
         //  this.textAllowance.setVisible(false);
         this.textMinuteRate.setVisible(false);
-        this.textHourlyRate.setVisible(false); //dailyRate
+        
+        
 
     }
 
@@ -189,7 +190,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
-        jLabel42 = new javax.swing.JLabel();
+        Allowance = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         textBasicSalary = new javax.swing.JFormattedTextField();
         textDailyRate = new javax.swing.JFormattedTextField();
@@ -198,6 +199,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
         textAllowance = new javax.swing.JFormattedTextField();
         jLabel16 = new javax.swing.JLabel();
         labelPayType = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        labelPaycode = new javax.swing.JLabel();
         labelPostion = new javax.swing.JLabel();
         panelOthers = new javax.swing.JPanel();
         panelDTR = new javax.swing.JPanel();
@@ -671,13 +674,13 @@ public class PaySlipInformation extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         panelContactInfo4.add(jLabel41, gridBagConstraints);
 
-        jLabel42.setText("Helper Rate");
+        Allowance.setText("Allowance");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        panelContactInfo4.add(jLabel42, gridBagConstraints);
+        panelContactInfo4.add(Allowance, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -754,13 +757,30 @@ public class PaySlipInformation extends javax.swing.JPanel {
         panelContactInfo4.add(jLabel16, gridBagConstraints);
 
         labelPayType.setForeground(java.awt.Color.blue);
-        labelPayType.setText("position");
+        labelPayType.setText("type");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         panelContactInfo4.add(labelPayType, gridBagConstraints);
+
+        jLabel2.setText("Pay Code");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        panelContactInfo4.add(jLabel2, gridBagConstraints);
+
+        labelPaycode.setForeground(java.awt.Color.blue);
+        labelPaycode.setText("code");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        panelContactInfo4.add(labelPaycode, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -946,7 +966,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        MainApp.messagePanelObservable.callObserver(new PanelMessage("Payslip", "remove"));
+       MainApp.getMessagePanelObservable().callObserver(new PanelMessage("Payslip", "remove"));
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
@@ -1030,7 +1050,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
                 PaySlipDetail dtr = (PaySlipDetail) jTable.getValueAt(row, 1);
 
                 if (dtr != null) {
-                    labelPayslipDetailInfo.setToolTipText("DDDjunald");
+                    labelPayslipDetailInfo.setToolTipText("___");
                     try {
                         openPaySlipDialog(dtr);
                     } catch (Exception ex) {
@@ -1223,6 +1243,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
     }//GEN-LAST:event_btnPaySlipActionPerformed
  // TODO add your handling code here:
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Allowance;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
@@ -1242,13 +1263,13 @@ public class PaySlipInformation extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1272,6 +1293,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
     private javax.swing.JLabel labelFrom;
     private javax.swing.JLabel labelName;
     private javax.swing.JLabel labelPayType;
+    private javax.swing.JLabel labelPaycode;
     private javax.swing.JLabel labelPayslipDetailInfo;
     private javax.swing.JLabel labelPayslipHeader;
     private javax.swing.JLabel labelPostion;
@@ -1308,7 +1330,8 @@ public class PaySlipInformation extends javax.swing.JPanel {
 
         comboPayrollPeriod.removeAllItems();
         for (PayrollPeriod p : ppDao.getPayrollPeriods(includeOthers.isSelected())) {
-            String code = p.getPayrollPeriodType() + " :[" + sdf.format(p.getDateFrom()) + "-" + sdf.format(p.getDateTo()) + "] " + p.getPayrollPeriodCode();
+            //String code = p.getPayrollPeriodType() + " :[" + sdf.format(p.getDateFrom()) + "-" + sdf.format(p.getDateTo()) + "] " + p.getPayrollPeriodCode();
+            String code =   "(" + sdf.format(p.getDateFrom()) + "-" + sdf.format(p.getDateTo()) + ") " + p.getPayrollPeriodCode() + "-"+p.getStatus();
             KeyValue kv = new KeyValue(code, p.getId());
             comboPayrollPeriod.addItem(kv);
         }
@@ -1332,7 +1355,7 @@ public class PaySlipInformation extends javax.swing.JPanel {
         labelPostion.setText(ce.getPosition().getDescription());
 
         labelPayType.setText(ce.getPayType() == null ? "please defined" : ce.getPayType());
-
+        labelPaycode.setText(ce.getPayCode() == null ? "please defined" : ce.getPayCode());
         textBasicSalary.setValue(ce.getSalary());
         textDailyRate.setValue(ce.getDailyRate());
         textHourlyRate.setValue(ce.getHourRate());

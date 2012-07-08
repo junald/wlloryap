@@ -1633,7 +1633,7 @@ public class EmployeeInformation extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        MainApp.messagePanelObservable.callObserver(new PanelMessage("Employee", "remove"));
+        MainApp.getMessagePanelObservable().callObserver(new PanelMessage("Employee", "remove"));
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed

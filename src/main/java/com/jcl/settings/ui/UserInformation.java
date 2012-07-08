@@ -429,7 +429,7 @@ public class UserInformation extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        MainApp.messagePanelObservable.callObserver(new PanelMessage("Product Settings", "remove"));
+        MainApp.getMessagePanelObservable().callObserver(new PanelMessage("Product Settings", "remove"));
 }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed

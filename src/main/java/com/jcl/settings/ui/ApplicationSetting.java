@@ -132,7 +132,7 @@ public class ApplicationSetting extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        MainApp.messagePanelObservable.callObserver(new PanelMessage("Settings", "remove"));
+        MainApp.getMessagePanelObservable().callObserver(new PanelMessage("Settings", "remove"));
     }//GEN-LAST:event_btnCloseActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;

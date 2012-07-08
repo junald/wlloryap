@@ -44,7 +44,7 @@ public class PhilhealthProvider {
         philHealthList.add(new Philhealth(7000,7999.99,7000,175,87.5,87.5));
         philHealthList.add(new Philhealth(8000,8999.99,8000,200,100,100));
         philHealthList.add(new Philhealth(9000,9999.99,9000,225,112.5,112.5));
-        philHealthList.add(new Philhealth(10000,1999.99,10000,250,125,125));
+        philHealthList.add(new Philhealth(10000,10999.99,10000,250,125,125));
         philHealthList.add(new Philhealth(11000,11999.99,11000,275,137.5,137.5));
         philHealthList.add(new Philhealth(12000,12999.99,12000,300,150,150));
         philHealthList.add(new Philhealth(13000,13999.99,13000,325,162.5,162.5));

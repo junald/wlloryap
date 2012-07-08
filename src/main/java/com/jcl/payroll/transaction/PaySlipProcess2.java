@@ -49,6 +49,7 @@ public class PaySlipProcess2 {
         processPaySlip(list, pp, finalized);
         if(finalized){
             pp.setProcess(finalized);
+            pp.setStatus(PayrollPeriodStatus.Generated.toString());
             ppDao.save2(pp);
         }
         return list;
@@ -104,14 +105,25 @@ public class PaySlipProcess2 {
                     ps.setPayslipDetails(new ArrayList<PaySlipDetail>());
                 }
             }
+            
+            
             emp.setPayslip(ps);
+            if(finalized){
+                for(PaySlipDetail psd: emp.getPayslip().getPayslipDetails()){
+                    psd.setProcess(finalized);
+                    psdDao.save2(psd);
+                }
+            }
         }
-        processDTRs(employeeList, pp,finalized);
-        createPayslipDetailFromDTR(employeeList,finalized);
-        createPayslipForGovernment(employeeList, pp,finalized);
-        createPayslipAutoAdjustment(employeeList,finalized);
-        computeTaxWithHolding(employeeList,pp,finalized);
         
+        if(!pp.getProcess()){
+            System.out.println("process other data");
+            processDTRs(employeeList, pp,finalized);
+            createPayslipDetailFromDTR(employeeList,finalized);
+            createPayslipForGovernment(employeeList, pp,finalized);
+            createPayslipAutoAdjustment(employeeList,finalized);
+            computeTaxWithHolding(employeeList,pp,finalized);
+        }
         for (Employee eep : employeeList) {          
             eep.getPayslip().getPayslipDetails().size();           
         }
@@ -236,56 +248,7 @@ public class PaySlipProcess2 {
         }
     }
 
-    public boolean isDeductionDTR(String name) {
-
-        boolean status = false;
-        DTRType dtrt = DTRType.valueOf(name);
-        if (dtrt == DTRType.Absent) {
-            status = true;
-        } else if (dtrt == DTRType.Undertime) {
-            status = true;
-        }
-        return status;
-    }
-
-    public BigDecimal computeTimeToDecimal(String totalHours) {
-
-        String[] splitTime = totalHours.split(":");
-        BigDecimal splitMinute = new BigDecimal(splitTime[1]);
-        BigDecimal minutes = new BigDecimal("60");
-        BigDecimal decimalMinute = splitMinute.divide(minutes, 2, RoundingMode.HALF_UP);
-        BigDecimal splitHour = new BigDecimal(splitTime[0]);
-        return splitHour.add(decimalMinute);
-    }
-
-    public Integer computeTotalHoursInMinutes(String totalHours) {
-        String[] splitTime = totalHours.split(":");
-        Integer minutes = Integer.valueOf(splitTime[0]) * 60;
-        minutes = minutes + Integer.valueOf(splitTime[1]);
-        return minutes;
-    }
-
-    public String computeTotalHoursInString(List<DailyTimeRecord> list) {
-        int totalHours = 0;
-        int totalMinutes = 0;
-
-        for (DailyTimeRecord v : list) {
-            totalHours = totalHours + v.getActualHours();
-            totalMinutes = totalMinutes + v.getActualMins();
-        }
-
-        String tm = "0:0";
-        if (totalMinutes >= 60) {
-            int _hm = totalMinutes >= 60 ? (totalMinutes / 60) : totalMinutes;
-            int _rm = totalMinutes % (totalMinutes >= 60 ? 60 : totalMinutes);
-            tm = (totalHours + _hm) + ":" + _rm;
-        } else {
-            tm = totalHours + ":" + totalMinutes;
-        }
-
-        return tm;
-    }
-
+   
     private void createPayslipForGovernment(List<Employee> employeeList, PayrollPeriod pp,boolean finalized) {
 
         for (Employee emp : employeeList) {
@@ -413,7 +376,6 @@ public class PaySlipProcess2 {
                     if (oa.getAdjustmentType().equals("less")) {
                         payslip.setTotal(oa.getAmount());
                         payslip.setDeduction(true);
-
                     } else {
                         payslip.setDeduction(false);
                         payslip.setTotal(oa.getAmount());
@@ -444,9 +406,9 @@ public class PaySlipProcess2 {
                 payslipAllowance.setGenerated(true);
                 payslipAllowance.setRowNumber(row++);
                 payslipAllowance.setProcess(finalized);
-                    if(finalized){
-                        psdDao.save2(payslipAllowance);
-                    }
+                if(finalized){
+                    psdDao.save2(payslipAllowance);
+                }
                 emp.getPayslip().getPayslipDetails().add(payslipAllowance);
             }
             if (emp.getBenefits() > 0) {
@@ -462,14 +424,66 @@ public class PaySlipProcess2 {
                 payslipAllowance.setGenerated(true);
                 payslipAllowance.setRowNumber(row++);
                 payslipAllowance.setProcess(finalized);
-                    if(finalized){
-                        psdDao.save2(payslipAllowance);
-                    }
+                if(finalized){
+                    psdDao.save2(payslipAllowance);
+                }
                 emp.getPayslip().getPayslipDetails().add(payslipAllowance);
             }
 
         }
     }
+    
+     public boolean isDeductionDTR(String name) {
+
+        boolean status = false;
+        DTRType dtrt = DTRType.valueOf(name);
+        if (dtrt == DTRType.Absent) {
+            status = true;
+        } else if (dtrt == DTRType.Undertime) {
+            status = true;
+        }
+        return status;
+    }
+
+    public BigDecimal computeTimeToDecimal(String totalHours) {
+
+        String[] splitTime = totalHours.split(":");
+        BigDecimal splitMinute = new BigDecimal(splitTime[1]);
+        BigDecimal minutes = new BigDecimal("60");
+        BigDecimal decimalMinute = splitMinute.divide(minutes, 2, RoundingMode.HALF_UP);
+        BigDecimal splitHour = new BigDecimal(splitTime[0]);
+        return splitHour.add(decimalMinute);
+    }
+
+    public Integer computeTotalHoursInMinutes(String totalHours) {
+        String[] splitTime = totalHours.split(":");
+        Integer minutes = Integer.valueOf(splitTime[0]) * 60;
+        minutes = minutes + Integer.valueOf(splitTime[1]);
+        return minutes;
+    }
+
+    public String computeTotalHoursInString(List<DailyTimeRecord> list) {
+        int totalHours = 0;
+        int totalMinutes = 0;
+
+        for (DailyTimeRecord v : list) {
+            totalHours = totalHours + v.getActualHours();
+            totalMinutes = totalMinutes + v.getActualMins();
+        }
+
+        String tm = "0:0";
+        if (totalMinutes >= 60) {
+            int _hm = totalMinutes >= 60 ? (totalMinutes / 60) : totalMinutes;
+            int _rm = totalMinutes % (totalMinutes >= 60 ? 60 : totalMinutes);
+            tm = (totalHours + _hm) + ":" + _rm;
+        } else {
+            tm = totalHours + ":" + totalMinutes;
+        }
+
+        return tm;
+    }
+
+    
     //not used
 
     public BigDecimal computeHotalHours(int time, double hourlyRate) {
