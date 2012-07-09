@@ -71,7 +71,7 @@ public class ReportViewerFactory {
 
         try {
             DynamicReport dr = null;
-            checkJasperReportFile("Payslip");
+            checkJasperReportFile(this.filename);
             String jasper = checkJasperReportFile(filename);
             
             boolean continueReport = false;
@@ -135,7 +135,7 @@ public class ReportViewerFactory {
         JRViewer jrw = null;
 
         ObjectDataSource ods = new ObjectDataSource(list, false);
-        
+       // JRDataSource ods = new JRBeanCollectionDataSource( list ); 
         
 //        System.out.println("============================");
 //        for(Object ib: list){

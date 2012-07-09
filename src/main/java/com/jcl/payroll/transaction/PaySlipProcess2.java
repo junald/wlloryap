@@ -54,30 +54,35 @@ public class PaySlipProcess2 {
         }
         return list;
     }
-
+  
+    @Transactional
     public List<PaySlipReportRow> employeeListForPayslipReports(Date dateFrom, Date dateTo, String[] filters) {
         List<PaySlipDetail> list = psDao.getAllPayslipByDateFromAndTo(dateFrom, dateTo);
         // loop through the list
         LinkedHashMap< String, PaySlipReportRow> psrList = new LinkedHashMap<String, PaySlipReportRow>();
-
+        System.out.println("PayslipDetailList count: " + list.size());
         for (PaySlipDetail psd : list) {
             PaySlipReportRow psr = new PaySlipReportRow();
-
-            String key = psd.getPaySlip().getEmployee().getId() + "-" + psr.getPaySlipDetailType();
-
+            
+            String key = psd.getPaySlip().getEmployee().getId() + "-" + psd.getPaySlipDetailType();
+            System.out.println(key +" = " + psd.getTotal());
+            
             if (psrList.containsKey(key)) {
                 psr = psrList.get(key);
             } else {
                 psr.setEmployeeId(psd.getPaySlip().getEmployee().getId());
                 psr.setEmployeeName(psd.getPaySlip().getEmployee().getName());
                 psr.setEmployeeNumber(psd.getPaySlip().getEmployee().getIdNumber());
-                psr.setPaySlipDetailType(psr.getPaySlipDetailType());
+                psr.setPaySlipDetailType(psd.getPaySlipDetailType());
                 psr.setPosition(psd.getPaySlip().getEmployee().getPosition().getDescription());
                 psr.setPayrollPeriodCode(psd.getPaySlip().getPayrollPeriod().getPayrollPeriodCode());
                 psr.setDate(psd.getPaySlip().getModifiedDate());
                 psrList.put(key, psr);
             }
 
+            String description = ( psr.getDescription() == null?"":psr.getDescription()) +","+psd.getDescription();
+            
+            psr.setDescription(description);
             double total = psr.getAmount();
             double amount = 0.0d;
             if (psd.getDeduction()) {
@@ -88,9 +93,11 @@ public class PaySlipProcess2 {
         }
 
         List<PaySlipReportRow> paySlipReportList = new ArrayList<PaySlipReportRow>(psrList.values());
-
+       
         return paySlipReportList;
     }
+    
+    
 
     public void processPaySlip(List<Employee> employeeList, PayrollPeriod pp,boolean finalized) {
         for (Employee emp : employeeList) {

@@ -12,16 +12,21 @@ package com.jcl.reports;
 
 import com.jcl.dao.CompanySettingDao;
 import com.jcl.dao.PayrollPeriodDao;
+import com.jcl.dbms.dbms;
 import com.jcl.main.MainApp;
 import com.jcl.model.CompanySetting;
+import com.jcl.model.Employee;
 import com.jcl.model.PayrollPeriod;
 import com.jcl.observables.PanelMessage;
+import com.jcl.payroll.transaction.PaySlipProcess2;
 import com.jcl.payroll.transaction.PaySlipReportObject;
+import com.jcl.payroll.transaction.PaySlipReportRow;
 import com.jcl.utilities.MyDateFormatter;
 import com.jcl.utilities.TransactionException;
 import com.jcl.verycommon.JOptionErrorMessage;
 import com.jcl.utils.JPanelProgress;
 import com.jcl.utils.KeyValue;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,7 +37,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
-import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.swing.JRViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,6 +58,10 @@ public class EmployeeReport extends javax.swing.JPanel {
     PayrollPeriodDao ppDao;
     @Autowired
     CompanySettingDao csDao;
+    @Autowired
+    PayslipReports prService;
+    @Autowired
+    PaySlipProcess2 ppService;
 
     /**
      * Creates new form EmployeeInformation
@@ -359,93 +370,61 @@ public class EmployeeReport extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void generateReport() {
-//        try {
-//
-//
-//
-//            if (selectedReport.getValue().equals("Separator")) {
-//                return;
-//            }
-//
-//            CompanySetting cs = csDao.find(1L);
-//
-//            Date fDate = txtFromDate.getDate();
-//            Date tDate = txtToDate.getDate();
-//            boolean checkDJ = false;
-//            HashMap parameters = new HashMap();
-//            JRViewer jrv = null;
-//
-//            HashMap<String, PaySlipReportObject> hmap = null;
-//            List<PaySlipReportObject> list = null;
-//
-//
-//            if (selectedReport.getValue().toString() != null) {
-//
-//
-//
-//
-//                if (fDate == null) {
-//                    throw new TransactionException("Plese enter correct (from) dates.! ");
-//                }
-//                if (tDate == null) {
-//                    throw new TransactionException("Plese enter correct (to) dates.! ");
-//                }
-//
-//                if (fDate.after(tDate)) {
-//                    throw new TransactionException("Plese enter correct dates.!\n(to) date must be greater than (from) date");
-//                }
-//
-//                SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter();
-//                String datefrom_to = sdf.format(fDate) + " - " + sdf.format(tDate);
-//
-//                parameters.put("DATE_FROMTO", datefrom_to);
-//                parameters.put("REPORT_TITLE", cs.getCompanyName() + " - Invoice List");
-//                parameters.put("CLIENT_INFO", cnames);
-//                parameters.put("INVENTORY_TYPE", it.name());
-//                list = Inventory.getInvoiceList(fDate, tDate, c, it);
-//
-//
-//            } else {
-//                throw new TransactionException("Report file not found");
-//            }
-//
-//            if (list == null) {
-//                list = new ArrayList<InventoryBalance>();
-//            }
-//
-//            String filename = "";
-//            try {
-//                if (InvoiceType.valueOf(selectedReport.getValue().toString()) != null) {
-//                    filename = "DeliveryReport";
-//                }
-//            } catch (IllegalArgumentException ex) {
-//                filename = selectedReport.getValue().toString();
-//            }
-//
-//            ReportViewerFactory rv = new ReportViewerFactory(filename, parameters, list);
-//            jrv = rv.getReport(checkDJ);
-//
-//            if (jrv != null) {
-//                panelReportViewer.removeAll();
-//                panelReportViewer.add(jrv);
-//                panelReportViewer.updateUI();
-//            }
-//        } catch (NullPointerException ex) {
-//            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
-//            panelReportViewer.removeAll();
-//        } catch (FileNotFoundException ex) {
-//            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
-//            panelReportViewer.removeAll();
-//        } catch (JRException ex) {
-//            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
-//            panelReportViewer.removeAll();
-//        } catch (TransactionException ex) {
-//            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex.getSimpleMessage());
-//            panelReportViewer.removeAll();
-//        } catch (Exception ex) {
-//            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
-//            panelReportViewer.removeAll();
-//        }
+        try {
+
+
+            if (selectedReport.getValue().equals("Separator")) {
+                return;
+            }
+
+            CompanySetting cs = csDao.find(1L);
+            HashMap parameters = new HashMap();
+            
+
+            Date fDate = txtFromDate.getDate();
+            Date tDate = txtToDate.getDate();
+            boolean checkDJ = false;
+
+            JRViewer jrv = null;
+
+            SimpleDateFormat sdf = MyDateFormatter.getSimpleDateTimeFormatter();
+            SimpleDateFormat sdf2 = MyDateFormatter.getDateTimeFormatter();
+
+            String filename = "";
+            List<PaySlipReportRow> paysliplist = new ArrayList();
+            if (selectedReport.getValue().toString() != null) {
+
+                checkeDatesEntered();
+                filename = "PayslipDetailList";
+                String datefrom_to = sdf.format(fDate) + " - " + sdf.format(tDate);
+
+                paysliplist = ppService.employeeListForPayslipReports(fDate, tDate, new String[]{" ", " "});
+                System.out.println("paysliplist count: " + paysliplist.size());
+                parameters.put("DATE_FROMTO", datefrom_to);
+                parameters.put("REPORT_TITLE", cs.getDescription() + " - " + selectedReport.getValue().toString());
+                parameters.put("DATE_GENERATED", sdf2.format(new Date()));
+
+            } else {
+                throw new TransactionException("Report file not found");
+            }
+           
+            jrv = generateReportDirect(filename, parameters, paysliplist);
+
+            if (jrv != null) {
+                panelReportViewer.removeAll();
+                panelReportViewer.add(jrv);
+                panelReportViewer.updateUI();
+            }
+        } catch (NullPointerException ex) {
+            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
+            panelReportViewer.removeAll();
+        } catch (TransactionException ex) {
+            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex.getSimpleMessage());
+            panelReportViewer.removeAll();
+        } catch (Exception ex) {
+            JOptionErrorMessage.showErrorMessage(this.getClass().getCanonicalName(), ex);
+            panelReportViewer.removeAll();
+        }
 
         btnGenerate.setEnabled(true);
     }
@@ -612,12 +591,6 @@ public class EmployeeReport extends javax.swing.JPanel {
         txtToDate.setEnabled(s);
     }
 
-    private void initLoans() {
-    }
-
-    private void saveScreen() {
-    }
-
     private List<KeyValue> getReportList() {
 
         List<KeyValue> list = new ArrayList<KeyValue>();
@@ -636,5 +609,50 @@ public class EmployeeReport extends javax.swing.JPanel {
         list.add(kv5);
 
         return list;
+    }
+
+    private void checkeDatesEntered() throws TransactionException {
+
+        Date fDate = txtFromDate.getDate();
+        Date tDate = txtToDate.getDate();
+
+        if (fDate == null) {
+            throw new TransactionException("Plese enter correct (from) dates.! ");
+        }
+        if (tDate == null) {
+            throw new TransactionException("Plese enter correct (to) dates.! ");
+        }
+
+        if (fDate.after(tDate)) {
+            throw new TransactionException("Plese enter correct dates.!\n(to) date must be greater than (from) date");
+        }
+    }
+    
+     public JRViewer generateReportDirect(String filename, HashMap parameters, List<PaySlipReportRow> paysliplist) throws FileNotFoundException, JRException {
+
+        JRViewer jrw = null;
+
+        JRDataSource jrsource = new JRBeanCollectionDataSource( paysliplist);
+        String jrxml = dbms.codebaseReports + filename + ".jrxml";
+        String jasper = dbms.codebaseReports + filename + ".jasper";
+        //new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{List})
+
+        File f = new File(jasper);
+        if (!f.exists()) {
+            System.out.println("jasper file not found, compiling jrxml");
+            JasperCompileManager.compileReportToFile(jrxml, jasper);
+        } else {
+            System.out.println("jasper found");
+            // throw new FileNotFoundException("cannot find " + jasper);
+        }
+
+        System.out.println("loading jasper");
+        JasperReport jr = (JasperReport) JRLoader.loadObjectFromLocation(jasper);
+        System.out.println("creating jasper print");
+        JasperPrint jp = JasperFillManager.fillReport(jr, parameters, jrsource);
+        System.out.println("jasper print created");
+        jrw = new JRViewer(jp);
+
+        return jrw;
     }
 }

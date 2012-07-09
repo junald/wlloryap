@@ -131,7 +131,7 @@ public class MainApp extends JFrame implements Observer {
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        jButton6.setIcon(new javax.swing.ImageIcon("D:\\hgh\\wlloryap\\src\\main\\resources\\doc.png")); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/doc.png"))); // NOI18N
         jButton6.setText("Payslip");
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);

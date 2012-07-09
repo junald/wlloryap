@@ -1151,7 +1151,9 @@ public class PaySlipInformation extends javax.swing.JPanel {
             return;
         } else {
              currentEmployeeList = ppService.employeeListForPayslip((Long) kv.getValue(),true);
-             JOptionPane.showMessageDialog(this, " Payslips has been process.", "PaySlip",JOptionPane.OK_OPTION);
+             //JOptionPane.showMessageDialog(this, " Payslips has been processed.", "PaySlip",JOptionPane.OK_OPTION);
+             JOptionPane.showConfirmDialog(this, " Payslips has been processed.", "PaySlip", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+             
         }
 
     }//GEN-LAST:event_btnFinalizedActionPerformed

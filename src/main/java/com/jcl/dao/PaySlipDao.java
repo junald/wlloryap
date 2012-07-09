@@ -71,10 +71,11 @@ public class PaySlipDao {
 
     
     public List<PaySlipDetail> getAllPayslipByDateFromAndTo(Date dateFrom, Date dateTo){
-        String queryString = "from PaySlipDetail where paySlip.payrollPeriod.dateFrom >= ?1 and paySlip.payrollPeriod.dateTo <= ?2 ";
+        String queryString = "from PaySlipDetail where paySlip.payrollPeriod.dateFrom >= ?1 and paySlip.payrollPeriod.dateTo <= ?2  and process = true";
         Query query = entityManager.createQuery(queryString);        
         query.setParameter(1, dateFrom);
         query.setParameter(2, dateTo);
+        
 
         return (List<PaySlipDetail>) query.getResultList();    
     }

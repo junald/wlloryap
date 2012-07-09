@@ -44,23 +44,26 @@ public class ObjectDataSource implements JRDataSource {
             // getter method signature is assembled from "get" + field name
             // as specified in the report
             if (isDynamic) {
-              //  System.out.println("isDynamic: " + isDynamic);
+
                 Field faccessor = currentValue.getClass().getField(field.getName());
                 value = faccessor.get(currentValue);
             } else {
 
-               //  System.out.println("isDynamic: " + isDynamic);
-                Method fieldAccessor = currentValue.getClass().getMethod("get" + field.getName(), null);
-                value = fieldAccessor.invoke(currentValue, null);
+                Method fieldAccessor;
+                try {
+                    fieldAccessor = currentValue.getClass().getMethod("get" + field.getName(), null);
+                    value = fieldAccessor.invoke(currentValue, null);
+                } catch (NoSuchMethodException ex) {
+                    Logger.getLogger(ObjectDataSource.class.getName()).log(Level.SEVERE, null, ex);
+                }
+              
             }
             //System.out.println(faccessor.getName() + " : " + value);
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(ObjectDataSource.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvocationTargetException ex) {
             Logger.getLogger(ObjectDataSource.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(ObjectDataSource.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchFieldException ex) {
+        }  catch (NoSuchFieldException ex) {
             Logger.getLogger(ObjectDataSource.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SecurityException ex) {
             Logger.getLogger(ObjectDataSource.class.getName()).log(Level.SEVERE, null, ex);
