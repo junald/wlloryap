@@ -51,7 +51,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmployeeReport extends javax.swing.JPanel {
 
-    private KeyValue selectedReport;
+    private ReportObject selectedReport;
     private boolean isInitializing = false;
     private SimpleDateFormat sdf;
     @Autowired
@@ -372,10 +372,11 @@ public class EmployeeReport extends javax.swing.JPanel {
     private void generateReport() {
         try {
 
-
-            if (selectedReport.getValue().equals("Separator")) {
+            
+            if (selectedReport.getKey().equals("Separator")) {
                 return;
             }
+            String[] filter = selectedReport.getKey().split(",");
 
             CompanySetting cs = csDao.find(1L);
             HashMap parameters = new HashMap();
@@ -392,16 +393,16 @@ public class EmployeeReport extends javax.swing.JPanel {
 
             String filename = "";
             List<PaySlipReportRow> paysliplist = new ArrayList();
-            if (selectedReport.getValue().toString() != null) {
+            if (selectedReport != null) {
 
                 checkeDatesEntered();
-                filename = "PayslipDetailList";
+                filename = "PayslipDetailCrossTab";
                 String datefrom_to = sdf.format(fDate) + " - " + sdf.format(tDate);
 
-                paysliplist = ppService.employeeListForPayslipReports(fDate, tDate, new String[]{" ", " "});
+                paysliplist = ppService.employeeListForPayslipReports(fDate, tDate, filter);
                 System.out.println("paysliplist count: " + paysliplist.size());
                 parameters.put("DATE_FROMTO", datefrom_to);
-                parameters.put("REPORT_TITLE", cs.getDescription() + " - " + selectedReport.getValue().toString());
+                parameters.put("REPORT_TITLE", cs.getDescription() + " - " + selectedReport.getName());
                 parameters.put("DATE_GENERATED", sdf2.format(new Date()));
 
             } else {
@@ -434,9 +435,9 @@ public class EmployeeReport extends javax.swing.JPanel {
             return;
         }
         JComboBox jcb = (JComboBox) evt.getSource();
-        selectedReport = (KeyValue) jcb.getSelectedItem();
+        selectedReport = (ReportObject) jcb.getSelectedItem();
 
-        if (selectedReport.getValue().equals("Separator")) {
+        if (selectedReport.getKey().equals("Separator")) {
             initScreen(false);
             comboPayrollPeriod.setEnabled(false);
             return;
@@ -559,8 +560,8 @@ public class EmployeeReport extends javax.swing.JPanel {
     private void initComboBoxes() {
         try {
             isInitializing = true;
-            for (KeyValue kv : getReportList()) {
-                comboReports.addItem(kv);
+            for (ReportObject ro : ReportObject.getGovermentsContribution()) {
+                comboReports.addItem(ro);
             }
 
             comboPayrollPeriod.removeAllItems();
@@ -591,25 +592,25 @@ public class EmployeeReport extends javax.swing.JPanel {
         txtToDate.setEnabled(s);
     }
 
-    private List<KeyValue> getReportList() {
-
-        List<KeyValue> list = new ArrayList<KeyValue>();
-        KeyValue kv1 = new KeyValue("SSS", "SSStemplate");
-        KeyValue kv2 = new KeyValue("PHIL-HEALTH", "PHILHEALTHtemplate");
-        KeyValue kv3 = new KeyValue("WITH HOLDING TAX", "WITHHOLDINGTAXtemplate");
-        KeyValue kv4 = new KeyValue("PAG-IBIG", "PAGIBIGtemplate");
-        KeyValue kvSeparator = new KeyValue("-----------------", "Separator");
-        KeyValue kv5 = new KeyValue("PAY SLIP LIST", "PAYSLIPLISTtemplate");
-
-        list.add(kv1);
-        list.add(kv2);
-        list.add(kv3);
-        list.add(kv4);
-        list.add(kvSeparator);
-        list.add(kv5);
-
-        return list;
-    }
+//    private List<KeyValue> getReportList() {
+//
+//        List<KeyValue> list = new ArrayList<KeyValue>();
+//        KeyValue kv1 = new KeyValue("SSS", "SSStemplate");
+//        KeyValue kv2 = new KeyValue("PHIL-HEALTH", "PHILHEALTHtemplate");
+//        KeyValue kv3 = new KeyValue("WITH HOLDING TAX", "WITHHOLDINGTAXtemplate");
+//        KeyValue kv4 = new KeyValue("PAG-IBIG", "PAGIBIGtemplate");
+//        KeyValue kvSeparator = new KeyValue("-----------------", "Separator");
+//        KeyValue kv5 = new KeyValue("PAY SLIP LIST", "PAYSLIPLISTtemplate");
+//
+//        list.add(kv1);
+//        list.add(kv2);
+//        list.add(kv3);
+//        list.add(kv4);
+//        list.add(kvSeparator);
+//        list.add(kv5);
+//
+//        return list;
+//    }
 
     private void checkeDatesEntered() throws TransactionException {
 

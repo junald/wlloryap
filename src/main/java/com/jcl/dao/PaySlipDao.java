@@ -5,6 +5,7 @@
 package com.jcl.dao;
 
 import com.jcl.model.*;
+import com.jcl.utils.FilterMaker;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -79,6 +80,19 @@ public class PaySlipDao {
 
         return (List<PaySlipDetail>) query.getResultList();    
     }
+    
+    public List<PaySlipDetail> getAllPayslipByDateFromAndTo(Date dateFrom, Date dateTo, String[] filter){
+        String newFilter = FilterMaker.makeFilter(filter);
+        String queryString = "from PaySlipDetail where paySlip.payrollPeriod.dateFrom >= ?1 and paySlip.payrollPeriod.dateTo <= ?2  and process = true "
+                + " and paySlipDetailType in (" + newFilter +") ";
+        Query query = entityManager.createQuery(queryString);        
+        query.setParameter(1, dateFrom);
+        query.setParameter(2, dateTo);
+        
+
+        return (List<PaySlipDetail>) query.getResultList();    
+    }
+  
   
     
     //not used
